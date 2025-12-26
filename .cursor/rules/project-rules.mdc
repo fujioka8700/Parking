@@ -1,0 +1,394 @@
+# プロジェクトルール
+
+## ドキュメント確認
+
+### 開発開始前の必須確認事項
+
+システム開発を開始する前に、**必ず**以下のドキュメントを確認すること：
+
+1. **要件定義書**: `docs/REQUIREMENTS.md`
+
+   - プロジェクトの目的、機能要件、非機能要件を理解する
+   - データ構造、画面構成、技術スタックを確認する
+
+2. **進捗管理**: `docs/PROJECT_PROGRESS.md`
+
+   - 現在の進捗状況を確認する
+   - 進行中のタスク、完了済みタスクを把握する
+   - 依存関係を理解する
+
+3. **技術スタック**: `docs/TECH_STACK.md`
+
+   - 使用する技術、ライブラリ、バージョンを確認する
+   - アーキテクチャとディレクトリ構造を理解する
+
+4. **エクセル解析レポート**: `docs/EXCEL_ANALYSIS_REPORT.md`
+   - データ構造とマッピングを確認する
+   - 注意事項を理解する
+
+### ドキュメントの更新
+
+- ドキュメントに変更があった場合は、必ず更新すること
+- 新しい機能を追加する際は、関連ドキュメントも更新すること
+
+---
+
+## Next.js ベストプラクティス
+
+### バージョンとスタイル
+
+- **Next.js 16.0.4** を使用（最新の安定版のベストプラクティスを参照）
+- **App Router** を使用（Pages Router は使用しない）
+- **Server Components** をデフォルトで使用
+- **Client Components** は必要最小限に使用（`'use client'` ディレクティブを明示）
+
+### ファイル構造
+
+```
+src/
+├── app/                    # Next.js App Router
+│   ├── (routes)/          # ルートグループ
+│   ├── api/               # API ルート
+│   ├── layout.tsx         # ルートレイアウト
+│   └── page.tsx           # ページコンポーネント
+├── components/            # React コンポーネント
+│   ├── ui/               # UI コンポーネント
+│   └── features/         # 機能別コンポーネント
+├── lib/                   # ユーティリティ関数
+│   └── prisma.ts         # Prisma Client
+├── prisma/               # Prisma スキーマ
+│   └── schema.prisma
+└── scripts/             # スクリプト
+```
+
+### Server Components vs Client Components
+
+- **Server Components**（デフォルト）
+
+  - データフェッチング
+  - データベースアクセス
+  - バックエンドリソースへのアクセス
+  - 機密情報の保持
+
+- **Client Components**（`'use client'`）
+  - インタラクティブな UI（onClick、onChange など）
+  - ブラウザ API の使用
+  - 状態管理（useState、useEffect など）
+  - カスタムフック
+
+### データフェッチング
+
+- Server Components で直接データフェッチを行う
+- `async/await` を使用
+- エラーハンドリングを実装する
+
+```typescript
+// ✅ Good: Server Component
+async function getData() {
+  const data = await prisma.faultMaster.findMany();
+  return data;
+}
+
+export default async function Page() {
+  const data = await getData();
+  return <div>{/* ... */}</div>;
+}
+```
+
+### Server Actions
+
+- フォーム送信やデータ更新には Server Actions を使用
+- `'use server'` ディレクティブを使用
+
+```typescript
+// ✅ Good: Server Action
+"use server";
+
+export async function createFaultHistory(formData: FormData) {
+  // ...
+}
+```
+
+### ルーティング
+
+- ファイルベースルーティングを使用
+- 動的ルート: `[id]`
+- ルートグループ: `(group)`
+- 並列ルート: `@folder`
+
+### メタデータ
+
+- `metadata` オブジェクトまたは `generateMetadata` 関数を使用
+- SEO を考慮したメタデータを設定
+
+---
+
+## コーディング規約
+
+### TypeScript
+
+- **厳格な型チェック**を有効にする
+- `any` 型の使用を避ける
+- 型定義を明示的に記述する
+- インターフェースとタイプエイリアスを適切に使用する
+
+```typescript
+// ✅ Good
+interface FaultMaster {
+  id: number;
+  faultCode: string;
+  faultName: string;
+}
+
+// ❌ Bad
+const data: any = {};
+```
+
+### React
+
+- **関数コンポーネント**を使用
+- **カスタムフック**でロジックを分離
+- **Props** の型定義を明示
+- **key** プロップを適切に設定
+
+```typescript
+// ✅ Good
+interface ComponentProps {
+  title: string;
+  onClick: () => void;
+}
+
+export function Component({ title, onClick }: ComponentProps) {
+  return <button onClick={onClick}>{title}</button>;
+}
+```
+
+### 命名規則
+
+- **コンポーネント**: PascalCase（例: `FaultSearch.tsx`）
+- **関数・変数**: camelCase（例: `getFaultData`）
+- **定数**: UPPER_SNAKE_CASE（例: `MAX_RESULTS`）
+- **ファイル名**:
+  - コンポーネント: PascalCase（例: `FaultCard.tsx`）
+  - ユーティリティ: camelCase（例: `formatDate.ts`）
+  - ページ: 小文字（例: `page.tsx`）
+
+### インポート順序
+
+1. React 関連
+2. Next.js 関連
+3. サードパーティライブラリ
+4. 内部モジュール（`@/` エイリアス使用）
+5. 相対インポート
+6. 型定義のみのインポート（`type` キーワード使用）
+
+```typescript
+// ✅ Good
+import { useState } from "react";
+import { NextResponse } from "next/server";
+import { format } from "date-fns";
+import { prisma } from "@/lib/prisma";
+import { FaultMaster } from "@prisma/client";
+import type { ComponentProps } from "./types";
+```
+
+### エラーハンドリング
+
+- エラーを適切にキャッチし、ユーザーフレンドリーなメッセージを表示
+- ログを記録する
+- エラーバウンダリーを実装する
+
+```typescript
+// ✅ Good
+try {
+  const data = await prisma.faultMaster.findMany();
+  return data;
+} catch (error) {
+  console.error("Error fetching fault data:", error);
+  throw new Error("故障データの取得に失敗しました");
+}
+```
+
+### コメント
+
+- **複雑なロジック**にはコメントを記述
+- **なぜ**そのコードを書いたかを説明
+- **何を**するコードかはコード自体で表現
+- JSDoc コメントを関数に記述
+
+```typescript
+// ✅ Good
+/**
+ * エクセルファイルから故障マスタデータを解析する
+ * @param filePath - エクセルファイルのパス
+ * @returns 解析された故障マスタデータの配列
+ */
+async function parseFaultMaster(filePath: string): Promise<FaultMaster[]> {
+  // ...
+}
+```
+
+---
+
+## Prisma 使用規則
+
+### スキーマ定義
+
+- モデル名は PascalCase（例: `FaultMaster`）
+- フィールド名は camelCase（例: `faultCode`）
+- リレーションを適切に定義
+- インデックスを適切に設定
+
+### クエリ
+
+- Prisma Client を `lib/prisma.ts` からインポート
+- トランザクションを使用する場合は `prisma.$transaction` を使用
+- エラーハンドリングを実装
+
+```typescript
+// ✅ Good
+import { prisma } from "@/lib/prisma";
+
+const faults = await prisma.faultMaster.findMany({
+  where: { isActive: true },
+  orderBy: { faultCode: "asc" },
+});
+```
+
+### マイグレーション
+
+- スキーマ変更後は `npx prisma db push` を実行（開発環境）
+- 本番環境では `npx prisma migrate dev` を使用
+- マイグレーション前にバックアップを取得
+
+---
+
+## スタイリング規則
+
+### Tailwind CSS
+
+- **ユーティリティクラス**を優先使用
+- **カスタムクラス**は最小限に
+- **レスポンシブデザイン**を考慮（`sm:`, `md:`, `lg:` など）
+- **ダークモード**対応を考慮（将来の拡張）
+
+```tsx
+// ✅ Good
+<div className="flex flex-col gap-4 p-4 md:flex-row md:p-6">
+  <div className="w-full md:w-1/2">...</div>
+</div>
+```
+
+### コンポーネントスタイリング
+
+- インラインスタイルは避ける
+- CSS Modules は使用しない（Tailwind CSS を使用）
+- グローバルスタイルは最小限に
+
+---
+
+## セキュリティ規則
+
+### 環境変数
+
+- 機密情報は `.env.local` に保存
+- `.env.local` を Git にコミットしない
+- 環境変数は `process.env` でアクセス
+
+### データバリデーション
+
+- ユーザー入力は必ずバリデーション
+- サーバーサイドでもバリデーションを実装
+- SQL インジェクション対策（Prisma を使用）
+
+### XSS 対策
+
+- React の自動エスケープを活用
+- `dangerouslySetInnerHTML` は使用しない（必要な場合は慎重に）
+
+---
+
+## Git 規則
+
+### コミットメッセージ
+
+- 明確で簡潔なメッセージ
+- プレフィックスを使用（例: `feat:`, `fix:`, `docs:`, `refactor:`）
+
+```
+feat: 故障コード検索機能を実装
+fix: エクセルインポート時のエラーハンドリングを修正
+docs: 要件定義書を更新
+```
+
+### ブランチ命名
+
+- `feature/` - 新機能
+- `fix/` - バグ修正
+- `docs/` - ドキュメント
+- `refactor/` - リファクタリング
+
+例: `feature/fault-search`, `fix/excel-import-error`
+
+---
+
+## テスト規則
+
+### テストの記述
+
+- 重要な機能にはテストを記述
+- ユニットテスト、統合テスト、E2E テストを適切に使用
+- テストカバレッジを維持
+
+---
+
+## パフォーマンス規則
+
+### 最適化
+
+- 画像は `next/image` を使用
+- フォントは `next/font` を使用
+- 不要な再レンダリングを避ける（`useMemo`, `useCallback` を適切に使用）
+- コード分割を活用
+
+### データベースクエリ
+
+- 必要なフィールドのみ取得（`select` を使用）
+- N+1 問題を避ける（`include` を適切に使用）
+- インデックスを適切に設定
+
+---
+
+## その他の規則
+
+### エクセルファイル処理
+
+- エクセルファイルは `/data` ディレクトリに配置
+- 解析スクリプトは `/src/scripts` に配置
+- エラーハンドリングを実装
+
+### ログ
+
+- 開発環境では `console.log` を使用
+- 本番環境では適切なロギングライブラリを使用
+- 機密情報をログに出力しない
+
+### アクセシビリティ
+
+- セマンティック HTML を使用
+- ARIA 属性を適切に使用
+- キーボードナビゲーションを考慮
+
+---
+
+## 参考資料
+
+- [Next.js 公式ドキュメント](https://nextjs.org/docs)
+- [React 公式ドキュメント](https://react.dev)
+- [Prisma 公式ドキュメント](https://www.prisma.io/docs)
+- [Tailwind CSS 公式ドキュメント](https://tailwindcss.com/docs)
+- [TypeScript 公式ドキュメント](https://www.typescriptlang.org/docs)
+
+---
+
+**最終更新日**: 2025 年 12 月 27 日
