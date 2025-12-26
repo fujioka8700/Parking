@@ -1,7 +1,3 @@
-# antig_next_postgres
-
-## Antigravity を使う前の準備。
-
 ```bash
 # Next.jsアプリ作成
 $ docker compose run --rm app sh -c 'npx create-next-app . --typescript'
