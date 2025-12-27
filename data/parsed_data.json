@@ -1,0 +1,1447 @@
+{
+  "faults": [
+    {
+      "faultCode": "1",
+      "displayCode": "M32",
+      "faultName": "非常停止",
+      "faultContent": "非常停止釦ON、脱出扉開のいずれかを検知（動作モード10発行時を除く）",
+      "solution": "非常停止ボタンが押されていないか　また、非常脱出扉が開いていないか　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　ボタンの接点不良はないか　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "2",
+      "displayCode": "M33",
+      "faultName": "場内安全確認センサ動作",
+      "faultContent": "自動モード切替え時に、場内安全確認センサーON検知",
+      "solution": "センサの動作状態、光電センサの場合は光軸のチェック及び配線（断線・端子での抜け等）の確認　　　　　　　　　　　　　感度のチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "3",
+      "displayCode": "M34",
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "4",
+      "displayCode": "M35",
+      "faultName": "車両前はみ出し",
+      "faultContent": "自動モードで循環運転前に、ケージ前PH遮光",
+      "solution": "車の停止位置をチェック　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　車のドアが開いていないか、車がパレットよりはみ出していないかチェック　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　センサの動作状態、光電センサの場合は光軸のチェック及び配線（断線・端子での抜け等）の確認　　　　　　　　　　　　　　　　　　　感度のチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "5",
+      "displayCode": "M37",
+      "faultName": "車両後はみ出し",
+      "faultContent": "自動モードで循環運転前に、ケージ後PH遮光",
+      "solution": null,
+      "isActive": true
+    },
+    {
+      "faultCode": "6",
+      "displayCode": "M16",
+      "faultName": "車両左はみ出し",
+      "faultContent": "自動モードで循環運転前に、車幅左PH遮光",
+      "solution": null,
+      "isActive": true
+    },
+    {
+      "faultCode": "7",
+      "displayCode": "M38",
+      "faultName": "車両右はみ出し",
+      "faultContent": "自動モードで循環運転前に、車幅右PH遮光",
+      "solution": null,
+      "isActive": true
+    },
+    {
+      "faultCode": "8",
+      "displayCode": "M64",
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "9",
+      "displayCode": "M65",
+      "faultName": "サイクルタイムオーバー",
+      "faultContent": "動作モード1・2が5分以内、動作モード3・4が10分以内に完了しない",
+      "solution": "次の動作へ移る際の条件が成り立たない時は、停止状況より原因を確認する",
+      "isActive": true
+    },
+    {
+      "faultCode": "10",
+      "displayCode": "M66",
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "11",
+      "displayCode": "M92",
+      "faultName": "旋回装置定位置外れ",
+      "faultContent": "自動モード切替時に、旋回停止LSが2つ共OFF、又はリフタ下限LSがOFF",
+      "solution": "旋回装置の停止状態、旋回定位置ＬＳの動作状態及び配線（断線・端子での抜け等）の確認　　　　　　　　　　　　　　　　　　　　自動運転中に（11～15）の異常が発生した時は、瞬時停電の可能性があります。　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　メンテナンスＳＷチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "12",
+      "displayCode": null,
+      "faultName": "安全柵定位置外れ",
+      "faultContent": "自動モード切替時に、LS・ラッチが共にOFF",
+      "solution": "安全柵の停止状態、ＬＳの動作状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "13",
+      "displayCode": "M36",
+      "faultName": "循環定位置外れ",
+      "faultContent": "自動モード切替時に、循環停止LSが2つ共OFF",
+      "solution": "循環停止LSの動作状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "14",
+      "displayCode": "M69",
+      "faultName": "乗入階光電センサ遮光",
+      "faultContent": "自動モード切替え時に、乗入階の光電ｾﾝｻ遮光",
+      "solution": "乗入階のセンサの動作状態、光電センサの場合は光軸のチェック及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "15",
+      "displayCode": "M70",
+      "faultName": "自動扉開",
+      "faultContent": "自動モード切替時に、扉全開",
+      "solution": "出入口扉の動作状態、出入口扉全開・全閉ＬＳの動作状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "16",
+      "displayCode": "M71",
+      "faultName": "消火設備による非常停止",
+      "faultContent": "消火設備非常停止ON検知",
+      "solution": "消火装置関連の動作状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "17",
+      "displayCode": "M72",
+      "faultName": "入口部非常停止光電センサ遮光",
+      "faultContent": "自動モードで扉全閉時に、PH1遮光",
+      "solution": "センサの動作状態、光電センサの場合は光軸のチェック及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "18",
+      "displayCode": null,
+      "faultName": "出口部非常停止光電センサ遮光",
+      "faultContent": "自動モードで扉全閉時に、出口部非常停止光電センサ遮光(オプション）",
+      "solution": "センサの動作状態、光電センサの場合は光軸のチェック及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "19",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "20",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "21",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "22",
+      "displayCode": "M11",
+      "faultName": "地震感知器作動",
+      "faultContent": "地震検知（オプション）",
+      "solution": "地震検知器の状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "23",
+      "displayCode": "M145",
+      "faultName": "暗証番号不良",
+      "faultContent": "暗証番号5回連続入力間違い（オプション）",
+      "solution": "操作方法に間違いが無いか確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "24",
+      "displayCode": "M76",
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "25",
+      "displayCode": "M77",
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "26",
+      "displayCode": "M78",
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "27",
+      "displayCode": "M79",
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "28",
+      "displayCode": "M80",
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "29",
+      "displayCode": "M85",
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "30",
+      "displayCode": "M93",
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "41",
+      "displayCode": null,
+      "faultName": "受付データ異常",
+      "faultContent": "パレット番号が、0以下または最大収容台数以上の時",
+      "solution": "搬器が乗入階のまま自動運転を立ち上げていないか確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "42",
+      "displayCode": null,
+      "faultName": "カードリーダー異常",
+      "faultContent": "カードリーダー異常",
+      "solution": "カードリーダの動作状態及び配線（断線・端子での抜け等）の確認確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "43",
+      "displayCode": null,
+      "faultName": "扉動作異常",
+      "faultContent": "扉動作が、一定時間経過しても完了しない(15sec)",
+      "solution": "扉の動作状態、扉全開・全閉ＬＳの動作状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "44",
+      "displayCode": null,
+      "faultName": "扉ＬＳ異常",
+      "faultContent": "自動モードでLSが2つ共OＮ、又は２つ共OFFが20sec継続",
+      "solution": "出入口扉の全閉、全開ＬＳの動作状態及び配線（断線・端子での抜け等）の確認をチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "45",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "46",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "47",
+      "displayCode": null,
+      "faultName": "扉INV異常",
+      "faultContent": "インバータ異常",
+      "solution": "出入口扉の動作及び配線（断線・端子での抜け等）の確認　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　出入口扉と干渉する物が無いかチェック　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　インバータの配線（断線・端子での抜け等）の確認（インバータのアラーム履歴にてエラー内容を確認）",
+      "isActive": true
+    },
+    {
+      "faultCode": "48",
+      "displayCode": null,
+      "faultName": "場内扉開ボタン押下",
+      "faultContent": "自動モードで、扉全閉時に場内扉開ボタン押下",
+      "solution": "場内扉開ボタンの状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "49",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "50",
+      "displayCode": null,
+      "faultName": "循環サーマル異常",
+      "faultContent": "主モータ過負荷",
+      "solution": "主モータの動作状態及び配線（断線・端子での抜け等）の確認　　　　　　　　　主モータ用ＭＣ，インバータの動作状態確認及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "51",
+      "displayCode": null,
+      "faultName": "循環停止ＬＳ異常",
+      "faultContent": "循環中30sec以上停止、LSがONしない",
+      "solution": "循環停止ＬＳの状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "52",
+      "displayCode": null,
+      "faultName": "循環減速ＬＳ異常",
+      "faultContent": "循環中30sec以上、減速LSがONしない。減速LS、停止LSが同時にON",
+      "solution": "循環減速ＬＳの状態及び配線（断線・端子での抜け等）の確認　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　減速LS、停止LSの状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "53",
+      "displayCode": null,
+      "faultName": "着床ずれ",
+      "faultContent": "リトライ後も着床ずれ",
+      "solution": "循環停止LSの動作状態及び配線（断線・端子での抜け等）の確認　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　着床状態（ずれ方向、ずれ寸法）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "54",
+      "displayCode": null,
+      "faultName": "循環条件不成立",
+      "faultContent": "自動モードで、運転指令出力して20sec経過しても、インターロックにより運転しない",
+      "solution": "循環出来ない、非常停止の内容を確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "55",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "56",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "57",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "58",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "59",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "60",
+      "displayCode": null,
+      "faultName": "安全柵全閉異常",
+      "faultContent": "安全柵循環位置の時、PH7,8遮光（MT型）閉確認LSがON時に近接がONしない(M型)",
+      "solution": "安全柵閉ＬＳまたは、安全柵閉ＰＨの動作状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "61",
+      "displayCode": null,
+      "faultName": "安全柵ＬＳ異常",
+      "faultContent": "安全柵LSが同時に2つON",
+      "solution": "安全柵開閉LSの状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "62",
+      "displayCode": null,
+      "faultName": "安全柵サイクルタイムオーバー",
+      "faultContent": "安全柵動作が、一定時間経過しても完了しない(15sec)",
+      "solution": "安全柵動作の状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "63",
+      "displayCode": null,
+      "faultName": "安全柵行過ぎ",
+      "faultContent": "安全柵行過ぎLSがON",
+      "solution": "安全柵行過ぎLSの状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "64",
+      "displayCode": null,
+      "faultName": "安全柵条件不成立",
+      "faultContent": "自動モードで運転指令出力して20sec経過しても、インターロックにより運転しない",
+      "solution": "循環停止LS、リフター下限ＬＳ、旋回停止ＬＳ、横行追従ＰＨの動作状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "65",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "66",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "67",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "68",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "69",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "70",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "71",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "72",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "73",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "74",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "75",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "76",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "77",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "78",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "79",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "80",
+      "displayCode": null,
+      "faultName": "旋回装置インバータ異常",
+      "faultContent": "旋回装置インバータ異常",
+      "solution": "車の重量をチェック　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　インバータの配線（断線・端子での抜け等）の確認　　　　　　　　　　　　　　　　インバータのアラーム履歴にてエラー内容、電流、周波数、電圧値を確認　　　　　　　　　　　　　　　　　　　　　　　　加減速時間の確認　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　停止ＬＳが入る前に、ﾒｶｽﾄｯﾊﾟｰに当たっていないか　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　ブレーキ用ＭＣに、バリスタが取り付けてあるか",
+      "isActive": true
+    },
+    {
+      "faultCode": "81",
+      "displayCode": null,
+      "faultName": "旋回装置サイクルタイムオーバー",
+      "faultContent": "旋回装置動作が、一定時間経過しても完了しない(30sec)",
+      "solution": "定位置ＬＳ、停止ＬＳの動作及び配線（断線・端子での抜け等）の確認　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　旋回リフタ、上限ＬＳ、下限ＬＳの動作チェック及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "82",
+      "displayCode": null,
+      "faultName": "旋回リフタサイクルタイムオーバー",
+      "faultContent": "旋回リフタ動作が、一定時間経過しても完了しない(15sec)",
+      "solution": "旋回リフタの状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "83",
+      "displayCode": null,
+      "faultName": "横行装置サイクルタイムオーバー",
+      "faultContent": "横行装置動作が、一定時間経過しても完了しない(12sec)",
+      "solution": "横行装置の状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "84",
+      "displayCode": null,
+      "faultName": "旋回装置ＬＳ異常",
+      "faultContent": "左停止LS、右停止LSが同時にON",
+      "solution": "左停止LS、右停止LSの状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "85",
+      "displayCode": null,
+      "faultName": "旋回リフタＬＳ異常",
+      "faultContent": "上限LS、下限LSが同時にON",
+      "solution": "旋回リフタ、上限ＬＳ、下限ＬＳの位置、動作状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "86",
+      "displayCode": null,
+      "faultName": "横行装置PH異常",
+      "faultContent": "左LS、右LSが同時にON",
+      "solution": "横行装置左LS、右LSの動作状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "87",
+      "displayCode": null,
+      "faultName": "横行装置行過ぎ",
+      "faultContent": "横行行過ぎLSがON",
+      "solution": "横行行過ぎLSの位置、動作状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "88",
+      "displayCode": null,
+      "faultName": "旋回装置条件不成立",
+      "faultContent": "自動モードで、運転指令出力して20sec経過しても、インターロックにより運転しない",
+      "solution": "循環停止LS、リフタ上限ＬＳ、ＩＮＶの動作状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "89",
+      "displayCode": null,
+      "faultName": "旋回リフタ条件不成立",
+      "faultContent": "自動モードで、運転指令出力して20sec経過しても、インターロックにより運転しない",
+      "solution": "循環停止LS、旋回停止ＬＳ、安全柵閉ＬＳの動作状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "90",
+      "displayCode": null,
+      "faultName": "横行装置条件不成立",
+      "faultContent": "自動モードで、運転指令出力して20sec経過しても、インターロックにより運転しない",
+      "solution": "循環停止LS、旋回停止ＬＳ、横行行過ＬＳの動作状態及び配線（断線・端子での抜け等）の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "101",
+      "displayCode": null,
+      "faultName": "ストローブ応答タイムアウト",
+      "faultContent": "ストローブを送信して、60秒経過しても、ストローブ応答がない",
+      "solution": "制御PLC動作をチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "102",
+      "displayCode": null,
+      "faultName": "受信データ異常（管理PLC）",
+      "faultContent": "制御PLCから、ﾓｰﾄﾞ1,2,3,4,10以外のﾓｰﾄﾞが送信された",
+      "solution": "制御PLC動作をチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "103",
+      "displayCode": null,
+      "faultName": "初期設定不良",
+      "faultContent": "自動モード切替え時、優先モード・操作モードの設定がされていない",
+      "solution": "操作モード、優先モードを設定",
+      "isActive": true
+    },
+    {
+      "faultCode": "104",
+      "displayCode": null,
+      "faultName": "パレットデータ不良",
+      "faultContent": "総パレット数とデータ上の、パレット数が異なっている",
+      "solution": "パレット/番地設定で、パレットデータを登録してください",
+      "isActive": true
+    },
+    {
+      "faultCode": "105",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "106",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "107",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "108",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "109",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "110",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "111",
+      "displayCode": null,
+      "faultName": "PLCリンク異常",
+      "faultContent": "制御PLC、管理PLC間MELSEC-NETⅡ正ﾙｰﾌﾟ・副ﾙｰﾌﾟ異常が発生",
+      "solution": "MELSECNETⅡのリンクを確認(ユニットのエラー表示確認)　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　制御PLCがRUNになっているか確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "112",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "113",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "114",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "115",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "116",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "117",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "118",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "119",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "120",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "31",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "32",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "33",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "34",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "35",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "36",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "37",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "38",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "39",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "40",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "91",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "92",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "93",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "94",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "95",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "96",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "97",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "98",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "99",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "100",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    }
+  ],
+  "sensors": [
+    {
+      "sensorCode": "X00F",
+      "sensorName": "上部点検架台点検スイッチ",
+      "description": null
+    },
+    {
+      "sensorCode": "X00E",
+      "sensorName": "乗入階非常停止スイッチ",
+      "description": null
+    },
+    {
+      "sensorCode": "X00D",
+      "sensorName": "右側ドア開検出光電管",
+      "description": null
+    },
+    {
+      "sensorCode": "X00C",
+      "sensorName": "左側ドア開検出光電管",
+      "description": null
+    },
+    {
+      "sensorCode": "X00B",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X00A",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X009",
+      "sensorName": "車高オーバー検出用LS",
+      "description": null
+    },
+    {
+      "sensorCode": "X008",
+      "sensorName": "安全柵閉検出確認光電管",
+      "description": null
+    },
+    {
+      "sensorCode": "X007",
+      "sensorName": "車輌入口･奥側非常検出光電管",
+      "description": null
+    },
+    {
+      "sensorCode": "X006",
+      "sensorName": "塔内安全確認用光電管",
+      "description": null
+    },
+    {
+      "sensorCode": "X005",
+      "sensorName": "車輌奥側検出光電管",
+      "description": null
+    },
+    {
+      "sensorCode": "X004",
+      "sensorName": "在庫車検出光電管",
+      "description": null
+    },
+    {
+      "sensorCode": "X003",
+      "sensorName": "車輌入口側検出光電管",
+      "description": null
+    },
+    {
+      "sensorCode": "X002",
+      "sensorName": "入口部非常停止検出光電管",
+      "description": null
+    },
+    {
+      "sensorCode": "X001",
+      "sensorName": "循環停止位置検出LS",
+      "description": null
+    },
+    {
+      "sensorCode": "X000",
+      "sensorName": "左循環減速検出LS",
+      "description": null
+    },
+    {
+      "sensorCode": "X01F",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X01E",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X01D",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X01C",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X01B",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X01A",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X019",
+      "sensorName": "左側自動安全柵用ﾊﾟﾜｰｼﾘﾝﾀﾞｰ戻側極限(内蔵LS)",
+      "description": null
+    },
+    {
+      "sensorCode": "X018",
+      "sensorName": "左側自動安全柵用ﾊﾟﾜｰｼﾘﾝﾀﾞｰ出側極限(内蔵LS)",
+      "description": null
+    },
+    {
+      "sensorCode": "X017",
+      "sensorName": "右側自動安全柵用ﾊﾟﾜｰｼﾘﾝﾀﾞｰ戻側極限（内蔵LS)",
+      "description": null
+    },
+    {
+      "sensorCode": "X016",
+      "sensorName": "右側自動安全柵用ﾊﾟﾜｰｼﾘﾝﾀﾞｰ出側極限(内蔵LS)",
+      "description": null
+    },
+    {
+      "sensorCode": "X015",
+      "sensorName": "左側自動安全柵開検出LS（固定ピン：引）",
+      "description": null
+    },
+    {
+      "sensorCode": "X014",
+      "sensorName": "左側自動安全柵閉検出LS（固定ピン：出）",
+      "description": null
+    },
+    {
+      "sensorCode": "X013",
+      "sensorName": "左側自動安全柵閉検出LS（固定ピン：引）",
+      "description": null
+    },
+    {
+      "sensorCode": "X012",
+      "sensorName": "右側自動安全柵開検出LS（固定ピン：引）",
+      "description": null
+    },
+    {
+      "sensorCode": "X011",
+      "sensorName": "右側自動安全柵閉検出LS（固定ピン：出）",
+      "description": null
+    },
+    {
+      "sensorCode": "X010",
+      "sensorName": "右側自動安全柵閉検出LS(固定ピン：引）",
+      "description": null
+    },
+    {
+      "sensorCode": "X02F",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X02E",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X02D",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X02C",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X02B",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X02A",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X029",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X028",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X027",
+      "sensorName": "出入口扉全開検出用LS",
+      "description": null
+    },
+    {
+      "sensorCode": "X026",
+      "sensorName": "出入口扉全閉検出用LS",
+      "description": null
+    },
+    {
+      "sensorCode": "X025",
+      "sensorName": "消火装置（出入口扉信号）",
+      "description": null
+    },
+    {
+      "sensorCode": "X024",
+      "sensorName": "消火装置（機械停止信号）",
+      "description": null
+    },
+    {
+      "sensorCode": "X023",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X022",
+      "sensorName": "左側自動安全柵用パワーシリンダー過負荷",
+      "description": null
+    },
+    {
+      "sensorCode": "X021",
+      "sensorName": "右側自動安全柵用パワーシリンダー過負荷",
+      "description": null
+    },
+    {
+      "sensorCode": "X020",
+      "sensorName": "主電動機・ブレーキ過負荷",
+      "description": null
+    },
+    {
+      "sensorCode": "X03F",
+      "sensorName": "ターンテーブル用インバータ異常",
+      "description": null
+    },
+    {
+      "sensorCode": "X03E",
+      "sensorName": "リフト用電動機過負荷",
+      "description": null
+    },
+    {
+      "sensorCode": "X03D",
+      "sensorName": "横行用パワーシリンダー過負荷",
+      "description": null
+    },
+    {
+      "sensorCode": "X03C",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X03B",
+      "sensorName": "横行用シリンダー右行指令光電管",
+      "description": null
+    },
+    {
+      "sensorCode": "X03A",
+      "sensorName": "横行用シリンダー左行指令光電管",
+      "description": null
+    },
+    {
+      "sensorCode": "X039",
+      "sensorName": "横行用シリンダー右行過検出用LS",
+      "description": null
+    },
+    {
+      "sensorCode": "X038",
+      "sensorName": "横行用シリンダー左行過検出用LS",
+      "description": null
+    },
+    {
+      "sensorCode": "X037",
+      "sensorName": "空き",
+      "description": null
+    },
+    {
+      "sensorCode": "X036",
+      "sensorName": "空き",
+      "description": null
+    },
+    {
+      "sensorCode": "X035",
+      "sensorName": "ターンテーブル左回転停止検出用LS",
+      "description": null
+    },
+    {
+      "sensorCode": "X034",
+      "sensorName": "ターンテーブル右回転停止検出用LS",
+      "description": null
+    },
+    {
+      "sensorCode": "X033",
+      "sensorName": "ターンテーブル左回転低速検出用LS",
+      "description": null
+    },
+    {
+      "sensorCode": "X032",
+      "sensorName": "ターンテーブル右回転低速検出用LS",
+      "description": null
+    },
+    {
+      "sensorCode": "X031",
+      "sensorName": "リフト下限検出LS",
+      "description": null
+    },
+    {
+      "sensorCode": "X030",
+      "sensorName": "リフト上限検出LS",
+      "description": null
+    },
+    {
+      "sensorCode": "X04F",
+      "sensorName": "テンキー　（右回転）",
+      "description": null
+    },
+    {
+      "sensorCode": "X04E",
+      "sensorName": "テンキー　（扉開）",
+      "description": null
+    },
+    {
+      "sensorCode": "X04D",
+      "sensorName": "テンキー　（途中停止）",
+      "description": null
+    },
+    {
+      "sensorCode": "X04C",
+      "sensorName": "テンキー　（出庫）",
+      "description": null
+    },
+    {
+      "sensorCode": "X04B",
+      "sensorName": "テンキー　（+）",
+      "description": null
+    },
+    {
+      "sensorCode": "X04A",
+      "sensorName": "テンキー　（1）",
+      "description": null
+    },
+    {
+      "sensorCode": "X049",
+      "sensorName": "テンキー　（4）",
+      "description": null
+    },
+    {
+      "sensorCode": "X048",
+      "sensorName": "テンキー　（7）",
+      "description": null
+    },
+    {
+      "sensorCode": "X047",
+      "sensorName": "テンキー　（0）",
+      "description": null
+    },
+    {
+      "sensorCode": "X046",
+      "sensorName": "テンキー　（2）",
+      "description": null
+    },
+    {
+      "sensorCode": "X045",
+      "sensorName": "テンキー　（5）",
+      "description": null
+    },
+    {
+      "sensorCode": "X044",
+      "sensorName": "テンキー　（8）",
+      "description": null
+    },
+    {
+      "sensorCode": "X043",
+      "sensorName": "テンキー　（取消）",
+      "description": null
+    },
+    {
+      "sensorCode": "X042",
+      "sensorName": "テンキー　（3）",
+      "description": null
+    },
+    {
+      "sensorCode": "X041",
+      "sensorName": "テンキー　（6）",
+      "description": null
+    },
+    {
+      "sensorCode": "X040",
+      "sensorName": "テンキー　（9）",
+      "description": null
+    },
+    {
+      "sensorCode": "X05F",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X05E",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X05D",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X05C",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X05B",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X05A",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X059",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X058",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X057",
+      "sensorName": "予備",
+      "description": null
+    },
+    {
+      "sensorCode": "X056",
+      "sensorName": "非常停止押釦",
+      "description": null
+    },
+    {
+      "sensorCode": "X055",
+      "sensorName": "メンテナンススイッチ",
+      "description": null
+    },
+    {
+      "sensorCode": "X054",
+      "sensorName": "切スイッチ",
+      "description": null
+    },
+    {
+      "sensorCode": "X053",
+      "sensorName": "テンキー　（左回転）",
+      "description": null
+    },
+    {
+      "sensorCode": "X052",
+      "sensorName": "テンキー　（扉閉）",
+      "description": null
+    },
+    {
+      "sensorCode": "X051",
+      "sensorName": "テンキー　（起動）",
+      "description": null
+    },
+    {
+      "sensorCode": "X050",
+      "sensorName": "テンキー　（入庫）",
+      "description": null
+    }
+  ],
+  "generatedAt": "2025-12-27T01:51:50.418Z"
+}
