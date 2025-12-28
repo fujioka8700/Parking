@@ -64,11 +64,11 @@
   - 自動生成される Prisma Client
 
 ### データベース
-- **SQLite**
-  - ファイルベースのリレーショナルデータベース
+- **PostgreSQL 16**
+  - オープンソースのリレーショナルデータベース
   - ACID 準拠
-  - 軽量でシンプル
-  - 小規模データに最適（故障マスタ120件、センサ状態96件）
+  - 高パフォーマンス
+  - 本番環境でも安定して動作
 
 ---
 
@@ -86,11 +86,11 @@
   - Next.js の実行環境
   - npm パッケージマネージャー
 
-### データベース
-- **SQLite**
-  - ファイルベース（`data/database.db`）
-  - 別コンテナ不要
-  - ボリュームマウントによるデータ保持
+### データベースコンテナ
+- **PostgreSQL 16**
+  - Docker コンテナとして実行
+  - ボリューム（`postgres_data`）によるデータ永続化
+  - ヘルスチェック機能付き
 
 ---
 
@@ -306,7 +306,7 @@ npm run dev
 - [Prisma 公式ドキュメント](https://www.prisma.io/docs)
 - [Tailwind CSS 公式ドキュメント](https://tailwindcss.com/docs)
 - [React 公式ドキュメント](https://react.dev)
-- [SQLite 公式ドキュメント](https://www.sqlite.org/docs.html)
+- [PostgreSQL 公式ドキュメント](https://www.postgresql.org/docs/)
 
 ---
 

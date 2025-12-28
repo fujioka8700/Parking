@@ -209,12 +209,14 @@ Web アプリケーションとして、以下の機能を提供する：
 
 #### 開発環境
 1. エクセルファイル（`data/TP_manual.xls`）を解析
-2. JSONファイル（`data/parsed_data.json`）を生成
-3. SQLiteデータベース（`data/database.db`）に保存
+2. JSONファイル（`data/parsed_data.json`）を生成（故障マスタのみ）
+3. MTセンサデータ（`data/parsed_data_mt_sensor.json`）を読み込み
+4. PostgreSQLデータベースに保存
 
 #### 本番環境
 1. 事前に生成されたJSONファイル（`data/parsed_data.json`）を読み込み
-2. SQLiteデータベース（`data/database.db`）に保存
+2. MTセンサデータ（`data/parsed_data_mt_sensor.json`）を読み込み
+3. PostgreSQLデータベースに保存
 
 **注意**: 本番環境では `xlsx` ライブラリは不要（JSONファイルのみ使用）
 
@@ -260,13 +262,13 @@ Web アプリケーションとして、以下の機能を提供する：
 - **フレームワーク**: Next.js API Routes
 - **言語**: TypeScript
 - **ORM**: Prisma 6
-- **データベース**: SQLite
+- **データベース**: PostgreSQL 16
 
 ### 9.3 インフラストラクチャ
 
 - **コンテナ**: Docker Compose
 - **アプリケーションコンテナ**: Node.js 24
-- **データベース**: SQLite（ファイルベース、別コンテナ不要）
+- **データベース**: PostgreSQL 16（Dockerコンテナとして実行）
 
 ### 9.4 開発ツール
 
@@ -311,7 +313,7 @@ Web アプリケーションとして、以下の機能を提供する：
 ### 11.1 技術的制約
 
 - エクセルファイルの形式が固定（「TP_manual.xls」形式）
-- データベースは SQLite を使用（ファイルベース）
+- データベースは PostgreSQL 16 を使用（Dockerコンテナとして実行）
 - 開発環境ではエクセルファイルからJSONファイルを生成し、本番環境ではJSONファイルからデータベースに読み込む
 - Docker 環境での動作を前提とする
 
