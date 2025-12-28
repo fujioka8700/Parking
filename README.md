@@ -2,7 +2,7 @@
 
 ## 概要
 
-立体駐車場の故障コードとセンサ状態を検索できるWebアプリケーションです。
+立体駐車場の故障コードとセンサ状態を検索できる Web アプリケーションです。
 
 ## 技術スタック
 
@@ -23,7 +23,7 @@ git clone <repository-url>
 cd Parking
 ```
 
-### 2. Docker Composeで起動
+### 2. Docker Compose で起動
 
 ```bash
 docker compose up -d
@@ -35,7 +35,7 @@ docker compose up -d
 docker compose exec app npx prisma db push
 ```
 
-SQLiteはファイルベースなので、別途データベースサーバーは不要です。
+SQLite はファイルベースなので、別途データベースサーバーは不要です。
 
 ### 4. データの初期化
 
@@ -43,10 +43,12 @@ SQLiteはファイルベースなので、別途データベースサーバー�
 
 開発環境では、以下の手順でデータを初期化します：
 
-1. **MTセンサデータの変換**（初回のみ、または`mt_sensor.json`を更新した場合）:
+1. **MT センサデータの変換**（初回のみ、または`mt_sensor.json`を更新した場合）:
+
    ```bash
    docker compose exec app node scripts/convertMtSensor.js
    ```
+
    これにより`data/parsed_data_mt_sensor.json`が生成されます。
 
 2. **データベースへの保存**:
@@ -55,22 +57,24 @@ SQLiteはファイルベースなので、別途データベースサーバー�
    ```
 
 このコマンドは以下を実行します：
+
 1. エクセルファイル（`data/TP_manual.xls`）を解析して故障マスタデータを取得
-2. JSONファイル（`data/parsed_data.json`）を生成（故障マスタのみ）
-3. MTセンサデータ（`data/parsed_data_mt_sensor.json`）を読み込み
+2. JSON ファイル（`data/parsed_data.json`）を生成（故障マスタのみ）
+3. MT センサデータ（`data/parsed_data_mt_sensor.json`）を読み込み
 4. データベースに保存
 
 #### 本番環境
 
-本番環境では、事前に生成されたJSONファイルからデータベースに保存します。
+本番環境では、事前に生成された JSON ファイルからデータベースに保存します。
 
 ```bash
 docker compose exec app npm run init:prod
 ```
 
 **重要**: 本番環境で実行する前に、以下のファイルが存在することを確認してください：
+
 - `data/parsed_data.json`（故障マスタデータ）
-- `data/parsed_data_mt_sensor.json`（MTセンサデータ）
+- `data/parsed_data_mt_sensor.json`（MT センサデータ）
 
 ### 5. アプリケーションの起動
 
@@ -89,29 +93,29 @@ docker compose exec app npm run dev
 ### 故障マスタデータを更新した場合
 
 1. エクセルファイル（`data/TP_manual.xls`）を更新
-2. 開発環境で以下のコマンドを実行してJSONファイルを再生成：
+2. 開発環境で以下のコマンドを実行して JSON ファイルを再生成：
 
 ```bash
 docker compose exec app npm run init:dev
 ```
 
-3. 生成された `data/parsed_data.json` をGitにコミット
+3. 生成された `data/parsed_data.json` を Git にコミット
 4. 本番環境にデプロイ後、本番環境で以下のコマンドを実行：
 
 ```bash
 docker compose exec app npm run init:prod
 ```
 
-### MTセンサデータを更新した場合
+### MT センサデータを更新した場合
 
 1. `data/mt_sensor.json` を更新
-2. 開発環境で以下のコマンドを実行してJSONファイルを再生成：
+2. 開発環境で以下のコマンドを実行して JSON ファイルを再生成：
 
 ```bash
 docker compose exec app node scripts/convertMtSensor.js
 ```
 
-3. 生成された `data/parsed_data_mt_sensor.json` をGitにコミット
+3. 生成された `data/parsed_data_mt_sensor.json` を Git にコミット
 4. データベースに反映：
 
 ```bash
@@ -128,8 +132,8 @@ docker compose exec app npm run init:prod
 
 ### 前提条件
 
-- `data/parsed_data.json` が存在すること（Gitリポジトリに含まれている）
-- `data/parsed_data_mt_sensor.json` が存在すること（Gitリポジトリに含まれている）
+- `data/parsed_data.json` が存在すること（Git リポジトリに含まれている）
+- `data/parsed_data_mt_sensor.json` が存在すること（Git リポジトリに含まれている）
 
 ### デプロイ手順
 
@@ -198,27 +202,37 @@ Parking/
 
 ## 注意事項
 
-- エクセルファイル（`data/TP_manual.xls`）はGit管理外です
-- JSONファイル（`data/parsed_data.json`、`data/parsed_data_mt_sensor.json`）はGit管理に含まれます（本番環境で使用するため）
-- SQLiteデータベースファイル（`data/database.db`）はGit管理外です
-- 本番環境では `xlsx` ライブラリは不要です（JSONファイルのみ使用）
-- SQLiteはファイルベースなので、バックアップは `data/database.db` をコピーするだけです
+- エクセルファイル（`data/TP_manual.xls`）は Git 管理外です
+- JSON ファイル（`data/parsed_data.json`、`data/parsed_data_mt_sensor.json`）は Git 管理に含まれます（本番環境で使用するため）
+- SQLite データベースファイル（`data/database.db`）は Git 管理外です
+- 本番環境では `xlsx` ライブラリは不要です（JSON ファイルのみ使用）
+- SQLite はファイルベースなので、バックアップは `data/database.db` をコピーするだけです
 - センサ状態データは`parsed_data_mt_sensor.json`から読み込まれます（エクセルファイルからは読み込みません）
+
+## センサ状態ページについて
+
+センサ状態ページ（`/sensors`）では、16 進数（4 桁）を入力することで、ON になっているセンサを表示できます。
+
+- データベースからセンサデータを取得して表示します
+- 6 つのグループ（センサ状態 1〜6）に対応しています
+- 各グループは 16 個のセンサ（X000-X00F, X010-X01F, ...）で構成されています
+- 16 進数入力は自動的に大文字に変換され、16 進数以外の文字は除外されます
+- データベースにセンサデータが登録されていない場合は、エラーメッセージが表示されます
 
 ## トラブルシューティング
 
-### JSONファイルが見つからないエラー
+### JSON ファイルが見つからないエラー
 
 本番環境で `parsed_data.json` または `parsed_data_mt_sensor.json` が見つからない場合：
 
-1. 開発環境でエクセルファイルを解析してJSONファイルを生成（`npm run init:dev`）
-2. MTセンサデータを変換（`node scripts/convertMtSensor.js`）
-3. JSONファイルをGitにコミット
+1. 開発環境でエクセルファイルを解析して JSON ファイルを生成（`npm run init:dev`）
+2. MT センサデータを変換（`node scripts/convertMtSensor.js`）
+3. JSON ファイルを Git にコミット
 4. 本番環境にデプロイ
 
 ### データベース接続エラー
 
-SQLiteファイルが存在するか確認：
+SQLite ファイルが存在するか確認：
 
 ```bash
 ls -lh data/database.db
