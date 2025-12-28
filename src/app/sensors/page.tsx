@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 interface Sensor {
   id: number;
@@ -10,7 +10,7 @@ interface Sensor {
 }
 
 export default function SensorsPage() {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [sensors, setSensors] = useState<Sensor[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedSensor, setSelectedSensor] = useState<Sensor | null>(null);
@@ -23,11 +23,11 @@ export default function SensorsPage() {
   const loadSensors = async () => {
     setLoading(true);
     try {
-      const response = await fetch("/api/sensors");
+      const response = await fetch('/api/sensors');
       const data = await response.json();
       setSensors(data.sensors || []);
     } catch (error) {
-      console.error("データ読み込みエラー:", error);
+      console.error('データ読み込みエラー:', error);
       setSensors([]);
     } finally {
       setLoading(false);
@@ -44,12 +44,12 @@ export default function SensorsPage() {
     setLoading(true);
     try {
       const response = await fetch(
-        `/api/sensors/search?q=${encodeURIComponent(query)}`
+        `/api/sensors/search?q=${encodeURIComponent(query)}`,
       );
       const data = await response.json();
       setSensors(data.sensors || []);
     } catch (error) {
-      console.error("検索エラー:", error);
+      console.error('検索エラー:', error);
       setSensors([]);
     } finally {
       setLoading(false);
@@ -90,7 +90,7 @@ export default function SensorsPage() {
             disabled={loading}
             className="w-full sm:w-auto min-h-[44px] px-6 py-3 sm:py-2 text-base sm:text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 active:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation"
           >
-            {loading ? "検索中..." : "検索"}
+            {loading ? '検索中...' : '検索'}
           </button>
         </form>
       </div>
@@ -203,5 +203,3 @@ export default function SensorsPage() {
     </div>
   );
 }
-
-

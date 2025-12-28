@@ -47,6 +47,7 @@ data/*.xlsx
 
 # 解析済みJSONファイルはGit管理に含める（本番環境で使用するため）
 # data/parsed_data.json は除外しない
+# data/parsed_data_mt_sensor.json は除外しない
 
 # SQLite database
 data/database.db

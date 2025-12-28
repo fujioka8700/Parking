@@ -25,7 +25,7 @@ export default function RootLayout({
           </header>
           <Navigation />
           <main className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8 flex-1 w-full">
-            {children}
+        {children}
           </main>
           <footer className="bg-white border-t border-gray-200 mt-auto">
             <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-3 sm:py-4">

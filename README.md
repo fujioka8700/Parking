@@ -41,40 +41,36 @@ SQLiteはファイルベースなので、別途データベースサーバー�
 
 #### 開発環境
 
-開発環境では、エクセルファイル（`data/TP_manual.xls`）を解析してJSONファイルを生成し、データベースに保存します。
+開発環境では、以下の手順でデータを初期化します：
 
-```bash
-docker compose exec app node scripts/initData.js
-```
+1. **MTセンサデータの変換**（初回のみ、または`mt_sensor.json`を更新した場合）:
+   ```bash
+   docker compose exec app node scripts/convertMtSensor.js
+   ```
+   これにより`data/parsed_data_mt_sensor.json`が生成されます。
 
-または
-
-```bash
-docker compose exec app npm run init:dev
-```
+2. **データベースへの保存**:
+   ```bash
+   docker compose exec app npm run init:dev
+   ```
 
 このコマンドは以下を実行します：
-1. エクセルファイル（`data/TP_manual.xls`）を解析
-2. JSONファイル（`data/parsed_data.json`）を生成
-3. データベースに保存
+1. エクセルファイル（`data/TP_manual.xls`）を解析して故障マスタデータを取得
+2. JSONファイル（`data/parsed_data.json`）を生成（故障マスタのみ）
+3. MTセンサデータ（`data/parsed_data_mt_sensor.json`）を読み込み
+4. データベースに保存
 
 #### 本番環境
 
-本番環境では、事前に生成されたJSONファイル（`data/parsed_data.json`）からデータベースに保存します。
-
-```bash
-NODE_ENV=production docker compose exec app node scripts/initData.js
-```
-
-または
+本番環境では、事前に生成されたJSONファイルからデータベースに保存します。
 
 ```bash
 docker compose exec app npm run init:prod
 ```
 
-**重要**: 本番環境で実行する前に、以下のいずれかを確認してください：
-- `data/parsed_data.json` が存在すること
-- または、開発環境で先にエクセルファイルを解析してJSONファイルを生成しておくこと
+**重要**: 本番環境で実行する前に、以下のファイルが存在することを確認してください：
+- `data/parsed_data.json`（故障マスタデータ）
+- `data/parsed_data_mt_sensor.json`（MTセンサデータ）
 
 ### 5. アプリケーションの起動
 
@@ -90,20 +86,42 @@ docker compose exec app npm run dev
 
 ## データ更新手順
 
-### エクセルファイルを更新した場合
+### 故障マスタデータを更新した場合
 
 1. エクセルファイル（`data/TP_manual.xls`）を更新
 2. 開発環境で以下のコマンドを実行してJSONファイルを再生成：
 
 ```bash
-docker compose exec app node scripts/initData.js
+docker compose exec app npm run init:dev
 ```
 
 3. 生成された `data/parsed_data.json` をGitにコミット
 4. 本番環境にデプロイ後、本番環境で以下のコマンドを実行：
 
 ```bash
-NODE_ENV=production docker compose exec app node scripts/initData.js
+docker compose exec app npm run init:prod
+```
+
+### MTセンサデータを更新した場合
+
+1. `data/mt_sensor.json` を更新
+2. 開発環境で以下のコマンドを実行してJSONファイルを再生成：
+
+```bash
+docker compose exec app node scripts/convertMtSensor.js
+```
+
+3. 生成された `data/parsed_data_mt_sensor.json` をGitにコミット
+4. データベースに反映：
+
+```bash
+docker compose exec app npm run init:dev
+```
+
+5. 本番環境にデプロイ後、本番環境で以下のコマンドを実行：
+
+```bash
+docker compose exec app npm run init:prod
 ```
 
 ## 本番環境でのデプロイ
@@ -111,6 +129,7 @@ NODE_ENV=production docker compose exec app node scripts/initData.js
 ### 前提条件
 
 - `data/parsed_data.json` が存在すること（Gitリポジトリに含まれている）
+- `data/parsed_data_mt_sensor.json` が存在すること（Gitリポジトリに含まれている）
 
 ### デプロイ手順
 
@@ -167,9 +186,11 @@ Parking/
 │   └── scripts/          # スクリプト
 │       └── initData.js   # データ初期化スクリプト
 ├── data/
-│   ├── TP_manual.xls     # エクセルファイル（Git管理外）
-│   ├── parsed_data.json  # 解析済みJSONファイル（Git管理）
-│   └── database.db       # SQLiteデータベースファイル（Git管理外）
+│   ├── TP_manual.xls           # エクセルファイル（Git管理外）
+│   ├── mt_sensor.json          # MTセンサ定義ファイル（Git管理）
+│   ├── parsed_data.json        # 解析済みJSONファイル（故障マスタ、Git管理）
+│   ├── parsed_data_mt_sensor.json  # MTセンサデータ（Git管理）
+│   └── database.db              # SQLiteデータベースファイル（Git管理外）
 ├── docs/                 # ドキュメント
 ├── compose.yaml          # Docker Compose設定
 └── README.md            # このファイル
@@ -178,20 +199,22 @@ Parking/
 ## 注意事項
 
 - エクセルファイル（`data/TP_manual.xls`）はGit管理外です
-- JSONファイル（`data/parsed_data.json`）はGit管理に含まれます（本番環境で使用するため）
+- JSONファイル（`data/parsed_data.json`、`data/parsed_data_mt_sensor.json`）はGit管理に含まれます（本番環境で使用するため）
 - SQLiteデータベースファイル（`data/database.db`）はGit管理外です
 - 本番環境では `xlsx` ライブラリは不要です（JSONファイルのみ使用）
 - SQLiteはファイルベースなので、バックアップは `data/database.db` をコピーするだけです
+- センサ状態データは`parsed_data_mt_sensor.json`から読み込まれます（エクセルファイルからは読み込みません）
 
 ## トラブルシューティング
 
 ### JSONファイルが見つからないエラー
 
-本番環境で `parsed_data.json` が見つからない場合：
+本番環境で `parsed_data.json` または `parsed_data_mt_sensor.json` が見つからない場合：
 
-1. 開発環境でエクセルファイルを解析してJSONファイルを生成
-2. JSONファイルをGitにコミット
-3. 本番環境にデプロイ
+1. 開発環境でエクセルファイルを解析してJSONファイルを生成（`npm run init:dev`）
+2. MTセンサデータを変換（`node scripts/convertMtSensor.js`）
+3. JSONファイルをGitにコミット
+4. 本番環境にデプロイ
 
 ### データベース接続エラー
 
