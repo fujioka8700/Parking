@@ -9,6 +9,7 @@ interface Fault {
   faultName: string;
   faultContent: string | null;
   solution: string | null;
+  isActive: boolean;
 }
 
 export default function HomePage() {

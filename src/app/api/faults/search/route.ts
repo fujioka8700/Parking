@@ -37,7 +37,7 @@ export async function GET(request: Request) {
     });
 
     // 故障コードを数値としてソート（1, 2, 3, ..., 10, 11, ..., 100, ...）
-    const sortedFaults = Array.from(faults).sort((a, b) => {
+    const sortedFaults = [...faults].sort((a, b) => {
       const codeA = parseInt(a.faultCode, 10);
       const codeB = parseInt(b.faultCode, 10);
       // 数値に変換できない場合は最後に配置
