@@ -101,7 +101,14 @@ export default function HomePage() {
                   }}
                 >
                   <div className="flex-1 w-full">
-                    <div className="flex flex-wrap items-center gap-2 mb-1 sm:mb-2">
+                    <div className="flex flex-wrap items-center gap-0.5 mb-1 sm:mb-2">
+                      <span
+                        className={`text-base sm:text-lg font-normal ${
+                          isInactive ? 'text-gray-500' : 'text-gray-900'
+                        }`}
+                      >
+                        故障コード：
+                      </span>
                       <span
                         className={`text-base sm:text-lg font-semibold ${
                           isInactive ? 'text-gray-500' : 'text-gray-900'

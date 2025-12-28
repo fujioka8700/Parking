@@ -64,11 +64,11 @@
   - 自動生成される Prisma Client
 
 ### データベース
-- **PostgreSQL 16**
-  - リレーショナルデータベース
+- **SQLite**
+  - ファイルベースのリレーショナルデータベース
   - ACID 準拠
-  - 高パフォーマンス
-  - 豊富な機能セット
+  - 軽量でシンプル
+  - 小規模データに最適（故障マスタ120件、センサ状態96件）
 
 ---
 
@@ -86,9 +86,10 @@
   - Next.js の実行環境
   - npm パッケージマネージャー
 
-### データベースコンテナ
-- **PostgreSQL 16**
-  - データ永続化
+### データベース
+- **SQLite**
+  - ファイルベース（`data/database.db`）
+  - 別コンテナ不要
   - ボリュームマウントによるデータ保持
 
 ---
@@ -107,11 +108,12 @@
   - コーディング規約の統一
   - Next.js 用の設定（eslint-config-next）
 
-### エクセル解析
-- **xlsx 0.18.5**
+### エクセル解析（開発環境のみ）
+- **xlsx 0.18.5**（devDependencies）
   - エクセルファイルの読み込み
   - データの解析と変換
   - .xls および .xlsx 形式に対応
+  - 開発環境でのみ使用（本番環境ではJSONファイルを使用）
 
 ### 型定義
 - **@types/node 20.x**
@@ -136,7 +138,6 @@
   "prisma": "^6.19.0",
   "react": "19.2.0",
   "react-dom": "19.2.0",
-  "xlsx": "^0.18.5"
 }
 ```
 
@@ -305,10 +306,11 @@ npm run dev
 - [Prisma 公式ドキュメント](https://www.prisma.io/docs)
 - [Tailwind CSS 公式ドキュメント](https://tailwindcss.com/docs)
 - [React 公式ドキュメント](https://react.dev)
-- [PostgreSQL 公式ドキュメント](https://www.postgresql.org/docs/)
+- [SQLite 公式ドキュメント](https://www.sqlite.org/docs.html)
 
 ---
 
-**最終更新日**: 2025 年 12 月 27 日
+**最終更新日**: 2025 年 12 月 28 日
+
 
 
