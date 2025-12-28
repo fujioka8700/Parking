@@ -10,10 +10,11 @@ export async function GET(request: Request) {
     const searchCondition: any = {};
 
     if (query.trim()) {
+      // SQLiteでは mode: "insensitive" がサポートされていないため削除
       searchCondition.OR = [
-        { sensorCode: { contains: query, mode: "insensitive" as const } },
-        { sensorName: { contains: query, mode: "insensitive" as const } },
-        { description: { contains: query, mode: "insensitive" as const } },
+        { sensorCode: { contains: query } },
+        { sensorName: { contains: query } },
+        { description: { contains: query } },
       ];
     }
 
@@ -32,4 +33,5 @@ export async function GET(request: Request) {
     );
   }
 }
+
 

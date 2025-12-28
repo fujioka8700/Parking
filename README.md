@@ -10,7 +10,7 @@
 - React 19
 - TypeScript
 - Prisma
-- PostgreSQL
+- SQLite
 - Tailwind CSS
 - Docker Compose
 
@@ -32,14 +32,10 @@ docker compose up -d
 ### 3. データベースのマイグレーション
 
 ```bash
-docker compose exec app npx prisma migrate dev
-```
-
-または
-
-```bash
 docker compose exec app npx prisma db push
 ```
+
+SQLiteはファイルベースなので、別途データベースサーバーは不要です。
 
 ### 4. データの初期化
 
@@ -115,7 +111,6 @@ NODE_ENV=production docker compose exec app node scripts/initData.js
 ### 前提条件
 
 - `data/parsed_data.json` が存在すること（Gitリポジトリに含まれている）
-- データベースが起動していること
 
 ### デプロイ手順
 
@@ -123,7 +118,7 @@ NODE_ENV=production docker compose exec app node scripts/initData.js
 2. データベースのマイグレーションを実行：
 
 ```bash
-NODE_ENV=production docker compose exec app npx prisma migrate deploy
+docker compose exec app npx prisma db push
 ```
 
 3. データを初期化：
@@ -173,7 +168,8 @@ Parking/
 │       └── initData.js   # データ初期化スクリプト
 ├── data/
 │   ├── TP_manual.xls     # エクセルファイル（Git管理外）
-│   └── parsed_data.json  # 解析済みJSONファイル（Git管理）
+│   ├── parsed_data.json  # 解析済みJSONファイル（Git管理）
+│   └── database.db       # SQLiteデータベースファイル（Git管理外）
 ├── docs/                 # ドキュメント
 ├── compose.yaml          # Docker Compose設定
 └── README.md            # このファイル
@@ -183,7 +179,9 @@ Parking/
 
 - エクセルファイル（`data/TP_manual.xls`）はGit管理外です
 - JSONファイル（`data/parsed_data.json`）はGit管理に含まれます（本番環境で使用するため）
+- SQLiteデータベースファイル（`data/database.db`）はGit管理外です
 - 本番環境では `xlsx` ライブラリは不要です（JSONファイルのみ使用）
+- SQLiteはファイルベースなので、バックアップは `data/database.db` をコピーするだけです
 
 ## トラブルシューティング
 
@@ -197,14 +195,29 @@ Parking/
 
 ### データベース接続エラー
 
-データベースが起動しているか確認：
+SQLiteファイルが存在するか確認：
 
 ```bash
-docker compose ps
+ls -lh data/database.db
 ```
 
-データベースを再起動：
+データベースを再初期化する場合：
 
 ```bash
-docker compose restart db
+# データベースファイルを削除（必要に応じて）
+rm data/database.db
+
+# データベースを再作成
+docker compose exec app npx prisma db push
+
+# データを再インポート
+docker compose exec app npm run init:dev
+```
+
+### データベースがロックされているエラー
+
+複数のプロセスが同時にデータベースにアクセスしている可能性があります。アプリケーションを一度停止して再起動してください：
+
+```bash
+docker compose restart app
 ```
