@@ -219,7 +219,7 @@ function parseSensorStatusFromExcel(workbook) {
   return sensors;
 }
 
-// エクセルファイルを解析してJSONファイルを生成
+// エクセルファイルを解析してJSONファイルを生成（故障マスタのみ）
 async function parseExcelToJson() {
   console.log('=== エクセルファイルを解析してJSONファイルを生成 ===\n');
 
@@ -231,15 +231,13 @@ async function parseExcelToJson() {
   const fileBuffer = fs.readFileSync(filePath);
   const workbook = XLSX.read(fileBuffer, { type: 'buffer' });
 
-  // データを解析
+  // 故障マスタのみを解析（センサ状態はparsed_data_mt_sensor.jsonから読み込む）
   const faults = parseFaultMasterFromExcel(workbook);
-  const sensors = parseSensorStatusFromExcel(workbook);
 
-  // JSONファイルに保存
+  // JSONファイルに保存（故障マスタのみ）
   const outputPath = '/data/parsed_data.json';
   const data = {
     faults,
-    sensors,
     generatedAt: new Date().toISOString(),
   };
 
@@ -247,9 +245,29 @@ async function parseExcelToJson() {
 
   console.log(`\nJSONファイルを生成しました: ${outputPath}`);
   console.log(`  故障マスタ: ${faults.length}件`);
-  console.log(`  センサ状態: ${sensors.length}件`);
 
   return data;
+}
+
+// parsed_data_mt_sensor.jsonからセンサ状態データを読み込む
+function loadMtSensorData() {
+  console.log('=== MTセンサデータの読み込み ===\n');
+
+  const mtSensorPath = '/data/parsed_data_mt_sensor.json';
+  if (!fs.existsSync(mtSensorPath)) {
+    throw new Error(
+      `MTセンサデータファイルが見つかりません: ${mtSensorPath}\n` +
+        '先にconvertMtSensor.jsを実行してparsed_data_mt_sensor.jsonを生成してください。',
+    );
+  }
+
+  const data = JSON.parse(fs.readFileSync(mtSensorPath, 'utf8'));
+
+  console.log(`MTセンサデータファイルを読み込みました: ${mtSensorPath}`);
+  console.log(`  生成日時: ${data.generatedAt || '不明'}`);
+  console.log(`  センサ状態: ${data.sensors?.length || 0}件`);
+
+  return data.sensors || [];
 }
 
 // JSONファイルからデータベースに保存
@@ -324,10 +342,11 @@ async function saveSensorStatusToDB(sensors) {
   console.log(`  エラー: ${errorCount}件`);
 }
 
-// JSONファイルからデータベースに読み込む
+// JSONファイルからデータベースに読み込む（本番環境用）
 async function loadFromJson() {
   console.log('=== JSONファイルからデータベースに読み込み ===\n');
 
+  // 故障マスタデータの読み込み
   const jsonPath = '/data/parsed_data.json';
   if (!fs.existsSync(jsonPath)) {
     throw new Error(
@@ -341,10 +360,12 @@ async function loadFromJson() {
   console.log(`JSONファイルを読み込みました: ${jsonPath}`);
   console.log(`  生成日時: ${data.generatedAt || '不明'}`);
   console.log(`  故障マスタ: ${data.faults?.length || 0}件`);
-  console.log(`  センサ状態: ${data.sensors?.length || 0}件`);
+
+  // MTセンサデータの読み込み
+  const mtSensors = loadMtSensorData();
 
   await saveFaultMasterToDB(data.faults || []);
-  await saveSensorStatusToDB(data.sensors || []);
+  await saveSensorStatusToDB(mtSensors);
 
   console.log('\n=== データベース保存完了 ===');
 }
@@ -354,11 +375,17 @@ async function main() {
     const isDevelopment = process.env.NODE_ENV !== 'production';
 
     if (isDevelopment) {
-      // 開発環境：エクセル解析 → JSON生成 → DB保存
+      // 開発環境：エクセル解析（故障マスタ） → JSON生成 → MTセンサデータ読み込み → DB保存
       console.log('【開発環境モード】\n');
+      
+      // 故障マスタ：エクセルから解析
       const data = await parseExcelToJson();
       await saveFaultMasterToDB(data.faults);
-      await saveSensorStatusToDB(data.sensors);
+      
+      // センサ状態：parsed_data_mt_sensor.jsonから読み込み
+      const mtSensors = loadMtSensorData();
+      await saveSensorStatusToDB(mtSensors);
+      
       console.log('\n=== データ初期化完了 ===');
     } else {
       // 本番環境：JSONファイルからDB保存
