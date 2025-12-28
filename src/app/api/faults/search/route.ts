@@ -11,18 +11,17 @@ export async function GET(request: Request) {
     }
 
     // 検索条件を構築
-    // SQLiteでは mode: "insensitive" がサポートされていないため削除
     const orConditions: any[] = [
-      { faultCode: { contains: query } },
-      { faultName: { contains: query } },
-      { faultContent: { contains: query } },
+      { faultCode: { contains: query, mode: "insensitive" } },
+      { faultName: { contains: query, mode: "insensitive" } },
+      { faultContent: { contains: query, mode: "insensitive" } },
     ];
 
     // displayCodeがNULLでない場合のみ検索条件に追加
     orConditions.push({
       AND: [
         { displayCode: { not: null } },
-        { displayCode: { contains: query } },
+        { displayCode: { contains: query, mode: "insensitive" } },
       ],
     });
 

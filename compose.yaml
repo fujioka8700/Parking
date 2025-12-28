@@ -1,4 +1,20 @@
 services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: parking_user
+      POSTGRES_PASSWORD: parking_password
+      POSTGRES_DB: parking_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U parking_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   app:
     image: node:24
     working_dir: /app
@@ -11,6 +27,12 @@ services:
       - ./data:/data
     environment:
       - WATCHPACK_POLLING=true
-      - DATABASE_URL=file:/data/database.db
+      - DATABASE_URL=postgresql://parking_user:parking_password@db:5432/parking_db?schema=public
+    depends_on:
+      db:
+        condition: service_healthy
     command: >
       sh -c "npm run dev"
+
+volumes:
+  postgres_data:

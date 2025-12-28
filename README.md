@@ -10,7 +10,7 @@
 - React 19
 - TypeScript
 - Prisma
-- SQLite
+- PostgreSQL 16
 - Tailwind CSS
 - Docker Compose
 
@@ -35,7 +35,7 @@ docker compose up -d
 docker compose exec app npx prisma db push
 ```
 
-SQLite はファイルベースなので、別途データベースサーバーは不要です。
+PostgreSQL コンテナが自動的に起動し、データベースが初期化されます。
 
 ### 4. データの初期化
 
@@ -135,7 +135,7 @@ docker compose exec app npm run init:prod
 - `data/parsed_data.json` が存在すること（Git リポジトリに含まれている）
 - `data/parsed_data_mt_sensor.json` が存在すること（Git リポジトリに含まれている）
 
-### デプロイ手順
+### Docker Compose でのデプロイ
 
 1. コードをデプロイ
 2. データベースのマイグレーションを実行：
@@ -147,14 +147,36 @@ docker compose exec app npx prisma db push
 3. データを初期化：
 
 ```bash
-NODE_ENV=production docker compose exec app node scripts/initData.js
+docker compose exec app npm run init:prod
 ```
 
 4. アプリケーションを起動：
 
 ```bash
-NODE_ENV=production docker compose exec app npm run start
+docker compose exec app npm run start
 ```
+
+### Vercel でのデプロイ
+
+1. **環境変数の設定**
+
+   - Vercel のダッシュボードで `DATABASE_URL` 環境変数を設定
+   - PostgreSQL データベースの接続文字列を設定（例: `postgresql://user:password@host:5432/database?schema=public`）
+
+2. **ビルド設定**
+
+   - `package.json` の `build` スクリプトで `prisma generate` が実行されることを確認
+   - Vercel は Next.js プロジェクトを自動検出するため、特別な設定ファイルは不要です
+
+3. **デプロイ後のデータ初期化**
+   - Vercel のデプロイ後、データベースに接続して以下を実行：
+   ```bash
+   npx prisma db push
+   npm run init:prod
+   ```
+   - または、Vercel の環境変数で `DATABASE_URL` を設定後、自動的にマイグレーションが実行されるように設定
+
+**注意**: Vercel はサーバーレス環境のため、PostgreSQL データベースは外部サービス（例: Vercel Postgres、Supabase、Neon など）を使用する必要があります。
 
 ## 開発コマンド
 
@@ -193,8 +215,7 @@ Parking/
 │   ├── TP_manual.xls           # エクセルファイル（Git管理外）
 │   ├── mt_sensor.json          # MTセンサ定義ファイル（Git管理）
 │   ├── parsed_data.json        # 解析済みJSONファイル（故障マスタ、Git管理）
-│   ├── parsed_data_mt_sensor.json  # MTセンサデータ（Git管理）
-│   └── database.db              # SQLiteデータベースファイル（Git管理外）
+│   └── parsed_data_mt_sensor.json  # MTセンサデータ（Git管理）
 ├── docs/                 # ドキュメント
 ├── compose.yaml          # Docker Compose設定
 └── README.md            # このファイル
@@ -204,9 +225,8 @@ Parking/
 
 - エクセルファイル（`data/TP_manual.xls`）は Git 管理外です
 - JSON ファイル（`data/parsed_data.json`、`data/parsed_data_mt_sensor.json`）は Git 管理に含まれます（本番環境で使用するため）
-- SQLite データベースファイル（`data/database.db`）は Git 管理外です
 - 本番環境では `xlsx` ライブラリは不要です（JSON ファイルのみ使用）
-- SQLite はファイルベースなので、バックアップは `data/database.db` をコピーするだけです
+- PostgreSQL データベースは Docker ボリューム（`postgres_data`）に保存されます
 - センサ状態データは`parsed_data_mt_sensor.json`から読み込まれます（エクセルファイルからは読み込みません）
 
 ## センサ状態ページについて
@@ -232,17 +252,20 @@ Parking/
 
 ### データベース接続エラー
 
-SQLite ファイルが存在するか確認：
+PostgreSQL コンテナが起動しているか確認：
 
 ```bash
-ls -lh data/database.db
+docker compose ps
 ```
 
 データベースを再初期化する場合：
 
 ```bash
-# データベースファイルを削除（必要に応じて）
-rm data/database.db
+# データベースボリュームを削除（必要に応じて）
+docker compose down -v
+
+# コンテナを再起動
+docker compose up -d
 
 # データベースを再作成
 docker compose exec app npx prisma db push
@@ -251,10 +274,14 @@ docker compose exec app npx prisma db push
 docker compose exec app npm run init:dev
 ```
 
-### データベースがロックされているエラー
+### データベース接続タイムアウト
 
-複数のプロセスが同時にデータベースにアクセスしている可能性があります。アプリケーションを一度停止して再起動してください：
+PostgreSQL コンテナの起動を待ってからアプリケーションを起動してください：
 
 ```bash
+# PostgreSQL のヘルスチェックを確認
+docker compose ps db
+
+# アプリケーションを再起動
 docker compose restart app
 ```

@@ -10,11 +10,10 @@ export async function GET(request: Request) {
     const searchCondition: any = {};
 
     if (query.trim()) {
-      // SQLiteでは mode: "insensitive" がサポートされていないため削除
       searchCondition.OR = [
-        { sensorCode: { contains: query } },
-        { sensorName: { contains: query } },
-        { description: { contains: query } },
+        { sensorCode: { contains: query, mode: "insensitive" } },
+        { sensorName: { contains: query, mode: "insensitive" } },
+        { description: { contains: query, mode: "insensitive" } },
       ];
     }
 
