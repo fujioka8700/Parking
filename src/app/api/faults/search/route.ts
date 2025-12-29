@@ -11,20 +11,12 @@ export async function GET(request: Request) {
       return NextResponse.json({ faults: [] });
     }
 
-    // 検索条件を構築
+    // 検索条件を構築（displayCodeは検索対象外）
     const orConditions: any[] = [
       { faultCode: { contains: query, mode: "insensitive" as const } },
       { faultName: { contains: query, mode: "insensitive" as const } },
       { faultContent: { contains: query, mode: "insensitive" as const } },
     ];
-
-    // displayCodeがNULLでない場合のみ検索条件に追加
-    orConditions.push({
-      AND: [
-        { displayCode: { not: null } },
-        { displayCode: { contains: query, mode: "insensitive" as const } },
-      ],
-    });
 
     const searchCondition: any = {
       OR: orConditions,
