@@ -5,9 +5,14 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const query = searchParams.get("q") || "";
+    const parkingType = searchParams.get("parkingType") || null;
 
     // 検索条件を構築
     const searchCondition: any = {};
+
+    if (parkingType) {
+      searchCondition.parkingType = parkingType;
+    }
 
     if (query.trim()) {
       searchCondition.OR = [
@@ -19,7 +24,7 @@ export async function GET(request: Request) {
 
     const sensors = await prisma.sensorStatus.findMany({
       where: searchCondition,
-      orderBy: { sensorCode: "asc" },
+      orderBy: { sensorCode: "asc" as const },
       take: 100, // 最大100件
     });
 

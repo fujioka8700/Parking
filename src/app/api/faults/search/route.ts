@@ -5,6 +5,7 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const query = searchParams.get("q") || "";
+    const parkingType = searchParams.get("parkingType") || null;
 
     if (!query.trim()) {
       return NextResponse.json({ faults: [] });
@@ -29,6 +30,18 @@ export async function GET(request: Request) {
       OR: orConditions,
       // isActiveの条件を削除して、欠番も含めて全データを検索可能にする
     };
+
+    // 駐車場タイプでフィルタリング
+    // タワーパーク（M）とタワーパーク（MT）の両方で「タワーパーク」の故障コードを表示
+    if (parkingType) {
+      if (parkingType === 'tower_m' || parkingType === 'tower_mt') {
+        searchCondition.parkingType = 'タワーパーク';
+      } else {
+        // 他の駐車場タイプの場合は、そのまま使用（将来の拡張用）
+        // 駐車場タイプのマッピングが必要な場合はここで実装
+        searchCondition.parkingType = parkingType;
+      }
+    }
 
     const faults = await prisma.faultMaster.findMany({
       where: searchCondition,

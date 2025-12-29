@@ -9,30 +9,35 @@ generator client {
 
 // 故障マスタ
 model FaultMaster {
-  id            Int      @id @default(autoincrement())
-  faultCode     String   @unique // Mコード（M32, M33など）
-  displayCode   String?  // 表示コード（1, 2, 3など）
-  faultName     String   // 故障名称
-  faultContent  String?  // 故障内容（詳細）
-  solution      String?  // 対応方法・チェック項目
-  isActive      Boolean  @default(true) // 有効フラグ（欠番の場合はfalse）
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id           Int      @id @default(autoincrement())
+  faultCode    String   @unique // Mコード（M32, M33など）
+  displayCode  String? // 表示コード（1, 2, 3など）
+  faultName    String // 故障名称
+  faultContent String? // 故障内容（詳細）
+  solution     String? // 対応方法・チェック項目
+  isActive     Boolean  @default(true) // 有効フラグ（欠番の場合はfalse）
+  parkingType  String @default("タワーパーク") // 駐車場の種類（タワーパーク、リフトパークなど）
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@index([faultCode])
   @@index([displayCode])
   @@index([faultName])
+  @@index([parkingType])
 }
 
 // センサ状態マスタ
 model SensorStatus {
   id          Int      @id @default(autoincrement())
-  sensorCode  String   @unique // センサコード（X000など）
-  sensorName  String   // センサ名称
-  description String?  // センサの説明
+  sensorCode  String // センサコード（X000など）
+  sensorName  String // センサ名称
+  description String? // センサの説明
+  parkingType String // 駐車場の種類（タワーパーク（M）、タワーパーク（MT）など）
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  @@unique([sensorCode, parkingType])
   @@index([sensorCode])
   @@index([sensorName])
+  @@index([parkingType])
 }

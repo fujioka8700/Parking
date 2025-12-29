@@ -208,17 +208,19 @@ Web アプリケーションとして、以下の機能を提供する：
 ### 7.4 データ初期化プロセス
 
 #### 開発環境
+
 1. エクセルファイル（`data/TP_manual.xls`）を解析
-2. JSONファイル（`data/parsed_data.json`）を生成（故障マスタのみ）
-3. MTセンサデータ（`data/parsed_data_mt_sensor.json`）を読み込み
-4. PostgreSQLデータベースに保存
+2. JSON ファイル（`data/parsed_data_tower_code.json`）を生成（故障マスタのみ）
+3. MT センサデータ（`data/parsed_data_mt_sensor.json`）を読み込み
+4. PostgreSQL データベースに保存
 
 #### 本番環境
-1. 事前に生成されたJSONファイル（`data/parsed_data.json`）を読み込み
-2. MTセンサデータ（`data/parsed_data_mt_sensor.json`）を読み込み
-3. PostgreSQLデータベースに保存
 
-**注意**: 本番環境では `xlsx` ライブラリは不要（JSONファイルのみ使用）
+1. 事前に生成された JSON ファイル（`data/parsed_data_tower_code.json`）を読み込み
+2. MT センサデータ（`data/parsed_data_mt_sensor.json`）を読み込み
+3. PostgreSQL データベースに保存
+
+**注意**: 本番環境では `xlsx` ライブラリは不要（JSON ファイルのみ使用）
 
 ---
 
@@ -268,7 +270,7 @@ Web アプリケーションとして、以下の機能を提供する：
 
 - **コンテナ**: Docker Compose
 - **アプリケーションコンテナ**: Node.js 24
-- **データベース**: PostgreSQL 16（Dockerコンテナとして実行）
+- **データベース**: PostgreSQL 16（Docker コンテナとして実行）
 
 ### 9.4 開発ツール
 
@@ -286,8 +288,8 @@ Web アプリケーションとして、以下の機能を提供する：
 2. Prisma マイグレーション
 3. 基本的な UI コンポーネントの作成
 4. データ初期化スクリプトの実装
-   - 開発環境: エクセルファイル → JSONファイル生成 → データベース保存
-   - 本番環境: JSONファイル → データベース保存
+   - 開発環境: エクセルファイル → JSON ファイル生成 → データベース保存
+   - 本番環境: JSON ファイル → データベース保存
 
 ### 10.2 フェーズ 2: 故障コード検索機能（優先度: 高）
 
@@ -313,8 +315,8 @@ Web アプリケーションとして、以下の機能を提供する：
 ### 11.1 技術的制約
 
 - エクセルファイルの形式が固定（「TP_manual.xls」形式）
-- データベースは PostgreSQL 16 を使用（Dockerコンテナとして実行）
-- 開発環境ではエクセルファイルからJSONファイルを生成し、本番環境ではJSONファイルからデータベースに読み込む
+- データベースは PostgreSQL 16 を使用（Docker コンテナとして実行）
+- 開発環境ではエクセルファイルから JSON ファイルを生成し、本番環境では JSON ファイルからデータベースに読み込む
 - Docker 環境での動作を前提とする
 
 ### 11.2 業務的制約

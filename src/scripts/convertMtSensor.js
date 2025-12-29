@@ -34,6 +34,7 @@ const outputData = {
   sensors,
   generatedAt: new Date().toISOString(),
   source: 'mt_sensor.json',
+  parkingType: 'タワーパーク（MT）',
 };
 
 // ファイルに保存
@@ -43,6 +44,7 @@ fs.writeFileSync(outputPath, JSON.stringify(outputData, null, 2), 'utf8');
 console.log('変換完了:');
 console.log(`  入力: ${mtSensorPath}`);
 console.log(`  出力: ${outputPath}`);
+console.log(`  駐車場タイプ: ${outputData.parkingType}`);
 console.log(`  センサ数: ${sensors.length}件`);
 
 
