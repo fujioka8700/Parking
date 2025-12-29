@@ -168,15 +168,27 @@ docker compose exec app npm run start
    - `package.json` の `build` スクリプトで `prisma generate` が実行されることを確認
    - Vercel は Next.js プロジェクトを自動検出するため、特別な設定ファイルは不要です
 
-3. **デプロイ後のデータ初期化**
-   - Vercel のデプロイ後、データベースに接続して以下を実行：
+3. **データベースのマイグレーションとデータ初期化**
+
+   - Vercel のビルド時に自動的に実行されます：
+     - `postbuild` スクリプトで `prisma db push` とデータ初期化が実行されます
+     - 既存データが存在する場合は、データ投入をスキップします
+   - 手動で実行する場合：
+
    ```bash
    npx prisma db push
    npm run init:prod
    ```
-   - または、Vercel の環境変数で `DATABASE_URL` を設定後、自動的にマイグレーションが実行されるように設定
 
-**注意**: Vercel はサーバーレス環境のため、PostgreSQL データベースは外部サービス（例: Vercel Postgres、Supabase、Neon など）を使用する必要があります。
+4. **環境変数の設定**
+   - Vercel のダッシュボードで `DATABASE_URL` 環境変数を設定
+   - Neon データベースの接続文字列を設定（例: `postgresql://user:password@host:5432/database?schema=public`）
+
+**注意**:
+
+- Vercel はサーバーレス環境のため、PostgreSQL データベースは外部サービス（例: Vercel Postgres、Supabase、Neon など）を使用する必要があります
+- データ初期化スクリプトは既存データをチェックし、データが存在する場合は投入をスキップします
+- `data/parsed_data.json` と `data/parsed_data_mt_sensor.json` が Git リポジトリに含まれている必要があります
 
 ## 開発コマンド
 

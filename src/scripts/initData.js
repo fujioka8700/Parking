@@ -270,6 +270,39 @@ function loadMtSensorData() {
   return data.sensors || [];
 }
 
+// パスを指定してMTセンサデータを読み込む（Vercel環境用）
+function loadMtSensorDataFromPath(mtSensorPath) {
+  console.log('=== MTセンサデータの読み込み ===\n');
+
+  if (!fs.existsSync(mtSensorPath)) {
+    throw new Error(
+      `MTセンサデータファイルが見つかりません: ${mtSensorPath}\n` +
+        '先にconvertMtSensor.jsを実行してparsed_data_mt_sensor.jsonを生成してください。',
+    );
+  }
+
+  const data = JSON.parse(fs.readFileSync(mtSensorPath, 'utf8'));
+
+  console.log(`MTセンサデータファイルを読み込みました: ${mtSensorPath}`);
+  console.log(`  生成日時: ${data.generatedAt || '不明'}`);
+  console.log(`  センサ状態: ${data.sensors?.length || 0}件`);
+
+  return data.sensors || [];
+}
+
+// データベースに既存データがあるかチェック
+async function hasExistingData() {
+  try {
+    const faultCount = await prisma.faultMaster.count();
+    const sensorCount = await prisma.sensorStatus.count();
+    return faultCount > 0 || sensorCount > 0;
+  } catch (error) {
+    console.error('データチェックエラー:', error);
+    // エラーが発生した場合は、安全のためfalseを返す（データ投入を試みる）
+    return false;
+  }
+}
+
 // JSONファイルからデータベースに保存
 async function saveFaultMasterToDB(faults) {
   console.log('=== 故障マスタデータのデータベース保存 ===\n');
@@ -346,13 +379,37 @@ async function saveSensorStatusToDB(sensors) {
 async function loadFromJson() {
   console.log('=== JSONファイルからデータベースに読み込み ===\n');
 
+  // 既存データのチェック
+  const hasData = await hasExistingData();
+  if (hasData) {
+    console.log('既存のデータが検出されました。データ投入をスキップします。');
+    const faultCount = await prisma.faultMaster.count();
+    const sensorCount = await prisma.sensorStatus.count();
+    console.log(`  故障マスタ: ${faultCount}件`);
+    console.log(`  センサ状態: ${sensorCount}件`);
+    return;
+  }
+
+  console.log('既存データが見つかりませんでした。データを投入します。\n');
+
   // 故障マスタデータの読み込み
   const jsonPath = '/data/parsed_data.json';
   if (!fs.existsSync(jsonPath)) {
-    throw new Error(
-      `JSONファイルが見つかりません: ${jsonPath}\n` +
-        '開発環境で先にエクセルファイルを解析してJSONファイルを生成してください。',
-    );
+    // Vercel環境では/dataディレクトリが存在しない可能性があるため、
+    // プロジェクトルートからの相対パスも試す
+    const altPath = './data/parsed_data.json';
+    if (!fs.existsSync(altPath)) {
+      throw new Error(
+        `JSONファイルが見つかりません: ${jsonPath} または ${altPath}\n` +
+          '開発環境で先にエクセルファイルを解析してJSONファイルを生成してください。',
+      );
+    }
+    const data = JSON.parse(fs.readFileSync(altPath, 'utf8'));
+    const mtSensors = loadMtSensorDataFromPath('./data/parsed_data_mt_sensor.json');
+    await saveFaultMasterToDB(data.faults || []);
+    await saveSensorStatusToDB(mtSensors);
+    console.log('\n=== データベース保存完了 ===');
+    return;
   }
 
   const data = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
@@ -373,8 +430,9 @@ async function loadFromJson() {
 async function main() {
   try {
     const isDevelopment = process.env.NODE_ENV !== 'production';
+    const isVercel = process.env.VERCEL === '1' || process.env.VERCEL_ENV;
 
-    if (isDevelopment) {
+    if (isDevelopment && !isVercel) {
       // 開発環境：エクセル解析（故障マスタ） → JSON生成 → MTセンサデータ読み込み → DB保存
       console.log('【開発環境モード】\n');
       
@@ -388,13 +446,20 @@ async function main() {
       
       console.log('\n=== データ初期化完了 ===');
     } else {
-      // 本番環境：JSONファイルからDB保存
+      // 本番環境（Vercel含む）：JSONファイルからDB保存（既存データチェック付き）
       console.log('【本番環境モード】\n');
       await loadFromJson();
     }
   } catch (error) {
     console.error('エラーが発生しました:', error);
-    process.exit(1);
+    // Vercel環境では、エラーが発生してもビルドを続行できるようにexit(0)にする
+    // ただし、重要なエラーはログに記録される
+    if (process.env.VERCEL === '1' || process.env.VERCEL_ENV) {
+      console.error('Vercel環境でのデータ初期化エラー（ビルドは続行されます）');
+      process.exit(0);
+    } else {
+      process.exit(1);
+    }
   } finally {
     await prisma.$disconnect();
   }
@@ -409,4 +474,5 @@ module.exports = {
   loadFromJson,
   saveFaultMasterToDB,
   saveSensorStatusToDB,
+  hasExistingData,
 };
