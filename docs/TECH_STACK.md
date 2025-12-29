@@ -39,6 +39,8 @@
 - **React Server Components**
   - Next.js App Router の Server Components
   - サーバーサイドでの状態管理
+- **React Context API**
+  - 駐車場タイプのグローバル状態管理（`ParkingTypeContext`）
   - クライアントサイドの状態管理は必要に応じて React Hooks を使用
 
 ---
@@ -59,9 +61,12 @@
 ### ORM
 - **Prisma 6.19.0**
   - 型安全なデータベースアクセス
-  - マイグレーション管理
+  - マイグレーション管理（`prisma db push` を使用）
   - Prisma Studio によるデータ管理
   - 自動生成される Prisma Client
+  - データベーススキーマ：
+    - `FaultMaster`: 故障マスタ（`parkingType` フィールドを含む）
+    - `SensorStatus`: センサ状態マスタ（`parkingType` フィールドを含む）
 
 ### データベース
 - **PostgreSQL 16**
@@ -169,12 +174,16 @@ src/
 │   ├── (routes)/    # ルートグループ
 │   └── api/         # API ルート
 ├── components/       # React コンポーネント
+│   └── ParkingTypeSelector.tsx  # 駐車場タイプ選択コンポーネント
+├── contexts/         # React Context
+│   └── ParkingTypeContext.tsx   # 駐車場タイプ管理コンテキスト
 ├── lib/             # ユーティリティ関数
-│   └── prisma.js    # Prisma Client の初期化
+│   └── prisma.ts    # Prisma Client の初期化
 ├── prisma/          # Prisma スキーマとマイグレーション
 │   └── schema.prisma
 └── scripts/         # スクリプトファイル
-    └── parseExcel.js
+    ├── initData.js  # データ初期化スクリプト
+    └── convertMtSensor.js  # MTセンサデータ変換スクリプト
 ```
 
 ### データフロー

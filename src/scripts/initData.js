@@ -399,8 +399,8 @@ async function hasExistingData() {
 }
 
 // JSONファイルからデータベースに保存
-async function saveFaultMasterToDB(faults) {
-  console.log('=== 故障マスタデータのデータベース保存 ===\n');
+async function saveFaultMasterToDB(faults, parkingType = 'タワーパーク') {
+  console.log(`=== 故障マスタデータのデータベース保存（${parkingType}）===\n`);
 
   let successCount = 0;
   let errorCount = 0;
@@ -415,6 +415,7 @@ async function saveFaultMasterToDB(faults) {
           faultContent: fault.faultContent,
           solution: fault.solution,
           isActive: fault.isActive,
+          parkingType: parkingType,
         },
         create: {
           faultCode: fault.faultCode,
@@ -423,6 +424,7 @@ async function saveFaultMasterToDB(faults) {
           faultContent: fault.faultContent,
           solution: fault.solution,
           isActive: fault.isActive,
+          parkingType: parkingType,
         },
       });
       successCount++;
@@ -552,7 +554,8 @@ async function loadFromJson() {
     }
   }
 
-  await saveFaultMasterToDB(data.faults || []);
+  const parkingType = data.parkingType || 'タワーパーク';
+  await saveFaultMasterToDB(data.faults || [], parkingType);
   await saveSensorStatusToDB(mtSensorData.sensors, mtSensorData.parkingType);
 
   if (mSensorPath) {
@@ -574,7 +577,8 @@ async function main() {
       
       // 故障マスタ：エクセルから解析
       const data = await parseExcelToJson();
-      await saveFaultMasterToDB(data.faults);
+      const parkingType = data.parkingType || 'タワーパーク';
+      await saveFaultMasterToDB(data.faults, parkingType);
       
       // センサ状態：parsed_data_mt_sensor.jsonとparsed_data_m_sensor.jsonから読み込み
       const mtSensorData = loadMtSensorData();

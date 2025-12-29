@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParkingType } from "@/contexts/ParkingTypeContext";
 
 interface Fault {
   id: number;
@@ -13,10 +14,18 @@ interface Fault {
 }
 
 export default function HomePage() {
+  const { parkingType } = useParkingType();
   const [query, setQuery] = useState("");
   const [faults, setFaults] = useState<Fault[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedFault, setSelectedFault] = useState<Fault | null>(null);
+
+  // 駐車場の種類が変更されたときに検索入力と検索結果をリセット
+  useEffect(() => {
+    setQuery("");
+    setFaults([]);
+    setSelectedFault(null);
+  }, [parkingType]);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,7 +36,9 @@ export default function HomePage() {
 
     setLoading(true);
     try {
-      const response = await fetch(`/api/faults/search?q=${encodeURIComponent(query)}`);
+      const response = await fetch(
+        `/api/faults/search?q=${encodeURIComponent(query)}&parkingType=${encodeURIComponent(parkingType)}`
+      );
       const data = await response.json();
       setFaults(data.faults || []);
     } catch (error) {
