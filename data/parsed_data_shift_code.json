@@ -1,0 +1,902 @@
+{
+  "faults": [
+    {
+      "faultCode": "1",
+      "displayCode": null,
+      "faultName": "非常停止",
+      "faultContent": "機内及び操作盤の非常停止釦ON。を検知(動作モード10(入出庫)時を除く)",
+      "solution": "ボタンの接点不良および緩み。配線(断線・端子での抜け等)の確認。入力：B642 B642・B643",
+      "isActive": true
+    },
+    {
+      "faultCode": "2",
+      "displayCode": null,
+      "faultName": "場内安全確認センサ動作",
+      "faultContent": "自動モード切替え時に、場内安全確認センサONを検知",
+      "solution": "センサの動作状態、光電センサの場合は光軸のチェック及び配線(断線・端子での抜け等)の確認、感度のチェック。入力：左B638 右B639",
+      "isActive": true
+    },
+    {
+      "faultCode": "3",
+      "displayCode": null,
+      "faultName": "搬入口扉・非常脱出扉開",
+      "faultContent": "非常脱出扉の開LSを検知。格納箱：X27",
+      "solution": "扉閉を検知するLSを確認、接点、配線を検知。入力：X27",
+      "isActive": true
+    },
+    {
+      "faultCode": "4",
+      "displayCode": null,
+      "faultName": "格納箱扉非常脱出扉開",
+      "faultContent": "非常脱出扉の開LSを検知。格納箱：X27",
+      "solution": "扉閉を検知するLSを確認、接点、配線を検知。入力：X27",
+      "isActive": true
+    },
+    {
+      "faultCode": "5",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": "車の停止位置をチェック。車のドアが開いていないか、車がパレットよりはみ出していないかチェック。センサの動作状態、光電センサの場合は光軸のチェック及び配線（断線・端子での抜け等）の確認。感度のチェック。",
+      "isActive": false
+    },
+    {
+      "faultCode": "6",
+      "displayCode": null,
+      "faultName": "車両はみ出し",
+      "faultContent": "自動運転で扉閉後、90゜下降中旋回後車幅PH遮光 入力Ｂ11Ｂ",
+      "solution": "車の停止位置をチェック。車のドアが開いていないか、車がパレットよりはみ出していないかチェック。センサの動作状態、光電センサの場合は光軸のチェック及び配線（断線・端子での抜け等）の確認。感度のチェック。",
+      "isActive": true
+    },
+    {
+      "faultCode": "7",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": "車の停止位置をチェック。車のドアが開いていないか、車がパレットよりはみ出していないかチェック。センサの動作状態、光電センサの場合は光軸のチェック及び配線（断線・端子での抜け等）の確認。感度のチェック。",
+      "isActive": false
+    },
+    {
+      "faultCode": "8",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": "車の停止位置をチェック。車のドアが開いていないか、車がパレットよりはみ出していないかチェック。センサの動作状態、光電センサの場合は光軸のチェック及び配線（断線・端子での抜け等）の確認。感度のチェック。",
+      "isActive": false
+    },
+    {
+      "faultCode": "9",
+      "displayCode": null,
+      "faultName": "サイクルタイムオーバー",
+      "faultContent": "呼出動作モード1・2が15分以内、格納動作モード3・4が10分以内に完了しない",
+      "solution": "停止状態を確認する→次の動作へ移る時の条件が成り立たない時は、前の動作及び次の動作の状況より原因を調査する",
+      "isActive": true
+    },
+    {
+      "faultCode": "10",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "11",
+      "displayCode": null,
+      "faultName": "旋回装置定位位置外れ",
+      "faultContent": "自動モード切替時に旋回停止LSがOFF X300,X301,X306,X307",
+      "solution": "旋回装置の停止状態。旋回位置LSの動作状態及び接点、配線(断線・端子での抜け等)の確認。運転中に(11〜15)の異常が発生した時は、制御盤故障の可能性がある為、メンテナンスSWチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "12",
+      "displayCode": null,
+      "faultName": "正位停止位置外れ",
+      "faultContent": "自動モード切替時に各層のパレット有無およびリフト側の正位置にそれぞれパレットがある。",
+      "solution": "各階リフトのパレット停止位置を確認。各階および光電管の動作状態及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "13",
+      "displayCode": null,
+      "faultName": "リフト停止位置外れ",
+      "faultContent": "自動モード切替時に、乗込口のリフト停止位置ずれている時。",
+      "solution": "倉庫内LS光電管センサーの動作状態及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "14",
+      "displayCode": null,
+      "faultName": "搬入階光電センサ遮光",
+      "faultContent": "自動モード切替え時に、乗入階の光電センサ遮光",
+      "solution": "乗入階のセンサの動作状態、光電センサの場合は光軸のチェック及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "15",
+      "displayCode": null,
+      "faultName": "自動扉開",
+      "faultContent": "自動モード切替時に、扉閉LSがOFF B63E",
+      "solution": "出入口扉の動作状態、扉全閉・全開LSの動作状態及び接点、配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "16",
+      "displayCode": null,
+      "faultName": "消火設備による非常停止",
+      "faultContent": "消火設備非常停止ONを検知 B645",
+      "solution": "消火設備装置の動作状態及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "17",
+      "displayCode": null,
+      "faultName": "入口扉非常停止光電管PH遮光",
+      "faultContent": "自動モードで、呼出、格納中にPH1遮光 B63F",
+      "solution": "センサの動作状態、光電センサの場合は光軸のチェック及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "18",
+      "displayCode": null,
+      "faultName": "ハッチバック光電管遮光",
+      "faultContent": "自動モードで格納運転時にハッチバックPH遮光 1層B205 2層B225 3層B225 4層B285",
+      "solution": "センサの動作状態、光電センサの場合は光軸のチェック及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "19",
+      "displayCode": null,
+      "faultName": "車移動検知",
+      "faultContent": "車移動を検知 1層B206 2層B226 3層B266 4層B286",
+      "solution": "盤及びLSの動作状態及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "20",
+      "displayCode": null,
+      "faultName": "パレット有り光電管不良",
+      "faultContent": "自動モード切替時に各層のパレット有り光電管が作動不良。1層X20B,20C,20D,20E 2層X22B,22C,22D,22E 3層X26B,26C,26D,26E 4層X28B,28C,28D,28E",
+      "solution": "センサの動作状態、光電センサの場合は光軸のチェック及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "21",
+      "displayCode": null,
+      "faultName": "下降時車両はみだし検出",
+      "faultContent": "格納モード時には、見出し検出ON 1層時 B11B",
+      "solution": "車の位置を確認。はみだしがないかを確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "22",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "23",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "24",
+      "displayCode": null,
+      "faultName": "昇降ドア開検出",
+      "faultContent": "各層昇降時にドア開 LSを検知 1層B210 2層B230 3層B270 4層B290",
+      "solution": "LSを確認。リフト上昇時に保持上昇LSを確認 X3D、リフト下降時に下降X3E",
+      "isActive": true
+    },
+    {
+      "faultCode": "25",
+      "displayCode": null,
+      "faultName": "搬送エリア進入検知",
+      "faultContent": "各層搬送エリア内PH及び検知センサー信号が入力された 1層X211,212,213,214 2層X231,232,233,234 3層X271,272,273,274 4層X291,292,293,294",
+      "solution": "センサの動作状態、光電センサの場合は光軸のチェック及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "26",
+      "displayCode": null,
+      "faultName": "旋回装置補正ピンLS異常",
+      "faultContent": "補正ピンの出戻X30A、戻端X30B LSが同時にON",
+      "solution": "LSの動作状態及び接点、配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "27",
+      "displayCode": null,
+      "faultName": "旋回装置補正ピンサイクルタイムオーバー",
+      "faultContent": "自動、半自動運転時補正ピンのリフトが20秒以上ONの状態",
+      "solution": "LSの動作状態及び接点、配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "28",
+      "displayCode": null,
+      "faultName": "旋回装置補正ピン動作条件不成立",
+      "faultContent": "補正ピンの出戻り指示が出ているのに20秒以上、出力Y60,Y61がONしない。",
+      "solution": "LSの動作状態及び接点、配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "29",
+      "displayCode": null,
+      "faultName": "旋回装置補正ピンサーマル作動",
+      "faultContent": "補正ピン過負荷、サーマル入力X0D9",
+      "solution": "補正ピンの動作確認を。サーマル本体を確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "30",
+      "displayCode": null,
+      "faultName": "リフトLS異常",
+      "faultContent": "各層昇降停止位置LS(X37,X38,X39,X3A)が同時にON",
+      "solution": "LSの動作状態及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "31",
+      "displayCode": null,
+      "faultName": "リフト非常上限",
+      "faultContent": "リフトの上昇行過ぎ X030",
+      "solution": "LSの動作状態及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "32",
+      "displayCode": null,
+      "faultName": "リフト非常下限",
+      "faultContent": "リフトの下降行過ぎ X035",
+      "solution": "LSの動作状態及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "33",
+      "displayCode": null,
+      "faultName": "リフト昇降時カウント異常",
+      "faultContent": "昇降中停止センサーONの順番が異常。",
+      "solution": "センサの動作状態、光電センサの場合は光軸のチェック及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "34",
+      "displayCode": null,
+      "faultName": "リフトサイクルタイムオーバー",
+      "faultContent": "サイクルタイムオーバー リフトの移動距離による 40-60秒",
+      "solution": "リフトの動作状態及びロッキング、リフト非常上限、リフト非常下限LSの確認。動力、パレット保持(上昇)・パレット解除(下降)の確認。ブレーキ確認(断線・端子での抜け等)。リフト用出力ユニットの確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "35",
+      "displayCode": null,
+      "faultName": "リフト条件不成立",
+      "faultContent": "自動モードでインターロックにより昇降指令がONしてから2.0sec経過しても、昇降出力しない。作動しない。",
+      "solution": "リフトの動作状態、上・下限LSの動作状態及び接点、配線(断線・端子での抜け等)の確認。リフト用出力ユニットの確認、各層LS X2B,X2D,X2F,X2F、TT停止LS X300,X301,X304,X306,X307等の確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "36",
+      "displayCode": null,
+      "faultName": "リフト昇降インバータ異常",
+      "faultContent": "リフト用昇降インバータ異常信号入力X20がON。",
+      "solution": "インバータからの異常出力信号。空結側のインバータからの入力信号ラインの確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "37",
+      "displayCode": null,
+      "faultName": "リフト停止位置検知用光センサ異常",
+      "faultContent": "停止時、各層リフト停止位置検知LS1層X37 2層X38 3層X39 4層X40 がOFF",
+      "solution": "各階の位置LSの動作状態、接点及び配線(断線・端子での抜け等)の確認をチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "38",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "39",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "40",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "41",
+      "displayCode": null,
+      "faultName": "受付データ異常",
+      "faultContent": "パレット番号が0以下または最大収容台数以上のとき",
+      "solution": "搬送が乗入階のまま自動運転を立ち上げていないか確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "42",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "43",
+      "displayCode": null,
+      "faultName": "扉動作サイクルタイムオーバー",
+      "faultContent": "自動時、扉動作が、一定時間を経過しても完了しない (60sec) 閉B63D, 開B63E",
+      "solution": "扉の動作状態、扉全閉、全開LSの動作状態、接点及び配線(断線・端子での抜け等)の確認。扉開閉用出力ユニットの確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "44",
+      "displayCode": null,
+      "faultName": "扉LS異常",
+      "faultContent": "自動モードでLSが2つ共ONで2秒以上、又は2つ共OFFで60sec継続",
+      "solution": "出入口扉の全閉、全開、LSの動作状態、接点及び配線(断線・端子での抜け等)の確認をチェック。",
+      "isActive": true
+    },
+    {
+      "faultCode": "45",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "46",
+      "displayCode": null,
+      "faultName": "格納箱機器過負荷",
+      "faultContent": "格納箱機器の過負荷信号が入力 1層X200 2層X220 3層X260 4層X280",
+      "solution": "過負荷の状態及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "47",
+      "displayCode": null,
+      "faultName": "扉INV異常",
+      "faultContent": "扉駆動用インバータ本体の異常信号出力、インバータ本体への入力信号はB640。",
+      "solution": "INVのチェック。LSの動作状態及び配線の確認。出入口扉と干渉する物が無いか確認。インバータの配線(断線・端子での抜け等)の確認(インバータ部の不具合)",
+      "isActive": true
+    },
+    {
+      "faultCode": "48",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "49",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "50",
+      "displayCode": null,
+      "faultName": "循環サーマル異常",
+      "faultContent": "主モータ過負荷又はCRC過負荷 X20",
+      "solution": "主モータ、ブレーキの動作状態。主モータ用MC、インバータの動作状態確認及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "51",
+      "displayCode": null,
+      "faultName": "横行停止位置異常",
+      "faultContent": "各層横行停止ゾーン外れ、昇降送り運行時LSがON",
+      "solution": "横行停止ゾーン、昇降送り行過ぎLSの状態及び接点、配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "52",
+      "displayCode": null,
+      "faultName": "横行カウントLS異常",
+      "faultContent": "横行カウント用センサーの信号が横行停止時OFFしない",
+      "solution": "横行カウント用センサー(1層X20A 2層X22A 3層X26A 4層X28A)の動作状態及び接点、配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "53",
+      "displayCode": null,
+      "faultName": "横行サイクルタイムオーバー",
+      "faultContent": "自動モードで横行動作が設定時間(10sec)以上ONの状態であった。",
+      "solution": "パレット横行停止の状態、横行停止LSの動作状態、接点及び配線(断線・端子での抜け等)の確認。停止位置がずれたらそのずれ方向、ずれ寸法の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "54",
+      "displayCode": null,
+      "faultName": "横行条件不成立",
+      "faultContent": "自動モードで横行運転指令が出力して2.0秒経過しても、インターロックにより運転出力しない。",
+      "solution": "各層横行停止LS、縦送り停止LS、パレット有り光電管を確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "55",
+      "displayCode": null,
+      "faultName": "昇降送り行過ぎ検知",
+      "faultContent": "昇降送り行過ぎLSがセンサーON (X29)",
+      "solution": "該当するセンサーの動作状態及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "56",
+      "displayCode": null,
+      "faultName": "昇降送りサーマル作動",
+      "faultContent": "リフト停止時ゾーンセンサーがOFF。",
+      "solution": "横行用モータ、ブレーキ。ブレーキ用MCの動作状態確認及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "57",
+      "displayCode": null,
+      "faultName": "横行送り停止位置異常(リフト)",
+      "faultContent": "リフト側横行停止ゾーンセンサーがOFF。",
+      "solution": "該当層の横行停止LS、パレット有り光電管、昇降送り停止LSの動作状態及び接点、配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "58",
+      "displayCode": null,
+      "faultName": "昇降、循環送り条件不成立",
+      "faultContent": "昇降送り及び循環送り運転指令が一定時間(20秒以上)ONしていても、運転が作動しない。",
+      "solution": "該当層の横行停止LS、パレット有り光電管、昇降送り停止LSの動作状態及び接点、配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "59",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "60",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "61",
+      "displayCode": null,
+      "faultName": "縦送りゾーン異常",
+      "faultContent": "縦送りゾーン入力1層X21A,X21B,X21C,X21D 2層X23A,X23B,X23C,X23D 3層X27A,X27B,X27C,X27D 4層X29A,X29B,X29C,X29D",
+      "solution": "各層ゾーンセンサーの動作状態及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "62",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "63",
+      "displayCode": null,
+      "faultName": "縦送りサイクルタイムオーバー",
+      "faultContent": "縦送り指令が設定時間(45秒)以上ONしても、動作が完了しない。",
+      "solution": "搬送パレットの停止位置、停止LSの状態、接点及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "64",
+      "displayCode": null,
+      "faultName": "縦送り条件不成立",
+      "faultContent": "縦送り指令が設定時間(2.0秒)以上ONしても、縦送り動作へ移らない、出力がONしない。",
+      "solution": "各層の横行停止LSの動作状態、パレット有り光電管の動作状態及び接点、配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "65",
+      "displayCode": null,
+      "faultName": "受け側解放異常",
+      "faultContent": "ラグ出し又はリフト保持が指定時間ONにしても、動作が開始されない(出力がONしない)。",
+      "solution": "動作停止条件及びリフト上限、循環停止、ラグ出、昇降戻しLSの確認。出力ユニットの確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "66",
+      "displayCode": null,
+      "faultName": "パレット停止位置異常",
+      "faultContent": "固定パレット駅(払出)位置確認ゾーン検知センサー(1層X258, 2層X25B)がOFF。",
+      "solution": "固定パレットの停止状態及びゾーンセンサーの状態、配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "67",
+      "displayCode": null,
+      "faultName": "パレット停止位置異常",
+      "faultContent": "固定パレット格納位置確認ゾーン検知センサー(1層X252, 2層X25A)がOFF。",
+      "solution": "固定パレットの停止状態及びゾーンセンサーの状態、配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "68",
+      "displayCode": null,
+      "faultName": "旋回サイクルタイムオーバー",
+      "faultContent": "旋回指示が出力し又は格納動作が40秒以上継続いた。",
+      "solution": "旋回装置の動作状態及び旋回停止LSの動作(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "69",
+      "displayCode": null,
+      "faultName": "旋回位置運転条件不成立",
+      "faultContent": "旋回出し又は格納指令が設定時間(2.0秒)以上ONになっても、動作が始まらない(出力がONしない条件)。",
+      "solution": "旋回動作の横行又は昇降停止位置の動作状態、接点、及び配線(断線・端子での抜け等)の確認. インターロック条件を確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "70",
+      "displayCode": null,
+      "faultName": "補正ピンLS異常",
+      "faultContent": "補正ピンの出戻り指示時LSが、(前向)X2C,X2D,戻(前向)出X2E戻りX2F)が同時にON。",
+      "solution": "LSの動作状態及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "71",
+      "displayCode": null,
+      "faultName": "補正ピンサイクルタイムオーバー",
+      "faultContent": "自動モードで補正ピンの出力出力Y63,Y64インターロックなどが10sec以上ONの状態で継続した。",
+      "solution": "出戻LS 前向 X2E 戻向(X2C,戻りX2D) 戻向 X2F 出側X2Dの動作確認、出力ユニットの確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "72",
+      "displayCode": null,
+      "faultName": "補正ピン条件不成立",
+      "faultContent": "自動モードで補正ピンの運転指令出力は2.0sec経過してもインターロックにより運転出力(前向Y63,Y64、戻りY310,Y311)がONしない。",
+      "solution": "リフト停止位置(X30,X31)、TT停止位置(90°X300,X301,180°X304,X305,X306,X307等)適合LS(1層前向21F,戻向21D等)の動作状態及び接点、配線の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "73",
+      "displayCode": null,
+      "faultName": "補正ピン過負荷",
+      "faultContent": "補正ピンのサーマル前x24戻x23過負荷がON。",
+      "solution": "補正ピンの動作状況を確認。サーマル本体を確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "74",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "75",
+      "displayCode": null,
+      "faultName": "ロッキングLS異常",
+      "faultContent": "ロッキングの戻りと出検出LS (X2A:X2B)が同時にON",
+      "solution": "LSの動作状態及び配線(断線・端子での抜け等)の確認。 着床状態(ずれ方向、ずれ寸法)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "76",
+      "displayCode": null,
+      "faultName": "ロッキングサイクルタイムオーバー",
+      "faultContent": "ロッキングパワーシリンダーが出又は戻り以上出力し続く。と異常とする。",
+      "solution": "PC,MC本体の動作状況、盤等の動作状況を確認。動力電源を確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "77",
+      "displayCode": null,
+      "faultName": "ロッキング条件不成立",
+      "faultContent": "ロッキング動作指令がONしてから2.0秒経過しても、センサーの出力信号Y62がONしない。",
+      "solution": "昇降正位置停止LS X31; X38; 停止ゾーンセンサーX300; TT装置待機 301(180°) X304; X305;X306;X307 (90°)リフトの動作状態及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "78",
+      "displayCode": null,
+      "faultName": "ロッキング過負荷",
+      "faultContent": "ロッキング装置過負荷検知サーマルが作動X22。",
+      "solution": "ロッキング本体及びブレーキ本体、電源確認、の動作状況を確認。絶縁を確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "79",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "80",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "81",
+      "displayCode": null,
+      "faultName": "旋回装置タイムオーバー",
+      "faultContent": "自動モードで旋回装置動作が、一定時間経過しても完了しない (15sec)",
+      "solution": "旋回用インバータ、停止LSの動作及び配線(断線・端子での抜け等)の確認。 旋回リフト、上昇LS、下降LSの動作状態及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "82",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "83",
+      "displayCode": null,
+      "faultName": "旋回装置停止位置異常",
+      "faultContent": "自動モードで入庫、出庫、昇降運転中に、各旋回停止LS(ゾーン)がずれ。(停止位置)以外の状態で5秒経過。",
+      "solution": "旋回の各停止位置LSの状態及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "84",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "85",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "86",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "87",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "88",
+      "displayCode": null,
+      "faultName": "旋回装置条件不成立",
+      "faultContent": "自動モードでTT運転指令出力から2.0sec経過してもモニター、インバータなどの運転出力(前向Y310,Y311がONしない。)",
+      "solution": "旋回停止LS、リフトLS、INVの動作状態及び配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "89",
+      "displayCode": null,
+      "faultName": "昇降インバータ速度(搬出入)未出力異常",
+      "faultContent": "昇降インバータ出力Y70,71がONの後、インバータの運転状態が未出力、X21がOFF。",
+      "solution": "リフト側からインバータへの運転出力信号を確認。インバータ側の運転入力信号を確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "90",
+      "displayCode": null,
+      "faultName": "INV1異常",
+      "faultContent": "インバータ1 異常入力 X25",
+      "solution": "インバータの動作状態及び異常信号の配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "91",
+      "displayCode": null,
+      "faultName": "INV2異常",
+      "faultContent": "インバータ2 異常入力 X26",
+      "solution": "インバータの動作状態及び異常信号の配線(断線・端子での抜け等)の確認。",
+      "isActive": true
+    },
+    {
+      "faultCode": "92",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "93",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "94",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "95",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "96",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "97",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "98",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "99",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "100",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "101",
+      "displayCode": null,
+      "faultName": "ストローブ応答タイムアウト",
+      "faultContent": "ストローブを送信して60秒経過してもストローブ応答がない",
+      "solution": "制御PLC動作をチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "102",
+      "displayCode": null,
+      "faultName": "受信データ異常 (管理PLC)",
+      "faultContent": "制御PLCからモード1,2,3,4,10以外のモードが送信された",
+      "solution": "制御PLC動作をチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "103",
+      "displayCode": null,
+      "faultName": "初期設定不良",
+      "faultContent": "自動モード切替え時、優先モード、操作モードの設定がされていない",
+      "solution": "操作モード、優先モードを設定",
+      "isActive": true
+    },
+    {
+      "faultCode": "104",
+      "displayCode": null,
+      "faultName": "パレットデータ不良",
+      "faultContent": "総パレット数とデータ上のパレット数が異なっている",
+      "solution": "パレット/番地設定で、パレットデータを登録してください",
+      "isActive": true
+    },
+    {
+      "faultCode": "105",
+      "displayCode": null,
+      "faultName": "乗入れ階在荷パレット有り異常",
+      "faultContent": "起動ボタン押下時、乗入れ階に在荷パレットがある",
+      "solution": "乗入れ階在荷をOFFにして下さい",
+      "isActive": true
+    },
+    {
+      "faultCode": "106",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "107",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "108",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "109",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "110",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    },
+    {
+      "faultCode": "111",
+      "displayCode": null,
+      "faultName": "PLCリンク異常",
+      "faultContent": "制御PLC、管理PLC間 MELSECNET-Ⅱ 形式ループ異常が発生",
+      "solution": "MELSECNET Ⅱのリンクを確認(ユニットのエラー表示確認、配線) 制御PLCがRUNになっているか確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "112",
+      "displayCode": null,
+      "faultName": "予備",
+      "faultContent": null,
+      "solution": null,
+      "isActive": false
+    }
+  ],
+  "generatedAt": "2025-12-29T22:28:19.167477Z",
+  "parkingType": "シフトパーク"
+}

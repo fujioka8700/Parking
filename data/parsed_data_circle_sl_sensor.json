@@ -2,242 +2,242 @@
   "sensors": [
     {
       "sensorCode": "X000",
-      "sensorName": "左循環減速",
+      "sensorName": "循環減速検出LS",
       "description": null
     },
     {
       "sensorCode": "X001",
-      "sensorName": "循環停止左",
+      "sensorName": "循環停止位置検出LS",
       "description": null
     },
     {
       "sensorCode": "X002",
-      "sensorName": "予備",
+      "sensorName": "入口部非常停止検出光電管PH1",
       "description": null
     },
     {
       "sensorCode": "X003",
-      "sensorName": "予備",
+      "sensorName": "車輌前後部入口側検出光電管PH2",
       "description": null
     },
     {
       "sensorCode": "X004",
-      "sensorName": "1号出庫警戒灯",
+      "sensorName": "在庫車検出光電管",
       "description": null
     },
     {
       "sensorCode": "X005",
-      "sensorName": "旋回停止左",
+      "sensorName": "車輌前PH4奥側検出光電管",
       "description": null
     },
     {
       "sensorCode": "X006",
-      "sensorName": "2号出庫警戒灯",
+      "sensorName": "庫内安全確認用光電管",
       "description": null
     },
     {
       "sensorCode": "X007",
-      "sensorName": "旋回停止右",
+      "sensorName": "左側ドアはみだし検出光電管",
       "description": null
     },
     {
       "sensorCode": "X008",
-      "sensorName": "安全柵閉過左",
+      "sensorName": "右側ドアはみだし検出光電管",
       "description": null
     },
     {
       "sensorCode": "X009",
-      "sensorName": "安全柵開過左",
+      "sensorName": "前面オーバ検出用LS(光電管)",
       "description": null
     },
     {
       "sensorCode": "X00A",
-      "sensorName": "安全柵閉過右",
+      "sensorName": "中央光電管(前輪検出)",
       "description": null
     },
     {
       "sensorCode": "X00B",
-      "sensorName": "安全柵開過右",
+      "sensorName": "扉三方枠光電管(反転用)",
       "description": null
     },
     {
       "sensorCode": "X00C",
-      "sensorName": "予備",
+      "sensorName": "昇降ハッチバック検出光電管",
       "description": null
     },
     {
       "sensorCode": "X00D",
-      "sensorName": "予備",
+      "sensorName": "循環ハッチバック検出光電管",
       "description": null
     },
     {
       "sensorCode": "X00E",
-      "sensorName": "予備",
+      "sensorName": "乗入階非常停止スイッチ",
       "description": null
     },
     {
       "sensorCode": "X00F",
-      "sensorName": "空ケージ検出LS　（MIX仕様）",
+      "sensorName": "非常脱出扉LS",
       "description": null
     },
     {
       "sensorCode": "X010",
-      "sensorName": "ブレーキ過負荷",
+      "sensorName": "現場切替スイッチ 操作盤側",
       "description": null
     },
     {
       "sensorCode": "X011",
-      "sensorName": "予備",
+      "sensorName": "現場左循環 PB",
       "description": null
     },
     {
       "sensorCode": "X012",
-      "sensorName": "安全柵PC過負荷",
+      "sensorName": "現場右循環 PB",
       "description": null
     },
     {
       "sensorCode": "X013",
-      "sensorName": "TT過負荷",
+      "sensorName": "循環非常上下限LS",
       "description": null
     },
     {
       "sensorCode": "X014",
-      "sensorName": "予備",
+      "sensorName": "車両移動検知",
       "description": null
     },
     {
       "sensorCode": "X015",
-      "sensorName": "予備",
+      "sensorName": "昇降ハッチバック光電管",
       "description": null
     },
     {
       "sensorCode": "X016",
-      "sensorName": "予備",
+      "sensorName": "リフト非常上限LS",
       "description": null
     },
     {
       "sensorCode": "X017",
-      "sensorName": "予備",
+      "sensorName": "リフト上限LS",
       "description": null
     },
     {
       "sensorCode": "X018",
-      "sensorName": "予備",
+      "sensorName": "リフト上昇減速LS",
       "description": null
     },
     {
       "sensorCode": "X019",
-      "sensorName": "出入口扉前開",
+      "sensorName": "パレット受渡ゾーンLS",
       "description": null
     },
     {
       "sensorCode": "X01A",
-      "sensorName": "出入口扉全閉",
+      "sensorName": "リフト下降減速LS",
       "description": null
     },
     {
       "sensorCode": "X01B",
-      "sensorName": "扉上昇減速LS",
+      "sensorName": "リフト下限",
       "description": null
     },
     {
       "sensorCode": "X01C",
-      "sensorName": "脱出扉開",
+      "sensorName": "リフト非常下限",
       "description": null
     },
     {
       "sensorCode": "X01D",
-      "sensorName": "非常停止",
+      "sensorName": "ロッキング出",
       "description": null
     },
     {
       "sensorCode": "X01E",
-      "sensorName": "消火設備停止",
+      "sensorName": "ロッキング戻",
       "description": null
     },
     {
       "sensorCode": "X01F",
-      "sensorName": "予備",
+      "sensorName": "低循環ハッチバック光電管",
       "description": null
     },
     {
       "sensorCode": "X020",
-      "sensorName": "車輌前",
+      "sensorName": "主電動機過負荷",
       "description": null
     },
     {
       "sensorCode": "X021",
-      "sensorName": "在車",
+      "sensorName": "循環ブレーキ過負荷",
       "description": null
     },
     {
       "sensorCode": "X022",
-      "sensorName": "車輌後",
+      "sensorName": "リフト電動機過負荷高速",
       "description": null
     },
     {
       "sensorCode": "X023",
-      "sensorName": "車幅左",
+      "sensorName": "リフト電動機過負荷低速",
       "description": null
     },
     {
       "sensorCode": "X024",
-      "sensorName": "車幅右",
+      "sensorName": "消火設備より機械停止",
       "description": null
     },
     {
       "sensorCode": "X025",
-      "sensorName": "車高オーバー",
+      "sensorName": "",
       "description": null
     },
     {
       "sensorCode": "X026",
-      "sensorName": "HR車高オーバー　（MIX仕様）",
+      "sensorName": "扉閉LS",
       "description": null
     },
     {
       "sensorCode": "X027",
-      "sensorName": "入口部非常停止",
+      "sensorName": "扉開LS",
       "description": null
     },
     {
       "sensorCode": "X028",
-      "sensorName": "塔内無人確認左",
+      "sensorName": "リフトブレーキ過負荷",
       "description": null
     },
     {
       "sensorCode": "X029",
-      "sensorName": "塔内無人確認右",
+      "sensorName": "ロッキング過負荷",
       "description": null
     },
     {
       "sensorCode": "X02A",
-      "sensorName": "車輌ケージ前",
+      "sensorName": "扉モータ過負荷",
       "description": null
     },
     {
       "sensorCode": "X02B",
-      "sensorName": "車輌ケージ後",
+      "sensorName": "庫内扉開PB",
       "description": null
     },
     {
       "sensorCode": "X02C",
-      "sensorName": "案柵閉確認近接左",
+      "sensorName": "車両後部はみだしPH-2A",
       "description": null
     },
     {
       "sensorCode": "X02D",
-      "sensorName": "案柵閉確認近接右",
+      "sensorName": "地震感知器作動",
       "description": null
     },
     {
       "sensorCode": "X02E",
-      "sensorName": "強制手動",
+      "sensorName": "旋回装置過負荷",
       "description": null
     },
     {
       "sensorCode": "X02F",
-      "sensorName": "右循環減速",
+      "sensorName": "車両前部はみだしPH-4A",
       "description": null
     },
     {
@@ -247,177 +247,177 @@
     },
     {
       "sensorCode": "X031",
-      "sensorName": "予備",
+      "sensorName": "",
       "description": null
     },
     {
       "sensorCode": "X032",
-      "sensorName": "予備",
+      "sensorName": "",
       "description": null
     },
     {
       "sensorCode": "X033",
-      "sensorName": "入出庫位置左",
+      "sensorName": "",
       "description": null
     },
     {
       "sensorCode": "X034",
-      "sensorName": "循環位置右",
+      "sensorName": "",
       "description": null
     },
     {
       "sensorCode": "X035",
-      "sensorName": "予備",
+      "sensorName": "",
       "description": null
     },
     {
       "sensorCode": "X036",
-      "sensorName": "予備",
+      "sensorName": "",
       "description": null
     },
     {
       "sensorCode": "X037",
-      "sensorName": "左M安全柵開LS",
+      "sensorName": "",
       "description": null
     },
     {
       "sensorCode": "X038",
-      "sensorName": "左M安全柵閉確認",
+      "sensorName": "",
       "description": null
     },
     {
       "sensorCode": "X039",
-      "sensorName": "左M安全柵閉LS",
+      "sensorName": "内蔵TT入庫位置(昇降)",
       "description": null
     },
     {
       "sensorCode": "X03A",
-      "sensorName": "M安全柵開LS(右）",
+      "sensorName": "内蔵TT出庫位置(入出)",
       "description": null
     },
     {
       "sensorCode": "X03B",
-      "sensorName": "M安全柵閉確認（右）",
+      "sensorName": "",
       "description": null
     },
     {
       "sensorCode": "X03C",
-      "sensorName": "M安全柵閉LS(右）",
+      "sensorName": "",
       "description": null
     },
     {
       "sensorCode": "X03D",
-      "sensorName": "扉非常開",
+      "sensorName": "",
       "description": null
     },
     {
       "sensorCode": "X03E",
-      "sensorName": "扉INV異常",
+      "sensorName": "",
       "description": null
     },
     {
       "sensorCode": "X03F",
-      "sensorName": "扉反転センサ",
+      "sensorName": "扉INV異常",
       "description": null
     },
     {
       "sensorCode": "X040",
-      "sensorName": "9キー",
+      "sensorName": "テンキー (9)",
       "description": null
     },
     {
       "sensorCode": "X041",
-      "sensorName": "6キー",
+      "sensorName": "テンキー (6)",
       "description": null
     },
     {
       "sensorCode": "X042",
-      "sensorName": "3キー",
+      "sensorName": "テンキー (3)",
       "description": null
     },
     {
       "sensorCode": "X043",
-      "sensorName": "取消キー",
+      "sensorName": "テンキー (取消)",
       "description": null
     },
     {
       "sensorCode": "X044",
-      "sensorName": "8キー",
+      "sensorName": "テンキー (8)",
       "description": null
     },
     {
       "sensorCode": "X045",
-      "sensorName": "5キー",
+      "sensorName": "テンキー (5)",
       "description": null
     },
     {
       "sensorCode": "X046",
-      "sensorName": "2キー",
+      "sensorName": "テンキー (2)",
       "description": null
     },
     {
       "sensorCode": "X047",
-      "sensorName": "0キー",
+      "sensorName": "テンキー (0)",
       "description": null
     },
     {
       "sensorCode": "X048",
-      "sensorName": "7キー",
+      "sensorName": "テンキー (7)",
       "description": null
     },
     {
       "sensorCode": "X049",
-      "sensorName": "4キー",
+      "sensorName": "テンキー (4)",
       "description": null
     },
     {
       "sensorCode": "X04A",
-      "sensorName": "1キー",
+      "sensorName": "テンキー (1)",
       "description": null
     },
     {
       "sensorCode": "X04B",
-      "sensorName": "+キー",
+      "sensorName": "テンキー (+)",
       "description": null
     },
     {
       "sensorCode": "X04C",
-      "sensorName": "出庫キー",
+      "sensorName": "テンキー (出庫)",
       "description": null
     },
     {
       "sensorCode": "X04D",
-      "sensorName": "途中停止キー",
+      "sensorName": "テンキー (途中停止)",
       "description": null
     },
     {
       "sensorCode": "X04E",
-      "sensorName": "扉開キー",
+      "sensorName": "テンキー (扉開)",
       "description": null
     },
     {
       "sensorCode": "X04F",
-      "sensorName": "右旋回キー",
+      "sensorName": "テンキー (右回転)",
       "description": null
     },
     {
       "sensorCode": "X050",
-      "sensorName": "入庫キー",
+      "sensorName": "テンキー (入庫)",
       "description": null
     },
     {
       "sensorCode": "X051",
-      "sensorName": "起動キー",
+      "sensorName": "テンキー (起動)",
       "description": null
     },
     {
       "sensorCode": "X052",
-      "sensorName": "扉閉キー",
+      "sensorName": "テンキー (扉閉)",
       "description": null
     },
     {
       "sensorCode": "X053",
-      "sensorName": "左旋回キー",
+      "sensorName": "テンキー (左回転)",
       "description": null
     },
     {
@@ -427,12 +427,12 @@
     },
     {
       "sensorCode": "X055",
-      "sensorName": "メンテナンススイッチ　",
+      "sensorName": "メンテナンススイッチ",
       "description": null
     },
     {
       "sensorCode": "X056",
-      "sensorName": "予備",
+      "sensorName": "非常停止押釦(操作盤)",
       "description": null
     },
     {
@@ -481,9 +481,8 @@
       "description": null
     }
   ],
-  "generatedAt": "2025-12-29T05:30:00.000Z",
+  "generatedAt": "2025-12-29T10:30:00.000Z",
   "source": "manual_input",
-  "parkingType": "タワーパーク（M）"
+  "parkingType": "スライドパーク円（SL-TL、SL-L）"
 }
-
 

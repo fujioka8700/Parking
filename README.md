@@ -8,7 +8,15 @@
 
 - **故障コード検索**: 故障コード、故障名称、故障内容で検索可能
 - **センサ状態確認**: 16 進数入力で ON になっているセンサを表示
-- **駐車場タイプ切り替え**: タワーパーク（M）とタワーパーク（MT）を切り替えて表示
+- **駐車場タイプ切り替え**: 複数の駐車場タイプを切り替えて表示
+  - タワーパーク（M）
+  - タワーパーク（MT）
+  - リフトパーク（C）
+  - リフトパーク（縦列・前側）
+  - リフトパーク（縦列・奥側）
+  - スライドパーク円（SLMT、SLM）
+  - スライドパーク円（SL-TL、SL-L）
+  - シフトパーク
 - **レスポンシブデザイン**: スマートフォン・タブレット対応
 
 ## 技術スタック
@@ -75,11 +83,34 @@ PostgreSQL コンテナが自動的に起動し、データベースが初期化
 
 このコマンドは以下を実行します：
 
-1. エクセルファイル（`data/TP_manual.xls`）を解析して故障マスタデータを取得
-2. JSON ファイル（`data/parsed_data_tower_code.json`）を生成（故障マスタのみ、駐車場タイプ: "タワーパーク"）
-3. MT センサデータ（`data/parsed_data_mt_sensor.json`）を読み込み（駐車場タイプ: "タワーパーク（MT）"）
-4. M センサデータ（`data/parsed_data_m_sensor.json`）を読み込み（駐車場タイプ: "タワーパーク（M）"）
-5. データベースに保存（各データに駐車場タイプを付与）
+1. 故障マスタデータ（`data/parsed_data_tower_code.json`）を読み込み（駐車場タイプ: "タワーパーク"）
+2. MT センサデータ（`data/parsed_data_mt_sensor.json`）を読み込み（駐車場タイプ: "タワーパーク（MT）"）
+3. M センサデータ（`data/parsed_data_m_sensor.json`）を読み込み（駐車場タイプ: "タワーパーク（M）"）
+4. リフトパーク（C）センサデータ（`data/parsed_data_c_sensor.json`）を読み込み（駐車場タイプ: "リフトパーク（C）"）
+5. リフトパーク故障コードデータ（`data/parsed_data_lift_code.json`）を読み込み（駐車場タイプ: "リフトパーク"）
+6. リフトパーク（縦列・前側）センサデータ（`data/parsed_data_c_front_sensor.json`）を読み込み（駐車場タイプ: "リフトパーク（縦列・前側）"）
+7. リフトパーク（縦列・奥側）センサデータ（`data/parsed_data_c_back_sensor.json`）を読み込み（駐車場タイプ: "リフトパーク（縦列・奥側）"）
+8. スライドパーク円（SLMT、SLM）センサデータ（`data/parsed_data_circle_slmt_sensor.json`）を読み込み（駐車場タイプ: "スライドパーク円（SLMT、SLM）"）
+9. スライドパーク円故障コードデータ（`data/parsed_data_circle_code.json`）を読み込み（駐車場タイプ: "スライドパーク円"）
+10. スライドパーク円（SL-TL、SL-L）センサデータ（`data/parsed_data_circle_sl_sensor.json`）を読み込み（駐車場タイプ: "スライドパーク円（SL-TL、SL-L）"）
+11. シフトパークセンサデータ（`data/parsed_data_shift_sensor.json`）を読み込み（駐車場タイプ: "シフトパーク"）
+12. シフトパーク故障コードデータ（`data/parsed_data_shift_code.json`）を読み込み（駐車場タイプ: "シフトパーク"）
+13. データベースに保存（各データに駐車場タイプを付与）
+
+**重要**: 以下の JSON ファイルが存在することを確認してください：
+
+- `data/parsed_data_tower_code.json`（故障マスタデータ、駐車場タイプ: "タワーパーク"）
+- `data/parsed_data_mt_sensor.json`（MT センサデータ、駐車場タイプ: "タワーパーク（MT）"）
+- `data/parsed_data_m_sensor.json`（M センサデータ、駐車場タイプ: "タワーパーク（M）"）
+- `data/parsed_data_c_sensor.json`（リフトパーク（C）センサデータ、駐車場タイプ: "リフトパーク（C）"）
+- `data/parsed_data_lift_code.json`（リフトパーク故障コードデータ、駐車場タイプ: "リフトパーク"）
+- `data/parsed_data_c_front_sensor.json`（リフトパーク（縦列・前側）センサデータ、駐車場タイプ: "リフトパーク（縦列・前側）"）
+- `data/parsed_data_c_back_sensor.json`（リフトパーク（縦列・奥側）センサデータ、駐車場タイプ: "リフトパーク（縦列・奥側）"）
+- `data/parsed_data_circle_slmt_sensor.json`（スライドパーク円（SLMT、SLM）センサデータ、駐車場タイプ: "スライドパーク円（SLMT、SLM）"）
+- `data/parsed_data_circle_code.json`（スライドパーク円故障コードデータ、駐車場タイプ: "スライドパーク円"）
+- `data/parsed_data_circle_sl_sensor.json`（スライドパーク円（SL-TL、SL-L）センサデータ、駐車場タイプ: "スライドパーク円（SL-TL、SL-L）"）
+- `data/parsed_data_shift_sensor.json`（シフトパークセンサデータ、駐車場タイプ: "シフトパーク"）
+- `data/parsed_data_shift_code.json`（シフトパーク故障コードデータ、駐車場タイプ: "シフトパーク"）
 
 #### 本番環境
 
@@ -94,6 +125,15 @@ docker compose exec app npm run init:prod
 - `data/parsed_data_tower_code.json`（故障マスタデータ、駐車場タイプ: "タワーパーク"）
 - `data/parsed_data_mt_sensor.json`（MT センサデータ、駐車場タイプ: "タワーパーク（MT）"）
 - `data/parsed_data_m_sensor.json`（M センサデータ、駐車場タイプ: "タワーパーク（M）"）
+- `data/parsed_data_c_sensor.json`（リフトパーク（C）センサデータ、駐車場タイプ: "リフトパーク（C）"）
+- `data/parsed_data_lift_code.json`（リフトパーク故障コードデータ、駐車場タイプ: "リフトパーク"）
+- `data/parsed_data_c_front_sensor.json`（リフトパーク（縦列・前側）センサデータ、駐車場タイプ: "リフトパーク（縦列・前側）"）
+- `data/parsed_data_c_back_sensor.json`（リフトパーク（縦列・奥側）センサデータ、駐車場タイプ: "リフトパーク（縦列・奥側）"）
+- `data/parsed_data_circle_slmt_sensor.json`（スライドパーク円（SLMT、SLM）センサデータ、駐車場タイプ: "スライドパーク円（SLMT、SLM）"）
+- `data/parsed_data_circle_code.json`（スライドパーク円故障コードデータ、駐車場タイプ: "スライドパーク円"）
+- `data/parsed_data_circle_sl_sensor.json`（スライドパーク円（SL-TL、SL-L）センサデータ、駐車場タイプ: "スライドパーク円（SL-TL、SL-L）"）
+- `data/parsed_data_shift_sensor.json`（シフトパークセンサデータ、駐車場タイプ: "シフトパーク"）
+- `data/parsed_data_shift_code.json`（シフトパーク故障コードデータ、駐車場タイプ: "シフトパーク"）
 
 ### 5. アプリケーションの起動
 
@@ -111,14 +151,14 @@ docker compose exec app npm run dev
 
 ### 故障マスタデータを更新した場合
 
-1. エクセルファイル（`data/TP_manual.xls`）を更新
-2. 開発環境で以下のコマンドを実行して JSON ファイルを再生成：
+1. `data/parsed_data_tower_code.json` を直接編集
+2. データベースに反映：
 
 ```bash
 docker compose exec app npm run init:dev
 ```
 
-3. 生成された `data/parsed_data_tower_code.json` を Git にコミット
+3. 更新された `data/parsed_data_tower_code.json` を Git にコミット
 4. 本番環境にデプロイ後、本番環境で以下のコマンドを実行：
 
 ```bash
@@ -166,9 +206,19 @@ docker compose exec app npm run init:prod
 
 ### 前提条件
 
-- `data/parsed_data_tower_code.json` が存在すること（Git リポジトリに含まれている）
-- `data/parsed_data_mt_sensor.json` が存在すること（Git リポジトリに含まれている）
-- `data/parsed_data_m_sensor.json` が存在すること（Git リポジトリに含まれている）
+- 以下の JSON ファイルが存在すること（Git リポジトリに含まれている）：
+  - `data/parsed_data_tower_code.json`（故障マスタデータ、駐車場タイプ: "タワーパーク"）
+  - `data/parsed_data_mt_sensor.json`（MT センサデータ、駐車場タイプ: "タワーパーク（MT）"）
+  - `data/parsed_data_m_sensor.json`（M センサデータ、駐車場タイプ: "タワーパーク（M）"）
+  - `data/parsed_data_c_sensor.json`（リフトパーク（C）センサデータ、駐車場タイプ: "リフトパーク（C）"）
+  - `data/parsed_data_lift_code.json`（リフトパーク故障コードデータ、駐車場タイプ: "リフトパーク"）
+  - `data/parsed_data_c_front_sensor.json`（リフトパーク（縦列・前側）センサデータ、駐車場タイプ: "リフトパーク（縦列・前側）"）
+  - `data/parsed_data_c_back_sensor.json`（リフトパーク（縦列・奥側）センサデータ、駐車場タイプ: "リフトパーク（縦列・奥側）"）
+  - `data/parsed_data_circle_slmt_sensor.json`（スライドパーク円（SLMT、SLM）センサデータ、駐車場タイプ: "スライドパーク円（SLMT、SLM）"）
+  - `data/parsed_data_circle_code.json`（スライドパーク円故障コードデータ、駐車場タイプ: "スライドパーク円"）
+  - `data/parsed_data_circle_sl_sensor.json`（スライドパーク円（SL-TL、SL-L）センサデータ、駐車場タイプ: "スライドパーク円（SL-TL、SL-L）"）
+  - `data/parsed_data_shift_sensor.json`（シフトパークセンサデータ、駐車場タイプ: "シフトパーク"）
+  - `data/parsed_data_shift_code.json`（シフトパーク故障コードデータ、駐車場タイプ: "シフトパーク"）
 
 ### Docker Compose でのデプロイ
 
@@ -205,9 +255,18 @@ docker compose exec app npm run start
 
 1. **Git リポジトリに必要なファイルが含まれていること**
 
-   - `data/parsed_data_tower_code.json`
-   - `data/parsed_data_mt_sensor.json`
-   - `data/parsed_data_m_sensor.json`
+   - `data/parsed_data_tower_code.json`（故障マスタデータ、駐車場タイプ: "タワーパーク"）
+   - `data/parsed_data_mt_sensor.json`（MT センサデータ、駐車場タイプ: "タワーパーク（MT）"）
+   - `data/parsed_data_m_sensor.json`（M センサデータ、駐車場タイプ: "タワーパーク（M）"）
+   - `data/parsed_data_c_sensor.json`（リフトパーク（C）センサデータ、駐車場タイプ: "リフトパーク（C）"）
+   - `data/parsed_data_lift_code.json`（リフトパーク故障コードデータ、駐車場タイプ: "リフトパーク"）
+   - `data/parsed_data_c_front_sensor.json`（リフトパーク（縦列・前側）センサデータ、駐車場タイプ: "リフトパーク（縦列・前側）"）
+   - `data/parsed_data_c_back_sensor.json`（リフトパーク（縦列・奥側）センサデータ、駐車場タイプ: "リフトパーク（縦列・奥側）"）
+   - `data/parsed_data_circle_slmt_sensor.json`（スライドパーク円（SLMT、SLM）センサデータ、駐車場タイプ: "スライドパーク円（SLMT、SLM）"）
+   - `data/parsed_data_circle_code.json`（スライドパーク円故障コードデータ、駐車場タイプ: "スライドパーク円"）
+   - `data/parsed_data_circle_sl_sensor.json`（スライドパーク円（SL-TL、SL-L）センサデータ、駐車場タイプ: "スライドパーク円（SL-TL、SL-L）"）
+   - `data/parsed_data_shift_sensor.json`（シフトパークセンサデータ、駐車場タイプ: "シフトパーク"）
+   - `data/parsed_data_shift_code.json`（シフトパーク故障コードデータ、駐車場タイプ: "シフトパーク"）
 
 2. **PostgreSQL データベースの準備**
    - Neon、Supabase、Vercel Postgres などの PostgreSQL サービスを使用
@@ -247,10 +306,12 @@ docker compose exec app npm run start
      1. `npm install`（依存関係のインストール）
      2. `prisma generate`（Prisma Client の生成、`postinstall` スクリプト）
      3. `next build`（Next.js のビルド）
-     4. `prisma db push`（データベーススキーマの適用、`postbuild` スクリプト）
-        - **注意**: 現在は `prisma db push` を使用していますが、マイグレーションファイルを使用する場合は `prisma migrate deploy` に変更してください
+     4. `prisma db push --force-reset`（データベーススキーマの適用、`postbuild` スクリプト）
+        - **注意**: `--force-reset`フラグにより、既存のデータベースがリセットされ、新しいスキーマが適用されます
+        - マイグレーションファイルを使用する場合は、`postbuild` スクリプトを `npx prisma migrate deploy` に変更してください
      5. `node scripts/initData.js`（データ初期化、`postbuild` スクリプト）
-   - 既存データが存在する場合は、データ投入をスキップします
+        - JSON ファイルからデータベースにデータを投入します
+        - 既存データが存在する場合は、データ投入をスキップします（Vercel 環境では`--force-reset`により常にデータ投入が実行されます）
 
 5. **デプロイ後の確認**
    - デプロイが成功したら、アプリケーションにアクセス
@@ -271,6 +332,15 @@ docker compose exec app npm run start
   - `data/parsed_data_tower_code.json`（故障マスタ、駐車場タイプ: "タワーパーク"）
   - `data/parsed_data_mt_sensor.json`（MT センサデータ、駐車場タイプ: "タワーパーク（MT）"）
   - `data/parsed_data_m_sensor.json`（M センサデータ、駐車場タイプ: "タワーパーク（M）"）
+  - `data/parsed_data_c_sensor.json`（リフトパーク（C）センサデータ、駐車場タイプ: "リフトパーク（C）"）
+  - `data/parsed_data_lift_code.json`（リフトパーク故障コードデータ、駐車場タイプ: "リフトパーク"）
+  - `data/parsed_data_c_front_sensor.json`（リフトパーク（縦列・前側）センサデータ、駐車場タイプ: "リフトパーク（縦列・前側）"）
+  - `data/parsed_data_c_back_sensor.json`（リフトパーク（縦列・奥側）センサデータ、駐車場タイプ: "リフトパーク（縦列・奥側）"）
+  - `data/parsed_data_circle_slmt_sensor.json`（スライドパーク円（SLMT、SLM）センサデータ、駐車場タイプ: "スライドパーク円（SLMT、SLM）"）
+  - `data/parsed_data_circle_code.json`（スライドパーク円故障コードデータ、駐車場タイプ: "スライドパーク円"）
+  - `data/parsed_data_circle_sl_sensor.json`（スライドパーク円（SL-TL、SL-L）センサデータ、駐車場タイプ: "スライドパーク円（SL-TL、SL-L）"）
+  - `data/parsed_data_shift_sensor.json`（シフトパークセンサデータ、駐車場タイプ: "シフトパーク"）
+  - `data/parsed_data_shift_code.json`（シフトパーク故障コードデータ、駐車場タイプ: "シフトパーク"）
 
 ## 開発コマンド
 
@@ -317,11 +387,19 @@ Parking/
 │   └── scripts/          # スクリプト
 │       └── initData.js   # データ初期化スクリプト
 ├── data/
-│   ├── TP_manual.xls           # エクセルファイル（Git管理外）
-│   ├── mt_sensor.json          # MTセンサ定義ファイル（Git管理）
-│   ├── parsed_data_tower_code.json  # 解析済みJSONファイル（故障マスタ、駐車場タイプ: "タワーパーク"、Git管理）
-│   ├── parsed_data_mt_sensor.json  # MTセンサデータ（駐車場タイプ: "タワーパーク（MT）"、Git管理）
-│   └── parsed_data_m_sensor.json   # Mセンサデータ（駐車場タイプ: "タワーパーク（M）"、Git管理）
+│   ├── mt_sensor.json                    # MTセンサ定義ファイル（Git管理）
+│   ├── parsed_data_tower_code.json       # 故障マスタJSONファイル（駐車場タイプ: "タワーパーク"、Git管理）
+│   ├── parsed_data_mt_sensor.json        # MTセンサデータ（駐車場タイプ: "タワーパーク（MT）"、Git管理）
+│   ├── parsed_data_m_sensor.json         # Mセンサデータ（駐車場タイプ: "タワーパーク（M）"、Git管理）
+│   ├── parsed_data_c_sensor.json         # リフトパーク（C）センサデータ（駐車場タイプ: "リフトパーク（C）"、Git管理）
+│   ├── parsed_data_lift_code.json        # リフトパーク故障コードデータ（駐車場タイプ: "リフトパーク"、Git管理）
+│   ├── parsed_data_c_front_sensor.json   # リフトパーク（縦列・前側）センサデータ（駐車場タイプ: "リフトパーク（縦列・前側）"、Git管理）
+│   ├── parsed_data_c_back_sensor.json    # リフトパーク（縦列・奥側）センサデータ（駐車場タイプ: "リフトパーク（縦列・奥側）"、Git管理）
+│   ├── parsed_data_circle_slmt_sensor.json # スライドパーク円（SLMT、SLM）センサデータ（駐車場タイプ: "スライドパーク円（SLMT、SLM）"、Git管理）
+│   ├── parsed_data_circle_code.json      # スライドパーク円故障コードデータ（駐車場タイプ: "スライドパーク円"、Git管理）
+│   ├── parsed_data_circle_sl_sensor.json # スライドパーク円（SL-TL、SL-L）センサデータ（駐車場タイプ: "スライドパーク円（SL-TL、SL-L）"、Git管理）
+│   ├── parsed_data_shift_sensor.json     # シフトパークセンサデータ（駐車場タイプ: "シフトパーク"、Git管理）
+│   └── parsed_data_shift_code.json       # シフトパーク故障コードデータ（駐車場タイプ: "シフトパーク"、Git管理）
 ├── docs/                 # ドキュメント
 ├── compose.yaml          # Docker Compose設定
 └── README.md            # このファイル
@@ -329,45 +407,82 @@ Parking/
 
 ## 注意事項
 
-- エクセルファイル（`data/TP_manual.xls`）は Git 管理外です
-- JSON ファイル（`data/parsed_data_tower_code.json`、`data/parsed_data_mt_sensor.json`、`data/parsed_data_m_sensor.json`）は Git 管理に含まれます（本番環境で使用するため）
-- 本番環境では `xlsx` ライブラリは不要です（JSON ファイルのみ使用）
+- JSON ファイルは Git 管理に含まれます（本番環境で使用するため）
+- データ初期化スクリプト（`initData.js`）は JSON ファイルから直接データを読み込みます（エクセルファイルへの依存はありません）
 - PostgreSQL データベースは Docker ボリューム（`postgres_data`）に保存されます
-- センサ状態データは`parsed_data_mt_sensor.json`と`parsed_data_m_sensor.json`から読み込まれます（エクセルファイルからは読み込みません）
+- センサ状態データは各駐車場タイプに対応する JSON ファイルから読み込まれます
 - データベーススキーマには`parkingType`フィールドが含まれており、各データは駐車場タイプで区別されます
-- 現在、プルダウンで選択可能な駐車場タイプは「タワーパーク（M）」と「タワーパーク（MT）」のみです
+- プルダウンで選択可能な駐車場タイプ：
+  - タワーパーク（M）
+  - タワーパーク（MT）
+  - リフトパーク（C）
+  - リフトパーク（縦列・前側）
+  - リフトパーク（縦列・奥側）
+  - スライドパーク円（SLMT、SLM）
+  - スライドパーク円（SL-TL、SL-L）
+  - シフトパーク
+- 故障コードは駐車場タイプごとに異なる場合があります：
+  - タワーパーク（M）、タワーパーク（MT）→「タワーパーク」の故障コード
+  - リフトパーク（C）、リフトパーク（縦列・前側）、リフトパーク（縦列・奥側）→「リフトパーク」の故障コード
+  - スライドパーク円（SLMT、SLM）、スライドパーク円（SL-TL、SL-L）→「スライドパーク円」の故障コード
+  - シフトパーク →「シフトパーク」の故障コード
 
 ## センサ状態ページについて
 
 センサ状態ページ（`/sensors`）では、16 進数（4 桁）を入力することで、ON になっているセンサを表示できます。
 
 - データベースからセンサデータを取得して表示します（選択された駐車場タイプに応じて）
-- 6 つのグループ（センサ状態 1〜6）に対応しています
-- 各グループは 16 個のセンサ（X000-X00F, X010-X01F, ...）で構成されています
+- 駐車場タイプによって異なる数のグループ（センサ状態）に対応しています：
+  - タワーパーク（M）、タワーパーク（MT）、スライドパーク円: 6 グループ（センサ状態 1〜6）
+  - リフトパーク（C）、リフトパーク（縦列・奥側）: 8 グループ（センサ状態 1〜8）
+  - リフトパーク（縦列・前側）: 12 グループ（センサ状態 1〜12）
+  - シフトパーク: 8 グループ（センサ状態 1〜8、B630-B64F、X200-X27F）
+- 各グループは 16 個のセンサで構成されています（センサコード範囲は駐車場タイプによって異なります）
 - 16 進数入力は自動的に大文字に変換され、16 進数以外の文字は除外されます
 - データベースにセンサデータが登録されていない場合は、エラーメッセージが表示されます
 - 駐車場タイプを変更すると、センサ状態の入力フィールドと表示がリセットされます
+- センサ状態のグループ数は、受信したデータに基づいて動的に決定されます
 
 ## 駐車場タイプについて
 
 - ヘッダーのプルダウンで駐車場タイプを切り替えることができます
-- 現在選択可能な駐車場タイプ：
+- 選択可能な駐車場タイプ：
   - **タワーパーク（M）**: M 型タワーパークのセンサデータを表示
   - **タワーパーク（MT）**: MT 型タワーパークのセンサデータを表示
-- 故障コードは「タワーパーク（M）」と「タワーパーク（MT）」の両方で「タワーパーク」の故障コードが表示されます
+  - **リフトパーク（C）**: リフトパーク（C）のセンサデータを表示
+  - **リフトパーク（縦列・前側）**: リフトパーク（縦列・前側）のセンサデータを表示
+  - **リフトパーク（縦列・奥側）**: リフトパーク（縦列・奥側）のセンサデータを表示
+  - **スライドパーク円（SLMT、SLM）**: スライドパーク円（SLMT、SLM）のセンサデータを表示
+  - **スライドパーク円（SL-TL、SL-L）**: スライドパーク円（SL-TL、SL-L）のセンサデータを表示
+  - **シフトパーク**: シフトパークのセンサデータを表示
+- 故障コードは駐車場タイプごとに異なります：
+  - タワーパーク（M）、タワーパーク（MT）→「タワーパーク」の故障コード
+  - リフトパーク（C）、リフトパーク（縦列・前側）、リフトパーク（縦列・奥側）→「リフトパーク」の故障コード
+  - スライドパーク円（SLMT、SLM）、スライドパーク円（SL-TL、SL-L）→「スライドパーク円」の故障コード
+  - シフトパーク →「シフトパーク」の故障コード
 - 駐車場タイプを変更すると、検索入力と検索結果がリセットされます
 
 ## トラブルシューティング
 
 ### JSON ファイルが見つからないエラー
 
-本番環境で `parsed_data_tower_code.json`、`parsed_data_mt_sensor.json`、または `parsed_data_m_sensor.json` が見つからない場合：
+本番環境で JSON ファイルが見つからない場合：
 
-1. 開発環境でエクセルファイルを解析して JSON ファイルを生成（`npm run init:dev`）
-2. MT センサデータを変換（`node scripts/convertMtSensor.js`）
-3. M センサデータ（`parsed_data_m_sensor.json`）が存在することを確認
-4. JSON ファイルを Git にコミット
-5. 本番環境にデプロイ
+1. 必要な JSON ファイルが存在することを確認：
+   - `data/parsed_data_tower_code.json`
+   - `data/parsed_data_mt_sensor.json`
+   - `data/parsed_data_m_sensor.json`
+   - `data/parsed_data_c_sensor.json`
+   - `data/parsed_data_lift_code.json`
+   - `data/parsed_data_c_front_sensor.json`
+   - `data/parsed_data_c_back_sensor.json`
+   - `data/parsed_data_circle_slmt_sensor.json`
+   - `data/parsed_data_circle_code.json`
+   - `data/parsed_data_circle_sl_sensor.json`
+   - `data/parsed_data_shift_sensor.json`
+   - `data/parsed_data_shift_code.json`
+2. JSON ファイルを Git にコミット
+3. 本番環境にデプロイ
 
 ### データベース接続エラー
 

@@ -1,0 +1,642 @@
+{
+  "sensors": [
+    {
+      "sensorCode": "B630",
+      "sensorName": "車両前方PH",
+      "description": null
+    },
+    {
+      "sensorCode": "B631",
+      "sensorName": "在荷PH",
+      "description": null
+    },
+    {
+      "sensorCode": "B632",
+      "sensorName": "車両後方PH",
+      "description": null
+    },
+    {
+      "sensorCode": "B633",
+      "sensorName": "車幅左PH",
+      "description": null
+    },
+    {
+      "sensorCode": "B634",
+      "sensorName": "車幅右PH",
+      "description": null
+    },
+    {
+      "sensorCode": "B635",
+      "sensorName": "消火装置異常(HR)",
+      "description": null
+    },
+    {
+      "sensorCode": "B636",
+      "sensorName": "車高オーバー",
+      "description": null
+    },
+    {
+      "sensorCode": "B637",
+      "sensorName": "入口部非常停止PH",
+      "description": null
+    },
+    {
+      "sensorCode": "B638",
+      "sensorName": "場内安全確認センサ左",
+      "description": null
+    },
+    {
+      "sensorCode": "B639",
+      "sensorName": "場内安全確認センサ右",
+      "description": null
+    },
+    {
+      "sensorCode": "B63B",
+      "sensorName": "停止位置PH(R)",
+      "description": null
+    },
+    {
+      "sensorCode": "B63C",
+      "sensorName": "扉反転センサ",
+      "description": null
+    },
+    {
+      "sensorCode": "B63D",
+      "sensorName": "扉全開",
+      "description": null
+    },
+    {
+      "sensorCode": "B63E",
+      "sensorName": "扉全閉",
+      "description": null
+    },
+    {
+      "sensorCode": "B63F",
+      "sensorName": "扉・昇降減速(LS)",
+      "description": null
+    },
+    {
+      "sensorCode": "B640",
+      "sensorName": "扉INV異常",
+      "description": null
+    },
+    {
+      "sensorCode": "B641",
+      "sensorName": "",
+      "description": null
+    },
+    {
+      "sensorCode": "B642",
+      "sensorName": "庫内非常停止PB",
+      "description": null
+    },
+    {
+      "sensorCode": "B643",
+      "sensorName": "場内扉閉PB",
+      "description": null
+    },
+    {
+      "sensorCode": "B644",
+      "sensorName": "乗入階非常口扉開",
+      "description": null
+    },
+    {
+      "sensorCode": "B645",
+      "sensorName": "消火装置運転停止",
+      "description": null
+    },
+    {
+      "sensorCode": "B646",
+      "sensorName": "庫内移動",
+      "description": null
+    },
+    {
+      "sensorCode": "B647",
+      "sensorName": "扉開",
+      "description": null
+    },
+    {
+      "sensorCode": "B648",
+      "sensorName": "",
+      "description": null
+    },
+    {
+      "sensorCode": "B649",
+      "sensorName": "",
+      "description": null
+    },
+    {
+      "sensorCode": "B64A",
+      "sensorName": "",
+      "description": null
+    },
+    {
+      "sensorCode": "B64B",
+      "sensorName": "",
+      "description": null
+    },
+    {
+      "sensorCode": "B64C",
+      "sensorName": "昇降時 車両前",
+      "description": null
+    },
+    {
+      "sensorCode": "B64D",
+      "sensorName": "昇降時 車両後",
+      "description": null
+    },
+    {
+      "sensorCode": "B64E",
+      "sensorName": "昇降時 車幅左",
+      "description": null
+    },
+    {
+      "sensorCode": "B64F",
+      "sensorName": "昇降時 車幅右",
+      "description": null
+    },
+    {
+      "sensorCode": "X200",
+      "sensorName": "1層過負荷",
+      "description": null
+    },
+    {
+      "sensorCode": "X201",
+      "sensorName": "1層リフト側横行ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X202",
+      "sensorName": "1層リフト側横行ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X203",
+      "sensorName": "1層リフト側横行ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X204",
+      "sensorName": "1層反リフト側横行ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X205",
+      "sensorName": "1層ハッチバック検出",
+      "description": null
+    },
+    {
+      "sensorCode": "X206",
+      "sensorName": "1層車移動",
+      "description": null
+    },
+    {
+      "sensorCode": "X207",
+      "sensorName": "1層循環位置格納",
+      "description": null
+    },
+    {
+      "sensorCode": "X208",
+      "sensorName": "1層リフト側横行左停止",
+      "description": null
+    },
+    {
+      "sensorCode": "X209",
+      "sensorName": "1層リフト側横行右停止",
+      "description": null
+    },
+    {
+      "sensorCode": "X20A",
+      "sensorName": "1層循環カウント",
+      "description": null
+    },
+    {
+      "sensorCode": "X20B",
+      "sensorName": "1層リフト側正位置有",
+      "description": null
+    },
+    {
+      "sensorCode": "X20C",
+      "sensorName": "1層リフト側空位置有",
+      "description": null
+    },
+    {
+      "sensorCode": "X20D",
+      "sensorName": "1層反リフト側正位置有",
+      "description": null
+    },
+    {
+      "sensorCode": "X20E",
+      "sensorName": "1層反リフト側空位置有",
+      "description": null
+    },
+    {
+      "sensorCode": "X20F",
+      "sensorName": "1層降送方向通過",
+      "description": null
+    },
+    {
+      "sensorCode": "X210",
+      "sensorName": "1層昇降リフト半ドア",
+      "description": null
+    },
+    {
+      "sensorCode": "X211",
+      "sensorName": "1層リフト側半ドア1左",
+      "description": null
+    },
+    {
+      "sensorCode": "X212",
+      "sensorName": "1層リフト側半ドア2右",
+      "description": null
+    },
+    {
+      "sensorCode": "X213",
+      "sensorName": "1層リフト側半ドア1左",
+      "description": null
+    },
+    {
+      "sensorCode": "X214",
+      "sensorName": "1層リフト側半ドア2右",
+      "description": null
+    },
+    {
+      "sensorCode": "X215",
+      "sensorName": "1層固P格納位置有",
+      "description": null
+    },
+    {
+      "sensorCode": "X216",
+      "sensorName": "1層車移動",
+      "description": null
+    },
+    {
+      "sensorCode": "X217",
+      "sensorName": "1層リフト側縦送ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X218",
+      "sensorName": "1層リフト側縦送ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X219",
+      "sensorName": "1層リフト縦送右循環停止",
+      "description": null
+    },
+    {
+      "sensorCode": "X21A",
+      "sensorName": "1層リフト縦送左循環停止",
+      "description": null
+    },
+    {
+      "sensorCode": "X21B",
+      "sensorName": "1層リフト側縦送ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X21C",
+      "sensorName": "1層リフト側縦送ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X21D",
+      "sensorName": "1層反リフト側縦送ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X21E",
+      "sensorName": "1層リフト側横行停止",
+      "description": null
+    },
+    {
+      "sensorCode": "X21F",
+      "sensorName": "1層リフト横行右停止",
+      "description": null
+    },
+    {
+      "sensorCode": "X220",
+      "sensorName": "2層過負荷",
+      "description": null
+    },
+    {
+      "sensorCode": "X221",
+      "sensorName": "2層リフト側横行ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X222",
+      "sensorName": "2層リフト側横行ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X223",
+      "sensorName": "2層リフト側横行ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X224",
+      "sensorName": "2層反リフト側横行ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X225",
+      "sensorName": "2層ハッチバック検出",
+      "description": null
+    },
+    {
+      "sensorCode": "X226",
+      "sensorName": "2層車移動",
+      "description": null
+    },
+    {
+      "sensorCode": "X227",
+      "sensorName": "2層循環位置格納",
+      "description": null
+    },
+    {
+      "sensorCode": "X228",
+      "sensorName": "2層リフト側横行左停止",
+      "description": null
+    },
+    {
+      "sensorCode": "X229",
+      "sensorName": "2層リフト側横行右停止",
+      "description": null
+    },
+    {
+      "sensorCode": "X22A",
+      "sensorName": "2層循環カウント",
+      "description": null
+    },
+    {
+      "sensorCode": "X22B",
+      "sensorName": "2層リフト側正位置有",
+      "description": null
+    },
+    {
+      "sensorCode": "X22C",
+      "sensorName": "2層リフト側空位置有",
+      "description": null
+    },
+    {
+      "sensorCode": "X22D",
+      "sensorName": "2層反リフト側正位置有",
+      "description": null
+    },
+    {
+      "sensorCode": "X22E",
+      "sensorName": "2層反リフト側空位置有",
+      "description": null
+    },
+    {
+      "sensorCode": "X22F",
+      "sensorName": "2層降送方向通過",
+      "description": null
+    },
+    {
+      "sensorCode": "X230",
+      "sensorName": "2層昇降リフト半ドア",
+      "description": null
+    },
+    {
+      "sensorCode": "X231",
+      "sensorName": "2層リフト側半ドア1左",
+      "description": null
+    },
+    {
+      "sensorCode": "X232",
+      "sensorName": "2層リフト側半ドア2右",
+      "description": null
+    },
+    {
+      "sensorCode": "X233",
+      "sensorName": "2層リフト側半ドア1左",
+      "description": null
+    },
+    {
+      "sensorCode": "X234",
+      "sensorName": "2層リフト側半ドア2右",
+      "description": null
+    },
+    {
+      "sensorCode": "X235",
+      "sensorName": "2層固P格納位置有",
+      "description": null
+    },
+    {
+      "sensorCode": "X236",
+      "sensorName": "2層車移動",
+      "description": null
+    },
+    {
+      "sensorCode": "X237",
+      "sensorName": "2層リフト側縦送ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X238",
+      "sensorName": "2層リフト側縦送ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X239",
+      "sensorName": "2層リフト縦送右循環停止",
+      "description": null
+    },
+    {
+      "sensorCode": "X23A",
+      "sensorName": "2層リフト縦送左循環停止",
+      "description": null
+    },
+    {
+      "sensorCode": "X23B",
+      "sensorName": "2層リフト側縦送ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X23C",
+      "sensorName": "2層リフト側縦送ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X23D",
+      "sensorName": "2層反リフト側縦送ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X23E",
+      "sensorName": "2層リフト側横行停止",
+      "description": null
+    },
+    {
+      "sensorCode": "X23F",
+      "sensorName": "2層リフト横行右停止",
+      "description": null
+    },
+    {
+      "sensorCode": "X260",
+      "sensorName": "3層過負荷",
+      "description": null
+    },
+    {
+      "sensorCode": "X261",
+      "sensorName": "3層リフト側横行ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X262",
+      "sensorName": "3層リフト側横行ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X263",
+      "sensorName": "3層リフト側横行ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X264",
+      "sensorName": "3層反リフト側横行ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X265",
+      "sensorName": "3層ハッチバック検出",
+      "description": null
+    },
+    {
+      "sensorCode": "X266",
+      "sensorName": "3層車移動",
+      "description": null
+    },
+    {
+      "sensorCode": "X267",
+      "sensorName": "3層循環位置格納",
+      "description": null
+    },
+    {
+      "sensorCode": "X268",
+      "sensorName": "3層リフト側横行左停止",
+      "description": null
+    },
+    {
+      "sensorCode": "X269",
+      "sensorName": "3層リフト側横行右停止",
+      "description": null
+    },
+    {
+      "sensorCode": "X26A",
+      "sensorName": "3層循環カウント",
+      "description": null
+    },
+    {
+      "sensorCode": "X26B",
+      "sensorName": "3層リフト側正位置有",
+      "description": null
+    },
+    {
+      "sensorCode": "X26C",
+      "sensorName": "3層リフト側空位置有",
+      "description": null
+    },
+    {
+      "sensorCode": "X26D",
+      "sensorName": "3層反リフト側正位置有",
+      "description": null
+    },
+    {
+      "sensorCode": "X26E",
+      "sensorName": "3層反リフト側空位置有",
+      "description": null
+    },
+    {
+      "sensorCode": "X26F",
+      "sensorName": "3層降送方向通過",
+      "description": null
+    },
+    {
+      "sensorCode": "X270",
+      "sensorName": "3層昇降リフト半ドア",
+      "description": null
+    },
+    {
+      "sensorCode": "X271",
+      "sensorName": "3層リフト側半ドア1左",
+      "description": null
+    },
+    {
+      "sensorCode": "X272",
+      "sensorName": "3層リフト側半ドア2右",
+      "description": null
+    },
+    {
+      "sensorCode": "X273",
+      "sensorName": "3層リフト側半ドア1左",
+      "description": null
+    },
+    {
+      "sensorCode": "X274",
+      "sensorName": "3層リフト側半ドア2右",
+      "description": null
+    },
+    {
+      "sensorCode": "X275",
+      "sensorName": "3層固P格納位置有",
+      "description": null
+    },
+    {
+      "sensorCode": "X276",
+      "sensorName": "3層車移動",
+      "description": null
+    },
+    {
+      "sensorCode": "X277",
+      "sensorName": "3層リフト側縦送ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X278",
+      "sensorName": "3層リフト側縦送ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X279",
+      "sensorName": "3層リフト縦送右循環停止",
+      "description": null
+    },
+    {
+      "sensorCode": "X27A",
+      "sensorName": "3層リフト縦送左循環停止",
+      "description": null
+    },
+    {
+      "sensorCode": "X27B",
+      "sensorName": "3層リフト側縦送ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X27C",
+      "sensorName": "3層リフト側縦送ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X27D",
+      "sensorName": "3層反リフト側縦送ゾーン",
+      "description": null
+    },
+    {
+      "sensorCode": "X27E",
+      "sensorName": "3層リフト側横行停止",
+      "description": null
+    },
+    {
+      "sensorCode": "X27F",
+      "sensorName": "3層リフト横行右停止",
+      "description": null
+    }
+  ],
+  "generatedAt": "2025-12-29T22:08:48.158478Z",
+  "source": "manual_input",
+  "parkingType": "シフトパーク"
+}

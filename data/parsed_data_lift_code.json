@@ -1,0 +1,895 @@
+{
+  "faults": [
+    {
+      "faultCode": "1",
+      "displayCode": null,
+      "faultName": "非常停止",
+      "faultContent": "・塔内、操作盤の非常停止ボタンが押された時\n自動：機械動作中に検出\n手動：常時検出",
+      "solution": "・非常停止ボタンが押されていないか、また非常脱出扉が開いていないか\n・ボタンの接点不良はないか",
+      "isActive": true
+    },
+    {
+      "faultCode": "2",
+      "displayCode": null,
+      "faultName": "場内安全確認センサ動作",
+      "faultContent": "・自動運転立ち上げ時\n場内安全確認センサがONで異常",
+      "solution": "・センサの作動チェック\n・感度のチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "3",
+      "displayCode": null,
+      "faultName": "脱出扉開",
+      "faultContent": "・非常脱出扉が開いた時\n自動：機械動作中に検出\n手動：常時検出",
+      "solution": "・非常脱出扉LSチェック（常時ON、開いた時OFF）",
+      "isActive": true
+    },
+    {
+      "faultCode": "4",
+      "displayCode": null,
+      "faultName": "車両前はみ出し",
+      "faultContent": "・自動運転中、出入口扉が全閉となった後、搬器上昇スタート時に乗入階のセンサONで異常\n・搬器昇降中、搬器の左右のはみ出しセンサONで異常",
+      "solution": "・車の停止位置をチェック\n・車のドアが開いていないか、車がパレットよりはみ出していないかチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "5",
+      "displayCode": null,
+      "faultName": "車両後はみ出し",
+      "faultContent": "・自動運転中、出入口扉が全閉となった後、搬器上昇スタート時に乗入階のセンサONで異常\n・搬器昇降中、搬器の左右のはみ出しセンサONで異常",
+      "solution": "・車の停止位置をチェック\n・車のドアが開いていないか、車がパレットよりはみ出していないかチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "6",
+      "displayCode": null,
+      "faultName": "車両左はみ出し",
+      "faultContent": "・自動運転中、出入口扉が全閉となった後、搬器上昇スタート時に乗入階のセンサONで異常\n・搬器昇降中、搬器の左右のはみ出しセンサONで異常",
+      "solution": "・車の停止位置をチェック\n・車のドアが開いていないか、車がパレットよりはみ出していないかチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "7",
+      "displayCode": null,
+      "faultName": "車両右はみ出し",
+      "faultContent": "・自動運転中、出入口扉が全閉となった後、搬器上昇スタート時に乗入階のセンサONで異常\n・搬器昇降中、搬器の左右のはみ出しセンサONで異常",
+      "solution": "・車の停止位置をチェック\n・車のドアが開いていないか、車がパレットよりはみ出していないかチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "8",
+      "displayCode": null,
+      "faultName": "二重入庫",
+      "faultContent": "パレット横行格納時アームが取出位置にない",
+      "solution": "・アームの位置をチェック\n・旋回停止位置ズレがないかチェック\n①旋回停止、定位置LSのチェック\n②旋回リトライ回数が増えていないかチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "9",
+      "displayCode": null,
+      "faultName": "サイクルタイムオーバー",
+      "faultContent": "動作モードが規定時間（3.5分）内に終了しない時異常\nモード1,2：指定パレットを呼び出し扉が全開となるまで\nモード3,4：扉全閉後パレットを指定場所に格納するまで\n注）縦列型奥側機は乗入階にて待機する場合があるため昇降時間のみ（50秒）をサイクルタイム対象とします",
+      "solution": "・次の動作へ移る際の条件が成り立たない時は、停止状況より原因を確認する",
+      "isActive": true
+    },
+    {
+      "faultCode": "10",
+      "displayCode": null,
+      "faultName": "搬器段不一致異常",
+      "faultContent": "自動運転立上げ時、段検出センサ（上）、（下）両方、もしくは（中）のみがOFFの場合",
+      "solution": "・各機器の初期条件を確認（自動運転立ち上げ時のみチェック、機械の状態を確認する意味での初期条件確認）",
+      "isActive": true
+    },
+    {
+      "faultCode": "11",
+      "displayCode": null,
+      "faultName": "旋回装置定位置外れ",
+      "faultContent": "自動運転立ち上げ時、旋回装置が定位置にない場合\n0度：減速、停止LSが両方ON\n90度：停止LSがON\n定位置LSがON\nリフタ下限LSがON（縦列前側）",
+      "solution": "・各機器の初期条件を確認（自動運転立ち上げ時のみチェック、機械の状態を確認する意味での初期条件確認）\n・自動運転中にこれらの異常が発生した時は瞬時停電の可能性があります。\n・メンテナンスSWチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "12",
+      "displayCode": null,
+      "faultName": "アームH/P位置外れ",
+      "faultContent": "自動運転立上げ時、搬器位置H/P以外で前・後アームがH/P位置にない場合",
+      "solution": "・各機器の初期条件を確認（自動運転立ち上げ時のみチェック、機械の状態を確認する意味での初期条件確認）",
+      "isActive": true
+    },
+    {
+      "faultCode": "13",
+      "displayCode": null,
+      "faultName": "アーム取出位置外れ",
+      "faultContent": "自動運転立上げ時、搬器位置H/Pで前・後アームが取出位置にない場合",
+      "solution": "・各機器の初期条件を確認（自動運転立ち上げ時のみチェック、機械の状態を確認する意味での初期条件確認）",
+      "isActive": true
+    },
+    {
+      "faultCode": "14",
+      "displayCode": null,
+      "faultName": "乗入階光電センサ遮光",
+      "faultContent": "自動運転立ち上げ時、乗入階の光電管がどれか1つでもONしていたら異常",
+      "solution": "・各機器の初期条件を確認（自動運転立ち上げ時のみチェック、機械の状態を確認する意味での初期条件確認）",
+      "isActive": true
+    },
+    {
+      "faultCode": "15",
+      "displayCode": null,
+      "faultName": "自動扉開（扉開異常）",
+      "faultContent": "自動運転立ち上げ時、出入口扉が閉まっていない時",
+      "solution": "・各機器の初期条件を確認（自動運転立ち上げ時のみチェック、機械の状態を確認する意味での初期条件確認）",
+      "isActive": true
+    },
+    {
+      "faultCode": "16",
+      "displayCode": null,
+      "faultName": "消火設備による非常停止",
+      "faultContent": "消火設備より、設備停止信号を受け取った時",
+      "solution": "・消火設備の点検",
+      "isActive": true
+    },
+    {
+      "faultCode": "17",
+      "displayCode": null,
+      "faultName": "入口部非常停止光電センサ遮光",
+      "faultContent": "扉全閉で中の機械が動作中、このセンサがONしたら異常（乗入階に搬器がいてロック装置が掛の時は除く）",
+      "solution": "・センサの入力、光軸のチェック\n・遮光物が無いかの確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "18",
+      "displayCode": null,
+      "faultName": "ロック装置定位置外れ",
+      "faultContent": "・自動運転立上げ時、搬器位置H/Pでロック全掛でない場合\n・自動運転立上げ時、搬器位置H/P以外でロック全脱ない場合",
+      "solution": "・異常コード10～15と同様（自動運転立ち上げ時のみチェック、機械の状態を確認する意味での初期条件確認）",
+      "isActive": true
+    },
+    {
+      "faultCode": "19",
+      "displayCode": null,
+      "faultName": "自動間仕切扉開（扉開異常）",
+      "faultContent": "注）縦列型で使用\n自動運転立ち上げ時、間仕切扉が閉まっていない時",
+      "solution": "・異常コード10～15と同様（自動運転立ち上げ時のみチェック、機械の状態を確認する意味での初期条件確認）",
+      "isActive": true
+    },
+    {
+      "faultCode": "20",
+      "displayCode": null,
+      "faultName": "シーケンサ異常(未使用)",
+      "faultContent": "シーケンサ内部特殊リレー M9008(自己診断エラー)がONで異常",
+      "solution": "・シーケンサエラーランプが点灯しているか確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "21",
+      "displayCode": null,
+      "faultName": "固定デッキ定位置外れ(縦列)",
+      "faultContent": "注) 90度旋回の縦列で使用\n・自動運転立ち上げ時、旋回定位置で全掛でない場合\n・自動運転立ち上げ時、旋回乗入位置で全掛の場合",
+      "solution": "・異常コード10～15と同様（自動運転立ち上げ時のみチェック、機械の状態を確認する意味での初期条件確認）",
+      "isActive": true
+    },
+    {
+      "faultCode": "22",
+      "displayCode": null,
+      "faultName": "固定デッキLS異常(縦列)",
+      "faultContent": "注) 90度旋回の縦列で使用\n固定デッキ掛LSと脱LSが同時にON",
+      "solution": "・固定デッキ掛・脱LSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "23",
+      "displayCode": null,
+      "faultName": "固定デッキサイクルタイムオーバー(縦列)",
+      "faultContent": "注) 90度旋回の縦列で使用\n自動・半自動時固定デッキ掛・脱指令を出して10秒経過しても全掛・全脱LSがONせず",
+      "solution": "・固定デッキ掛・脱LSをチェック\n・固定デッキ動作をチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "24",
+      "displayCode": null,
+      "faultName": "固定デッキサーマル異常(縦列)",
+      "faultContent": "注) 90度旋回の縦列で使用\n固定デッキサーマルトリップ(過負荷)",
+      "solution": "・固定デッキ動作をチェック\n・固定デッキと干渉する物が無いかチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "25",
+      "displayCode": null,
+      "faultName": "ピット漏水警報(オプション)",
+      "faultContent": "フロートSWが5秒間ONした",
+      "solution": "・フロートSWチェック\n・ピットの排水を行なう",
+      "isActive": true
+    },
+    {
+      "faultCode": "26",
+      "displayCode": null,
+      "faultName": "可動デッキ動作不良",
+      "faultContent": "動作開始条件が成立していない",
+      "solution": "・H/P LSの信号をチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "27",
+      "displayCode": null,
+      "faultName": "スライドデッキ開動作異常(縦列)",
+      "faultContent": "スライドデッキりトライ開動作3回失敗",
+      "solution": "・スライドデッキ開動作をチェック\n・スライドデッキ全開、全閉LSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "28",
+      "displayCode": null,
+      "faultName": "スライドデッキ閉動作異常(縦列)",
+      "faultContent": "スライドデッキりトライ閉動作3回失敗",
+      "solution": "・スライドデッキ閉動作をチェック\n・スライドデッキ全開、全閉LSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "29",
+      "displayCode": null,
+      "faultName": "スライド・可動デッキ定位置外れ(縦列)",
+      "faultContent": "自動モード切替時に、[スライドデッキ全開&可動デッキ全脱&搬器1段以上]又は、[スライドデッキ全閉&可動デッキ全掛&搬器4段以上]でない。",
+      "solution": "・スライドデッキ、可動デッキの停止位置をチェック\n・搬器の現在段数をチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "30",
+      "displayCode": null,
+      "faultName": "スライドデッキサイクルタイムオーバー(縦列)",
+      "faultContent": "スライドデッキ開閉動作が、20秒以内に終了しない。",
+      "solution": "・スライドデッキ動作をチェック\n・スライドデッキ全開、全閉LSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "31",
+      "displayCode": null,
+      "faultName": "可動デッキサイクルタイムオーバー(縦列)",
+      "faultContent": "可動デッキ掛脱動作が、10秒以内に終了しない。",
+      "solution": "・可動デッキ動作をチェック\n・可動デッキ全掛、全脱LSをチェック\n・可動デッキ開インターロック用光電センサをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "32",
+      "displayCode": null,
+      "faultName": "デッキ全体動作サイクルタイムオーバー(縦列)",
+      "faultContent": "補機動作(スライドデッキ、可動デッキの奥側入庫位置又は、前側入出庫位置への切替動作)が30秒以内に終了しない。",
+      "solution": "・スライドデッキ動作をチェック\n・スライドデッキ全開、全閉LSをチェック\n・可動デッキ動作をチェック\n・可動デッキ全掛、全脱LSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "33",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": "",
+      "solution": "",
+      "isActive": false
+    },
+    {
+      "faultCode": "34",
+      "displayCode": null,
+      "faultName": "スライドデッキサーマル異常(縦列)",
+      "faultContent": "スライドデッキサーマルトリップ(過負荷)",
+      "solution": "・スライドデッキ動作をチェック\n・スライドデッキと干渉する物が無いかチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "35",
+      "displayCode": null,
+      "faultName": "可動デッキサーマル異常(縦列)",
+      "faultContent": "可動デッキサーマルトリップ(過負荷)",
+      "solution": "・可動デッキ動作をチェック\n・可動デッキと干渉する物が無いかチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "36",
+      "displayCode": null,
+      "faultName": "間仕切扉サイクルタイムオーバー(縦列)",
+      "faultContent": "間仕切扉開閉動作が、20秒以内に終了しない。",
+      "solution": "・間仕切扉動作をチェック\n・間仕切扉全開、全閉LSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "37",
+      "displayCode": null,
+      "faultName": "間仕切扉LS異常(縦列)",
+      "faultContent": "間仕切扉全開・全閉LSが両方ONした。",
+      "solution": "・間仕切扉全開、全閉LSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "38",
+      "displayCode": null,
+      "faultName": "間仕切扉インバータ異常(縦列)",
+      "faultContent": "間仕切扉インバーター異常入力がONした。",
+      "solution": "・間仕切扉動作をチェック\n・間仕切扉と干渉する物が無いかチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "39",
+      "displayCode": null,
+      "faultName": "搬器退避中自動OFF異常(縦列)",
+      "faultContent": "前側搬器退避(4段以上へ移動)中に自動選択がOFFした。",
+      "solution": "・メンテナンス切替スイッチをチェック\n・自動手動操作切替スイッチをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "40",
+      "displayCode": null,
+      "faultName": "データ確認異常",
+      "faultContent": "自動運転立上げ時、パレット番地設定で乗入階にパレットデータが入っている",
+      "solution": "・パレット番地設定データを確認（手動でパレットを取出・格納した後は、パレット番地設定データを確認）",
+      "isActive": true
+    },
+    {
+      "faultCode": "41",
+      "displayCode": null,
+      "faultName": "受付データ異常",
+      "faultContent": "・受信した動作モードが異常の時\n・受信したパレット番号が0以下又は収容台数以上の時",
+      "solution": "・搬器が乗入階のまま自動運転を立ち上げていないか。",
+      "isActive": true
+    },
+    {
+      "faultCode": "42",
+      "displayCode": null,
+      "faultName": "カードリーダ異常(未使用)",
+      "faultContent": "・操作盤カードリーダの異常",
+      "solution": "・カードリーダの動作確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "43",
+      "displayCode": null,
+      "faultName": "扉LS異常",
+      "faultContent": "・自動時、全開、全閉信号が20秒間OFFの場合\n・自動時、全開、全閉信号が両方ONの場合",
+      "solution": "・出入口扉の全閉、全開LSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "44",
+      "displayCode": null,
+      "faultName": "扉INV異常",
+      "faultContent": "出入口扉のインバータ異常",
+      "solution": "・出入口扉の動作チェック\n・出入口扉と干渉する物が無いかチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "45",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": "",
+      "solution": "",
+      "isActive": false
+    },
+    {
+      "faultCode": "46",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": "",
+      "solution": "",
+      "isActive": false
+    },
+    {
+      "faultCode": "47",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": "",
+      "solution": "",
+      "isActive": false
+    },
+    {
+      "faultCode": "48",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": "",
+      "solution": "",
+      "isActive": false
+    },
+    {
+      "faultCode": "49",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": "",
+      "solution": "",
+      "isActive": false
+    },
+    {
+      "faultCode": "50",
+      "displayCode": null,
+      "faultName": "昇降インバータ異常",
+      "faultContent": "インバータ異常入力ON",
+      "solution": "・インバータのアラームをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "51",
+      "displayCode": null,
+      "faultName": "ワイヤ切れ異常",
+      "faultContent": "ワイヤ切れLS ON",
+      "solution": "・ワイヤ切れLSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "52",
+      "displayCode": null,
+      "faultName": "搬器段外れ異常",
+      "faultContent": "段外れ後、3回リトライしても段一致しない場合",
+      "solution": "・昇降モーターのブレーキをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "53",
+      "displayCode": null,
+      "faultName": "搬器段数ズレ異常",
+      "faultContent": "上昇(下降)段ズレ 検知センサON時にCPUが認識している搬器の段数が合わない時異常\n(上昇：最上段－2段≠現在段)\n(下降：1段≠現在段)",
+      "solution": "・段数ズレ検出センサをチェック\n・段検出センサをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "54",
+      "displayCode": null,
+      "faultName": "昇降速度未出力異常",
+      "faultContent": "上昇・下降信号ONして2秒経過しても昇降INVが出力しない",
+      "solution": "・昇降インバータをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "55",
+      "displayCode": null,
+      "faultName": "上昇異常検出",
+      "faultContent": "上昇中に段カウントが減算した",
+      "solution": "・段検出センサをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "56",
+      "displayCode": null,
+      "faultName": "下降異常検出",
+      "faultContent": "下降中に段カウントが加算した",
+      "solution": "・段検出センサをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "57",
+      "displayCode": null,
+      "faultName": "昇降ブレーキ異常",
+      "faultContent": "上昇・下降出力OFF時、1秒間ブレーキMC信号ON",
+      "solution": "・ブレーキMCをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "58",
+      "displayCode": null,
+      "faultName": "目標段データ未設定",
+      "faultContent": "昇降開始時、目標段のエンコーダ値が設定されていない場合",
+      "solution": "・昇降段計測を行う",
+      "isActive": true
+    },
+    {
+      "faultCode": "59",
+      "displayCode": null,
+      "faultName": "段計測データ許容範囲外異常",
+      "faultContent": "計測昇降停止位置が許容範囲内で停止しない時異常",
+      "solution": "・昇降停止位置をチェック\n・搬器の停止段が実際と操作盤の表示でズレていないか",
+      "isActive": true
+    },
+    {
+      "faultCode": "60",
+      "displayCode": null,
+      "faultName": "上限LS異常",
+      "faultContent": "昇降装置上限のLSがONで異常",
+      "solution": "・上限LSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "61",
+      "displayCode": null,
+      "faultName": "下限LS異常",
+      "faultContent": "昇降装置下限のLSがONで異常",
+      "solution": "・下限LSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "62",
+      "displayCode": null,
+      "faultName": "カウンタウェイト下限異常(未使用)",
+      "faultContent": "カウンタウェイト下限LSがON",
+      "solution": "・カウンタウェイト下限LSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "63",
+      "displayCode": null,
+      "faultName": "段データ許容範囲外異常",
+      "faultContent": "段カウント(上)、(中)、(下)がONの時その段のエンコーダ値が許容範囲外の場合(約±490mm)",
+      "solution": "・エンコーダカウント値をチェック\n・段検出センサをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "64",
+      "displayCode": null,
+      "faultName": "上昇高速カット異常",
+      "faultContent": "搬器が高速上昇中、上昇高速カットLSがONで異常",
+      "solution": "・段数ズレが起きていないか\n・上昇高速カットLSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "65",
+      "displayCode": null,
+      "faultName": "エンコーダ変化量異常",
+      "faultContent": "搬器昇降運転の後、エンコーダカウント量の変化が規定値より少ない。(3秒以内に上昇+50mm、下降-50mmを超えて変化しなかった。)",
+      "solution": "・搬器昇降用ブレーキをチェック\n・エンコーダをチェック\n(H17年11月以降納入物件)",
+      "isActive": true
+    },
+    {
+      "faultCode": "66",
+      "displayCode": null,
+      "faultName": "下降高速カット異常",
+      "faultContent": "搬器が高速下降中、下降高速カットLSがONで異常",
+      "solution": "・段数ズレが起きていないか\n・下降高速カットLSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "67",
+      "displayCode": null,
+      "faultName": "昇降中アーム定位置異常",
+      "faultContent": "昇降中アームが正常な位置にない",
+      "solution": "・アーム位置をチェック\n・アームLSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "68",
+      "displayCode": null,
+      "faultName": "計測時カウント異常",
+      "faultContent": "1段のエンコーダ値が40000～60000の範囲に入っていない(2m～3m)",
+      "solution": "・エンコーダをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "69",
+      "displayCode": null,
+      "faultName": "段カウントセンサ異常",
+      "faultContent": "エンコーダ値が段の許容範囲内に入ってから出るまでの間、段カウントセンサ(中)、(下)がONしない\n\n段カウントセンサ上・中・下のON－OFFする順番で異常を検出(1つでも異常動作で検出)\n(上昇時は上・中・下の順番でON－OFFが正常)\n(下降時は下・中・上の順番でON－OFFが正常)\n\n段カウントセンサ 3つの内1つがONしている状態で、他2つのセンサのON－OFF変化により異常を検出",
+      "solution": "・段カウントセンサをチェック\n・エンコーダをチェック\n(段数ズレ防止LS有り物件)\n(H17年1月以前納入物件)\n・ゴミの落下等は無いか\n(段数ズレ防止LS廃止物件)\n(H17年1～11月納入物件)\n(H17年11月以降納入物件)",
+      "isActive": true
+    },
+    {
+      "faultCode": "70",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": "",
+      "solution": "",
+      "isActive": false
+    },
+    {
+      "faultCode": "71",
+      "displayCode": null,
+      "faultName": "ロック装置LS異常",
+      "faultContent": "ロック装置掛LSと脱LSが同時にON",
+      "solution": "・ロック掛・脱LSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "72",
+      "displayCode": null,
+      "faultName": "ロック装置サーマル異常",
+      "faultContent": "ロック装置サーマルトリップ(過負荷)",
+      "solution": "・ロック装置動作をチェック\n・ロック装置と干渉する物が無いかチェック\n＊パレットがレベル不良で傾いている場合は必ず下記をチェック\n①水平シーブ取付台のボルトの緩みが無いかチェック\n②CW及び搬器の回り止めが切れてワイヤの撚りが戻っていないかチェック(バネ長チェック)",
+      "isActive": true
+    },
+    {
+      "faultCode": "73",
+      "displayCode": null,
+      "faultName": "ロック装置サイクルタイムオーバー",
+      "faultContent": "自動・半自動時ロック装置掛・脱指令を出して10秒経過しても全掛・全脱LSがONせず",
+      "solution": "・ロック装置掛・脱LSをチェック\n・ロック装置動作をチェック\n＊パレットがレベル不良で傾いている場合は必ず下記をチェック\n①水平シーブ取付台のボルトの緩みが無いかチェック\n②CW及び搬器の回り止めが切れてワイヤの撚りが戻っていないかチェック(バネ長チェック)",
+      "isActive": true
+    },
+    {
+      "faultCode": "74",
+      "displayCode": null,
+      "faultName": "横送りサイクルタイムオーバー",
+      "faultContent": "横送りが40秒経過しても完了しない場合",
+      "solution": "・パレットが正常に格納取出が可能であるかチェック\n・パレットとローラーフレームが干渉していないかチェック(ローラフレームのストッパー部の状態)",
+      "isActive": true
+    },
+    {
+      "faultCode": "75",
+      "displayCode": null,
+      "faultName": "昇降中旋回リフタ定位置異常",
+      "faultContent": "リフタ下降中旋回リフタ上限LSがOFF",
+      "solution": "・旋回リフタ上限LSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "76",
+      "displayCode": null,
+      "faultName": "昇降時ロック定位置異常",
+      "faultContent": "搬器昇降中ロック装置脱LSがOFF",
+      "solution": "・ロック装置脱LSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "77",
+      "displayCode": null,
+      "faultName": "昇降時可動デッキ異常(縦列)",
+      "faultContent": "搬器昇降中、可動デッキ開(脱)LSがOFF、又は可動デッキ開インターロック用センサを遮光",
+      "solution": "・可動デッキ開(脱)LSをチェック\n・可動デッキ開インターロック用光電センサをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "78",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": "",
+      "solution": "",
+      "isActive": false
+    },
+    {
+      "faultCode": "79",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": "",
+      "solution": "",
+      "isActive": false
+    },
+    {
+      "faultCode": "80",
+      "displayCode": null,
+      "faultName": "旋回装置インバータ異常",
+      "faultContent": "旋回装置のインバータ異常入力ON",
+      "solution": "・車の重量をチェック\n・異常リセットする前にインバータのエラー表示を確認する\n・加減速時間の確認\n・停止LSが入る前にメカストッパーに当たっていないか\n・ブレーキ用MCにバリスタが取り付けてあるか",
+      "isActive": true
+    },
+    {
+      "faultCode": "81",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": "",
+      "solution": "",
+      "isActive": false
+    },
+    {
+      "faultCode": "82",
+      "displayCode": null,
+      "faultName": "旋回装置サイクルタイムオーバー",
+      "faultContent": "一定時間内に動作が終了しなかった時\n旋回 90度:20秒\n180度:30秒\n270度:40秒\n旋回リフタ昇降:30秒",
+      "solution": "・定位置LS、停止LSの動作チェック(ねじの緩み等)\n・旋回リフタ、上限LS、下限LSの動作チェック(ねじの緩み等)",
+      "isActive": true
+    },
+    {
+      "faultCode": "83",
+      "displayCode": null,
+      "faultName": "旋回リフタサーマルトリップ",
+      "faultContent": "旋回リフタ用モーターのサーマルトリップ(過負荷)",
+      "solution": "・地上制御盤のサーマルリレーをリセットした後、機械の位置をチェック\n・車の重量チェック\n・旋回リフタ、上限LS、下限LSの位置、動作チェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "84",
+      "displayCode": null,
+      "faultName": "旋回リフタLS異常",
+      "faultContent": "・旋回リフタ上昇出力開始2秒後に下限LSがONしている\n・旋回リフタ下降出力開始2秒後に上限LSがONしている\n・上限LSと下限LSが同時にON",
+      "solution": "・旋回リフタ、上限LS、下限LSの位置、動作チェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "85",
+      "displayCode": null,
+      "faultName": "昇降中旋回装置定位置異常",
+      "faultContent": "搬器昇降時に、旋回定位置もしくは旋回停止のLSがONしていない",
+      "solution": "・旋回装置の方向確認\n・LSの位置、動作確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "86",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": "",
+      "solution": "",
+      "isActive": false
+    },
+    {
+      "faultCode": "87",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": "",
+      "solution": "",
+      "isActive": false
+    },
+    {
+      "faultCode": "88",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": "",
+      "solution": "",
+      "isActive": false
+    },
+    {
+      "faultCode": "89",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": "",
+      "solution": "",
+      "isActive": false
+    },
+    {
+      "faultCode": "90",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": "",
+      "solution": "",
+      "isActive": false
+    },
+    {
+      "faultCode": "91",
+      "displayCode": null,
+      "faultName": "横行装置サーマル異常",
+      "faultContent": "搬器昇降時以外で横行サーマルがトリップした場合又はインバータ異常入力ON(過負荷)",
+      "solution": "・機械停止位置のチェック\n＊パレットがレベル不良で傾いている場合は必ず下記をチェック\n①水平シーブ取付台のボルトの緩みが無いかチェック\n②CW及び搬器の回り止めが切れてワイヤの撚りが戻っていないかチェック(バネ長チェック)",
+      "isActive": true
+    },
+    {
+      "faultCode": "92",
+      "displayCode": null,
+      "faultName": "アーム取出サイクルタイムオーバー",
+      "faultContent": "アーム取出動作を開始して20秒経過しても動作完了せず",
+      "solution": "・前後アームか取出LSをチェック\n・インバータの周波数設定値確認",
+      "isActive": true
+    },
+    {
+      "faultCode": "93",
+      "displayCode": null,
+      "faultName": "アーム格納サイクルタイムオーバー",
+      "faultContent": "アーム格納動作を開始して15秒経過しても動作完了せず",
+      "solution": "・前後アームH/PLSをチェック\n＊パレットがレベル不良で傾いている場合は必ず下記をチェック\n①水平シーブ取付台のボルトの緩みが無いかチェック\n②CW及び搬器の回り止めが切れてワイヤの撚りが戻っていないかチェック(バネ長チェック)",
+      "isActive": true
+    },
+    {
+      "faultCode": "94",
+      "displayCode": null,
+      "faultName": "二重取出",
+      "faultContent": "取出時アームがH/P位置にない",
+      "solution": "・アームH/PLSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "95",
+      "displayCode": null,
+      "faultName": "アーム前後位置異常",
+      "faultContent": "手動以外でアーム前後が異なる位置でLSがONした",
+      "solution": "・アームH/P・取出LSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "96",
+      "displayCode": null,
+      "faultName": "アーム前LS異常",
+      "faultContent": "アーム前LSが2箇所同時にONした",
+      "solution": "・アーム前H/P・取出LSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "97",
+      "displayCode": null,
+      "faultName": "アーム後LS異常",
+      "faultContent": "アーム後LSが2箇所同時にONした",
+      "solution": "・アーム後H/P・取出LSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "98",
+      "displayCode": null,
+      "faultName": "横行リトライ異常",
+      "faultContent": "横行リトライ動作を4回繰り返してもはみ出しがONのまま",
+      "solution": "・搬器はみ出しセンサをチェック\n・パレットとローラーフレームが干渉していないかチェック(ローラフレームのストッパー部の状態)\n・アーム取出LSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "99",
+      "displayCode": null,
+      "faultName": "アームサイクルタイムオーバー",
+      "faultContent": "旋回アーム補正を15秒繰り返してもLSがONしない",
+      "solution": "・アームLSをチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "100",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": "",
+      "solution": "",
+      "isActive": false
+    },
+    {
+      "faultCode": "101",
+      "displayCode": null,
+      "faultName": "ストローブ応答タイムアウト",
+      "faultContent": "ストローブを送信して60秒経過してもストローブ応答が帰ってこない",
+      "solution": "・制御PLC動作をチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "102",
+      "displayCode": null,
+      "faultName": "受信データ異常(管理PLC)",
+      "faultContent": "制御PLCから1,2,3,4,10以外のモード番号が送信された",
+      "solution": "・制御PLC動作をチェック",
+      "isActive": true
+    },
+    {
+      "faultCode": "103",
+      "displayCode": null,
+      "faultName": "初期設定不良",
+      "faultContent": "操作モード、優先モードの未設定",
+      "solution": "・操作モード、優先モードを設定",
+      "isActive": true
+    },
+    {
+      "faultCode": "104",
+      "displayCode": null,
+      "faultName": "パレットデータ不良",
+      "faultContent": "実パレット数とデータ上のパレット数が異なっている",
+      "solution": "・パレット／番地設定でパレットデータを登録してください",
+      "isActive": true
+    },
+    {
+      "faultCode": "105",
+      "displayCode": null,
+      "faultName": "乗入れ階在荷パレット有異常",
+      "faultContent": "自動立上げ時在荷パレットが乗入れ階にある",
+      "solution": "・乗入れ階在荷をOFFしてください",
+      "isActive": true
+    },
+    {
+      "faultCode": "106",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": "",
+      "solution": "",
+      "isActive": false
+    },
+    {
+      "faultCode": "107",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": "",
+      "solution": "",
+      "isActive": false
+    },
+    {
+      "faultCode": "108",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": "",
+      "solution": "",
+      "isActive": false
+    },
+    {
+      "faultCode": "109",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": "",
+      "solution": "",
+      "isActive": false
+    },
+    {
+      "faultCode": "110",
+      "displayCode": null,
+      "faultName": "欠番",
+      "faultContent": "",
+      "solution": "",
+      "isActive": false
+    },
+    {
+      "faultCode": "111",
+      "displayCode": null,
+      "faultName": "PLCリンク異常",
+      "faultContent": "注)縦列で使用\n管理PLCと制御PLC間のリンクが正常でない",
+      "solution": "・MELSECNET IIのリンクを確認(ユニットのエラー表示確認)\n・制御PLCがRUNになっているか確認",
+      "isActive": true
+    }
+  ],
+  "generatedAt": "2025-12-29T09:30:00.000Z",
+  "parkingType": "リフトパーク"
+}
+

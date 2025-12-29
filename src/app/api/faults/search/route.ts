@@ -11,20 +11,12 @@ export async function GET(request: Request) {
       return NextResponse.json({ faults: [] });
     }
 
-    // 検索条件を構築
+    // 検索条件を構築（displayCodeは検索対象外）
     const orConditions: any[] = [
       { faultCode: { contains: query, mode: "insensitive" as const } },
       { faultName: { contains: query, mode: "insensitive" as const } },
       { faultContent: { contains: query, mode: "insensitive" as const } },
     ];
-
-    // displayCodeがNULLでない場合のみ検索条件に追加
-    orConditions.push({
-      AND: [
-        { displayCode: { not: null } },
-        { displayCode: { contains: query, mode: "insensitive" as const } },
-      ],
-    });
 
     const searchCondition: any = {
       OR: orConditions,
@@ -33,9 +25,18 @@ export async function GET(request: Request) {
 
     // 駐車場タイプでフィルタリング
     // タワーパーク（M）とタワーパーク（MT）の両方で「タワーパーク」の故障コードを表示
+    // リフトパーク（C）、リフトパーク（縦列・前側）、リフトパーク（縦列・奥側）で「リフトパーク」の故障コードを表示
+    // スライドパーク円（SLMT、SLM）とスライドパーク円（SL-TL、SL-L）で「スライドパーク円」の故障コードを表示
+    // シフトパークで「シフトパーク」の故障コードを表示
     if (parkingType) {
       if (parkingType === 'tower_m' || parkingType === 'tower_mt') {
         searchCondition.parkingType = 'タワーパーク';
+      } else if (parkingType === 'lift_c' || parkingType === 'lift_vertical_front' || parkingType === 'lift_vertical_back') {
+        searchCondition.parkingType = 'リフトパーク';
+      } else if (parkingType === 'slide_slmt_slm' || parkingType === 'slide_sl_tl_sl_l') {
+        searchCondition.parkingType = 'スライドパーク円';
+      } else if (parkingType === 'shift') {
+        searchCondition.parkingType = 'シフトパーク';
       } else {
         // 他の駐車場タイプの場合は、そのまま使用（将来の拡張用）
         // 駐車場タイプのマッピングが必要な場合はここで実装
