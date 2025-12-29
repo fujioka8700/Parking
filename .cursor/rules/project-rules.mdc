@@ -37,7 +37,7 @@
 
 ### バージョンとスタイル
 
-- **Next.js 16.0.4** を使用（最新の安定版のベストプラクティスを参照）
+- **Next.js 16.1.1** を使用（最新の安定版のベストプラクティスを参照）
 - **App Router** を使用（Pages Router は使用しない）
 - **Server Components** をデフォルトで使用
 - **Client Components** は必要最小限に使用（`'use client'` ディレクティブを明示）

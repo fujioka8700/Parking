@@ -32,7 +32,7 @@ services:
       db:
         condition: service_healthy
     command: >
-      sh -c "npm run dev"
+      sh -c "rm -rf node_modules package-lock.json 2>/dev/null || true && npm install && npm run dev"
 
 volumes:
   postgres_data:

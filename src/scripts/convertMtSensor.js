@@ -45,3 +45,5 @@ console.log(`  入力: ${mtSensorPath}`);
 console.log(`  出力: ${outputPath}`);
 console.log(`  センサ数: ${sensors.length}件`);
 
+
+

@@ -9,7 +9,7 @@
 ## フロントエンド
 
 ### フレームワーク
-- **Next.js 16.0.4**
+- **Next.js 16.1.1**
   - React ベースのフルスタックフレームワーク
   - App Router を使用
   - Server Components と Client Components の使い分け
@@ -23,7 +23,7 @@
   - エラーの早期発見
 
 ### UI ライブラリ
-- **React 19.2.0**
+- **React 19.2.3**
   - ユーザーインターフェース構築
   - コンポーネントベースの開発
   - 仮想 DOM による高速レンダリング
@@ -134,10 +134,10 @@
 ```json
 {
   "@prisma/client": "^6.19.0",
-  "next": "16.0.4",
+  "next": "16.1.1",
   "prisma": "^6.19.0",
-  "react": "19.2.0",
-  "react-dom": "19.2.0",
+  "react": "19.2.3",
+  "react-dom": "19.2.3",
 }
 ```
 
@@ -147,11 +147,11 @@
 {
   "@tailwindcss/postcss": "^4",
   "@types/node": "^20",
-  "@types/react": "^19",
-  "@types/react-dom": "^19",
+  "@types/react": "19.2.7",
+  "@types/react-dom": "19.2.3",
   "@types/xlsx": "^0.0.35",
   "eslint": "^9",
-  "eslint-config-next": "16.0.4",
+  "eslint-config-next": "16.1.1",
   "tailwindcss": "^4",
   "typescript": "^5"
 }

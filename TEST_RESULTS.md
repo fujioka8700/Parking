@@ -7,7 +7,7 @@
 ## テスト環境
 
 - Docker Compose 環境
-- Next.js 16.0.4
+- Next.js 16.1.1
 - PostgreSQL 16
 - Prisma 6.19.0
 

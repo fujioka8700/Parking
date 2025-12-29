@@ -11,9 +11,9 @@ export async function GET(request: Request) {
 
     if (query.trim()) {
       searchCondition.OR = [
-        { sensorCode: { contains: query, mode: "insensitive" } },
-        { sensorName: { contains: query, mode: "insensitive" } },
-        { description: { contains: query, mode: "insensitive" } },
+        { sensorCode: { contains: query, mode: "insensitive" as const } },
+        { sensorName: { contains: query, mode: "insensitive" as const } },
+        { description: { contains: query, mode: "insensitive" as const } },
       ];
     }
 
