@@ -270,7 +270,7 @@ export default function SensorsPage() {
                     // 新しい値で直接デコード
                     decode(num, filteredValue);
                   }}
-                  className="w-full px-4 py-2 sm:py-3 text-lg sm:text-xl font-mono text-center border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 uppercase bg-gray-50"
+                  className="w-full px-4 py-2 sm:py-3 text-lg sm:text-xl font-mono text-center text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 uppercase bg-gray-50"
                 />
               </div>
               <ul className="space-y-2 min-h-[20px]">
