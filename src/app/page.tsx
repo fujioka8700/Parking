@@ -64,7 +64,8 @@ export default function HomePage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="故障コード、故障名称、故障内容を入力"
-              className="w-full px-4 py-3 sm:py-2 text-base sm:text-sm text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 sm:py-2 text-base sm:text-sm text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus-visible:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-blue-500"
+              style={{ WebkitTapHighlightColor: 'transparent' }}
             />
           </div>
           <button
