@@ -12,16 +12,16 @@ export async function GET(request: Request) {
 
     // 検索条件を構築
     const orConditions: any[] = [
-      { faultCode: { contains: query, mode: "insensitive" } },
-      { faultName: { contains: query, mode: "insensitive" } },
-      { faultContent: { contains: query, mode: "insensitive" } },
+      { faultCode: { contains: query, mode: "insensitive" as const } },
+      { faultName: { contains: query, mode: "insensitive" as const } },
+      { faultContent: { contains: query, mode: "insensitive" as const } },
     ];
 
     // displayCodeがNULLでない場合のみ検索条件に追加
     orConditions.push({
       AND: [
         { displayCode: { not: null } },
-        { displayCode: { contains: query, mode: "insensitive" } },
+        { displayCode: { contains: query, mode: "insensitive" as const } },
       ],
     });
 
