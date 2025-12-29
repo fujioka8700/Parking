@@ -34,7 +34,7 @@
 ### 1. リポジトリのクローン
 
 ```bash
-git clone <repository-url>
+git clone git@github.com:fujioka8700/Parking.git
 cd Parking
 ```
 
@@ -387,7 +387,6 @@ Parking/
 │   └── scripts/          # スクリプト
 │       └── initData.js   # データ初期化スクリプト
 ├── data/
-│   ├── mt_sensor.json                    # MTセンサ定義ファイル（Git管理）
 │   ├── parsed_data_tower_code.json       # 故障マスタJSONファイル（駐車場タイプ: "タワーパーク"、Git管理）
 │   ├── parsed_data_mt_sensor.json        # MTセンサデータ（駐車場タイプ: "タワーパーク（MT）"、Git管理）
 │   ├── parsed_data_m_sensor.json         # Mセンサデータ（駐車場タイプ: "タワーパーク（M）"、Git管理）
