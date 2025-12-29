@@ -69,71 +69,115 @@ export default function SensorsPage() {
         // まず、X120-X12Fが存在するかチェック（リフトパーク（縦列・前側）の判定用）
         const hasX120Range = sensors.some(s => s.sensorCode.match(/^X12[0-9A-F]$/i));
         
+        // シフトパークかどうかを判定（B630-B64FまたはX200-X27Fが存在する場合）
+        const isShiftPark = sensors.some(s => 
+          s.sensorCode.match(/^B63[0-9A-F]$/i) || 
+          s.sensorCode.match(/^B64[0-9A-F]$/i) || 
+          s.sensorCode.match(/^X2[0-7][0-9A-F]$/i)
+        );
+        
         sensors.forEach((sensor) => {
           const code = sensor.sensorCode;
           let groupNum: number | null = null;
-          let index: number;
+          let index: number = 0;
           
-          // センサコードからグループ番号を判定
-          if (code.match(/^X00[0-9A-F]$/i)) {
-            // グループ1: X000-X00F
-            groupNum = 1;
-            index = parseInt(code.slice(-1), 16);
-          } else if (code.match(/^X01[0-9A-F]$/i)) {
-            // グループ2: X010-X01F
-            groupNum = 2;
-            index = parseInt(code.slice(-1), 16);
-          } else if (code.match(/^X02[0-9A-F]$/i)) {
-            // グループ3: X020-X02F
-            groupNum = 3;
-            index = parseInt(code.slice(-1), 16);
-          } else if (code.match(/^X03[0-9A-F]$/i)) {
-            // グループ4: X030-X03F
-            groupNum = 4;
-            index = parseInt(code.slice(-1), 16);
-          } else if (code.match(/^X04[0-9A-F]$/i)) {
-            // グループ5: X040-X04F
-            groupNum = 5;
-            index = parseInt(code.slice(-1), 16);
-          } else if (code.match(/^X05[0-9A-F]$/i)) {
-            // グループ6: X050-X05F
-            groupNum = 6;
-            index = parseInt(code.slice(-1), 16);
-          } else if (code.match(/^X06[0-9A-F]$/i)) {
-            // グループ7: X060-X06F
-            groupNum = 7;
-            index = parseInt(code.slice(-1), 16);
-          } else if (code.match(/^X07[0-9A-F]$/i)) {
-            // X070-X07Fの処理
-            // X120-X12Fが存在する場合（リフトパーク（縦列・前側））はグループ7に含める
-            // そうでない場合（リフトパーク（C））はグループ8
-            if (hasX120Range) {
+          // シフトパークの場合の特別な処理
+          if (isShiftPark) {
+            if (code.match(/^B63[0-9A-F]$/i)) {
+              // グループ1: B630-B63F
+              groupNum = 1;
+              index = parseInt(code.slice(-1), 16);
+            } else if (code.match(/^B64[0-9A-F]$/i)) {
+              // グループ2: B640-B64F
+              groupNum = 2;
+              index = parseInt(code.slice(-1), 16);
+            } else if (code.match(/^X20[0-9A-F]$/i)) {
+              // グループ3: X200-X20F
+              groupNum = 3;
+              index = parseInt(code.slice(-1), 16);
+            } else if (code.match(/^X21[0-9A-F]$/i)) {
+              // グループ4: X210-X21F
+              groupNum = 4;
+              index = parseInt(code.slice(-1), 16);
+            } else if (code.match(/^X22[0-9A-F]$/i)) {
+              // グループ5: X220-X22F
+              groupNum = 5;
+              index = parseInt(code.slice(-1), 16);
+            } else if (code.match(/^X23[0-9A-F]$/i)) {
+              // グループ6: X230-X23F
+              groupNum = 6;
+              index = parseInt(code.slice(-1), 16);
+            } else if (code.match(/^X26[0-9A-F]$/i)) {
+              // グループ7: X260-X26F
               groupNum = 7;
-              index = parseInt(code.slice(-1), 16) + 16; // X070-X07Fはグループ7の16-31番目
-            } else {
+              index = parseInt(code.slice(-1), 16);
+            } else if (code.match(/^X27[0-9A-F]$/i)) {
+              // グループ8: X270-X27F
               groupNum = 8;
               index = parseInt(code.slice(-1), 16);
             }
-          } else if (code.match(/^X12[0-9A-F]$/i)) {
-            // グループ8: X120-X12F（リフトパーク（縦列・前側）用）
-            groupNum = 8;
-            index = parseInt(code.slice(-1), 16);
-          } else if (code.match(/^X13[0-9A-F]$/i)) {
-            // グループ9: X130-X13F（リフトパーク（縦列・前側）用）
-            groupNum = 9;
-            index = parseInt(code.slice(-1), 16);
-          } else if (code.match(/^X14[0-9A-F]$/i)) {
-            // グループ10: X140-X14F（リフトパーク（縦列・前側）用）
-            groupNum = 10;
-            index = parseInt(code.slice(-1), 16);
-          } else if (code.match(/^2X00[0-9A-F]$/i)) {
-            // グループ11: 2X000-2X00F（リフトパーク（縦列・前側）用）
-            groupNum = 11;
-            index = parseInt(code.slice(-1), 16);
-          } else if (code.match(/^2X01[0-9A-F]$/i)) {
-            // グループ12: 2X010-2X01F（リフトパーク（縦列・前側）用）
-            groupNum = 12;
-            index = parseInt(code.slice(-1), 16);
+          } else {
+            // 通常のセンサコード処理
+            if (code.match(/^X00[0-9A-F]$/i)) {
+              // グループ1: X000-X00F
+              groupNum = 1;
+              index = parseInt(code.slice(-1), 16);
+            } else if (code.match(/^X01[0-9A-F]$/i)) {
+              // グループ2: X010-X01F
+              groupNum = 2;
+              index = parseInt(code.slice(-1), 16);
+            } else if (code.match(/^X02[0-9A-F]$/i)) {
+              // グループ3: X020-X02F
+              groupNum = 3;
+              index = parseInt(code.slice(-1), 16);
+            } else if (code.match(/^X03[0-9A-F]$/i)) {
+              // グループ4: X030-X03F
+              groupNum = 4;
+              index = parseInt(code.slice(-1), 16);
+            } else if (code.match(/^X04[0-9A-F]$/i)) {
+              // グループ5: X040-X04F
+              groupNum = 5;
+              index = parseInt(code.slice(-1), 16);
+            } else if (code.match(/^X05[0-9A-F]$/i)) {
+              // グループ6: X050-X05F
+              groupNum = 6;
+              index = parseInt(code.slice(-1), 16);
+            } else if (code.match(/^X06[0-9A-F]$/i)) {
+              // グループ7: X060-X06F
+              groupNum = 7;
+              index = parseInt(code.slice(-1), 16);
+            } else if (code.match(/^X07[0-9A-F]$/i)) {
+              // X070-X07Fの処理
+              // X120-X12Fが存在する場合（リフトパーク（縦列・前側））はグループ7に含める
+              // そうでない場合（リフトパーク（C））はグループ8
+              if (hasX120Range) {
+                groupNum = 7;
+                index = parseInt(code.slice(-1), 16) + 16; // X070-X07Fはグループ7の16-31番目
+              } else {
+                groupNum = 8;
+                index = parseInt(code.slice(-1), 16);
+              }
+            } else if (code.match(/^X12[0-9A-F]$/i)) {
+              // グループ8: X120-X12F（リフトパーク（縦列・前側）用）
+              groupNum = 8;
+              index = parseInt(code.slice(-1), 16);
+            } else if (code.match(/^X13[0-9A-F]$/i)) {
+              // グループ9: X130-X13F（リフトパーク（縦列・前側）用）
+              groupNum = 9;
+              index = parseInt(code.slice(-1), 16);
+            } else if (code.match(/^X14[0-9A-F]$/i)) {
+              // グループ10: X140-X14F（リフトパーク（縦列・前側）用）
+              groupNum = 10;
+              index = parseInt(code.slice(-1), 16);
+            } else if (code.match(/^2X00[0-9A-F]$/i)) {
+              // グループ11: 2X000-2X00F（リフトパーク（縦列・前側）用）
+              groupNum = 11;
+              index = parseInt(code.slice(-1), 16);
+            } else if (code.match(/^2X01[0-9A-F]$/i)) {
+              // グループ12: 2X010-2X01F（リフトパーク（縦列・前側）用）
+              groupNum = 12;
+              index = parseInt(code.slice(-1), 16);
+            }
           }
           
           if (groupNum !== null) {
@@ -345,49 +389,94 @@ export default function SensorsPage() {
         {availableGroups.map((num) => {
           let groupStart: string;
           let groupEnd: string;
-          if (num === 1) {
-            groupStart = 'X000';
-            groupEnd = 'X00F';
-          } else if (num === 2) {
-            groupStart = 'X010';
-            groupEnd = 'X01F';
-          } else if (num === 3) {
-            groupStart = 'X020';
-            groupEnd = 'X02F';
-          } else if (num === 4) {
-            groupStart = 'X030';
-            groupEnd = 'X03F';
-          } else if (num === 5) {
-            groupStart = 'X040';
-            groupEnd = 'X04F';
-          } else if (num === 6) {
-            groupStart = 'X050';
-            groupEnd = 'X05F';
-          } else if (num === 7) {
-            groupStart = 'X060';
-            groupEnd = 'X06F';
-          } else if (num === 8) {
-            // X070-X07FまたはX120-X12Fのどちらか
-            // データに基づいて判定（X120-X12Fが存在する場合はそれを優先）
-            if (sensorDefinitions['8'] && sensorDefinitions['8'].some(s => s && s.startsWith('X12'))) {
-              groupStart = 'X120';
-              groupEnd = 'X12F';
+          
+          // グループのセンサ定義から実際のコード範囲を判定
+          const group = sensorDefinitions[String(num)] || [];
+          const codes = group.filter(s => s && s.length > 0).map(s => s.split(':')[0].trim());
+          
+          if (codes.length > 0) {
+            // シフトパークの場合（B630-B64FまたはX200-X27Fが含まれる）
+            if (codes.some(c => c.match(/^B63[0-9A-F]$/i) || c.match(/^B64[0-9A-F]$/i) || c.match(/^X2[0-7][0-9A-F]$/i))) {
+              if (num === 1 && codes.some(c => c.match(/^B63[0-9A-F]$/i))) {
+                groupStart = 'B630';
+                groupEnd = 'B63F';
+              } else if (num === 2 && codes.some(c => c.match(/^B64[0-9A-F]$/i))) {
+                groupStart = 'B640';
+                groupEnd = 'B64F';
+              } else if (num === 3 && codes.some(c => c.match(/^X20[0-9A-F]$/i))) {
+                groupStart = 'X200';
+                groupEnd = 'X20F';
+              } else if (num === 4 && codes.some(c => c.match(/^X21[0-9A-F]$/i))) {
+                groupStart = 'X210';
+                groupEnd = 'X21F';
+              } else if (num === 5 && codes.some(c => c.match(/^X22[0-9A-F]$/i))) {
+                groupStart = 'X220';
+                groupEnd = 'X22F';
+              } else if (num === 6 && codes.some(c => c.match(/^X23[0-9A-F]$/i))) {
+                groupStart = 'X230';
+                groupEnd = 'X23F';
+              } else if (num === 7 && codes.some(c => c.match(/^X26[0-9A-F]$/i))) {
+                groupStart = 'X260';
+                groupEnd = 'X26F';
+              } else if (num === 8 && codes.some(c => c.match(/^X27[0-9A-F]$/i))) {
+                groupStart = 'X270';
+                groupEnd = 'X27F';
+              } else {
+                // フォールバック: 最初と最後のコードを使用
+                const sortedCodes = codes.sort();
+                groupStart = sortedCodes[0];
+                groupEnd = sortedCodes[sortedCodes.length - 1];
+              }
             } else {
-              groupStart = 'X070';
-              groupEnd = 'X07F';
+              // 通常のセンサコードの場合
+              if (num === 1) {
+                groupStart = 'X000';
+                groupEnd = 'X00F';
+              } else if (num === 2) {
+                groupStart = 'X010';
+                groupEnd = 'X01F';
+              } else if (num === 3) {
+                groupStart = 'X020';
+                groupEnd = 'X02F';
+              } else if (num === 4) {
+                groupStart = 'X030';
+                groupEnd = 'X03F';
+              } else if (num === 5) {
+                groupStart = 'X040';
+                groupEnd = 'X04F';
+              } else if (num === 6) {
+                groupStart = 'X050';
+                groupEnd = 'X05F';
+              } else if (num === 7) {
+                groupStart = 'X060';
+                groupEnd = 'X06F';
+              } else if (num === 8) {
+                // X070-X07FまたはX120-X12Fのどちらか
+                // データに基づいて判定（X120-X12Fが存在する場合はそれを優先）
+                if (codes.some(c => c.match(/^X12[0-9A-F]$/i))) {
+                  groupStart = 'X120';
+                  groupEnd = 'X12F';
+                } else {
+                  groupStart = 'X070';
+                  groupEnd = 'X07F';
+                }
+              } else if (num === 9) {
+                groupStart = 'X130';
+                groupEnd = 'X13F';
+              } else if (num === 10) {
+                groupStart = 'X140';
+                groupEnd = 'X14F';
+              } else if (num === 11) {
+                groupStart = '2X000';
+                groupEnd = '2X00F';
+              } else if (num === 12) {
+                groupStart = '2X010';
+                groupEnd = '2X01F';
+              } else {
+                groupStart = '';
+                groupEnd = '';
+              }
             }
-          } else if (num === 9) {
-            groupStart = 'X130';
-            groupEnd = 'X13F';
-          } else if (num === 10) {
-            groupStart = 'X140';
-            groupEnd = 'X14F';
-          } else if (num === 11) {
-            groupStart = '2X000';
-            groupEnd = '2X00F';
-          } else if (num === 12) {
-            groupStart = '2X010';
-            groupEnd = '2X01F';
           } else {
             groupStart = '';
             groupEnd = '';

@@ -427,6 +427,132 @@ function loadCFrontSensorDataFromPath(cFrontSensorPath) {
   return { sensors: data.sensors || [], parkingType: data.parkingType || 'リフトパーク（縦列・前側）' };
 }
 
+// パスを指定してC奥側センサデータを読み込む（Vercel環境用）
+function loadCBackSensorDataFromPath(cBackSensorPath) {
+  console.log('=== C奥側センサデータの読み込み ===\n');
+
+  if (!fs.existsSync(cBackSensorPath)) {
+    throw new Error(
+      `C奥側センサデータファイルが見つかりません: ${cBackSensorPath}\n` +
+        'parsed_data_c_back_sensor.jsonが存在することを確認してください。',
+    );
+  }
+
+  const data = JSON.parse(fs.readFileSync(cBackSensorPath, 'utf8'));
+
+  console.log(`C奥側センサデータファイルを読み込みました: ${cBackSensorPath}`);
+  console.log(`  生成日時: ${data.generatedAt || '不明'}`);
+  console.log(`  駐車場タイプ: ${data.parkingType || '不明'}`);
+  console.log(`  センサ状態: ${data.sensors?.length || 0}件`);
+
+  return { sensors: data.sensors || [], parkingType: data.parkingType || 'リフトパーク（縦列・奥側）' };
+}
+
+// パスを指定してスライドパーク円（SLMT、SLM）センサデータを読み込む（Vercel環境用）
+function loadCircleSlmtSensorDataFromPath(circleSlmtSensorPath) {
+  console.log('=== スライドパーク円（SLMT、SLM）センサデータの読み込み ===\n');
+
+  if (!fs.existsSync(circleSlmtSensorPath)) {
+    throw new Error(
+      `スライドパーク円（SLMT、SLM）センサデータファイルが見つかりません: ${circleSlmtSensorPath}\n` +
+        'parsed_data_circle_slmt_sensor.jsonが存在することを確認してください。',
+    );
+  }
+
+  const data = JSON.parse(fs.readFileSync(circleSlmtSensorPath, 'utf8'));
+
+  console.log(`スライドパーク円（SLMT、SLM）センサデータファイルを読み込みました: ${circleSlmtSensorPath}`);
+  console.log(`  生成日時: ${data.generatedAt || '不明'}`);
+  console.log(`  駐車場タイプ: ${data.parkingType || '不明'}`);
+  console.log(`  センサ状態: ${data.sensors?.length || 0}件`);
+
+  return { sensors: data.sensors || [], parkingType: data.parkingType || 'スライドパーク円（SLMT、SLM）' };
+}
+
+// パスを指定してスライドパーク円故障コードデータを読み込む（Vercel環境用）
+function loadCircleCodeDataFromPath(circleCodePath) {
+  console.log('=== スライドパーク円故障コードデータの読み込み ===\n');
+
+  if (!fs.existsSync(circleCodePath)) {
+    throw new Error(
+      `スライドパーク円故障コードデータファイルが見つかりません: ${circleCodePath}\n` +
+        'parsed_data_circle_code.jsonが存在することを確認してください。',
+    );
+  }
+
+  const data = JSON.parse(fs.readFileSync(circleCodePath, 'utf8'));
+
+  console.log(`スライドパーク円故障コードデータファイルを読み込みました: ${circleCodePath}`);
+  console.log(`  生成日時: ${data.generatedAt || '不明'}`);
+  console.log(`  駐車場タイプ: ${data.parkingType || '不明'}`);
+  console.log(`  故障マスタ: ${data.faults?.length || 0}件`);
+
+  return { faults: data.faults || [], parkingType: data.parkingType || 'スライドパーク円' };
+}
+
+// パスを指定してスライドパーク円（SL-TL、SL-L）センサデータを読み込む（Vercel環境用）
+function loadCircleSlSensorDataFromPath(circleSlSensorPath) {
+  console.log('=== スライドパーク円（SL-TL、SL-L）センサデータの読み込み ===\n');
+
+  if (!fs.existsSync(circleSlSensorPath)) {
+    throw new Error(
+      `スライドパーク円（SL-TL、SL-L）センサデータファイルが見つかりません: ${circleSlSensorPath}\n` +
+        'parsed_data_circle_sl_sensor.jsonが存在することを確認してください。',
+    );
+  }
+
+  const data = JSON.parse(fs.readFileSync(circleSlSensorPath, 'utf8'));
+
+  console.log(`スライドパーク円（SL-TL、SL-L）センサデータファイルを読み込みました: ${circleSlSensorPath}`);
+  console.log(`  生成日時: ${data.generatedAt || '不明'}`);
+  console.log(`  駐車場タイプ: ${data.parkingType || '不明'}`);
+  console.log(`  センサ状態: ${data.sensors?.length || 0}件`);
+
+  return { sensors: data.sensors || [], parkingType: data.parkingType || 'スライドパーク円（SL-TL、SL-L）' };
+}
+
+// パスを指定してシフトパークセンサデータを読み込む（Vercel環境用）
+function loadShiftSensorDataFromPath(shiftSensorPath) {
+  console.log('=== シフトパークセンサデータの読み込み ===\n');
+
+  if (!fs.existsSync(shiftSensorPath)) {
+    throw new Error(
+      `シフトパークセンサデータファイルが見つかりません: ${shiftSensorPath}\n` +
+        'parsed_data_shift_sensor.jsonが存在することを確認してください。',
+    );
+  }
+
+  const data = JSON.parse(fs.readFileSync(shiftSensorPath, 'utf8'));
+
+  console.log(`シフトパークセンサデータファイルを読み込みました: ${shiftSensorPath}`);
+  console.log(`  生成日時: ${data.generatedAt || '不明'}`);
+  console.log(`  駐車場タイプ: ${data.parkingType || '不明'}`);
+  console.log(`  センサ状態: ${data.sensors?.length || 0}件`);
+
+  return { sensors: data.sensors || [], parkingType: data.parkingType || 'シフトパーク' };
+}
+
+// パスを指定してシフトパーク故障コードデータを読み込む（Vercel環境用）
+function loadShiftCodeDataFromPath(shiftCodePath) {
+  console.log('=== シフトパーク故障コードデータの読み込み ===\n');
+
+  if (!fs.existsSync(shiftCodePath)) {
+    throw new Error(
+      `シフトパーク故障コードデータファイルが見つかりません: ${shiftCodePath}\n` +
+        'parsed_data_shift_code.jsonが存在することを確認してください。',
+    );
+  }
+
+  const data = JSON.parse(fs.readFileSync(shiftCodePath, 'utf8'));
+
+  console.log(`シフトパーク故障コードデータファイルを読み込みました: ${shiftCodePath}`);
+  console.log(`  生成日時: ${data.generatedAt || '不明'}`);
+  console.log(`  駐車場タイプ: ${data.parkingType || '不明'}`);
+  console.log(`  故障マスタ: ${data.faults?.length || 0}件`);
+
+  return { faults: data.faults || [], parkingType: data.parkingType || 'シフトパーク' };
+}
+
 // パスを指定してリフトパーク故障コードデータを読み込む（Vercel環境用）
 function loadLiftCodeDataFromPath(liftCodePath) {
   console.log('=== リフトパーク故障コードデータの読み込み ===\n');
@@ -697,6 +823,19 @@ async function loadFromJson() {
     console.warn('警告: parsed_data_c_front_sensor.jsonが見つかりませんでした。');
   }
 
+  // C奥側センサデータの読み込み（オプション）
+  const cBackSensorPath = resolveDataPath('parsed_data_c_back_sensor.json');
+  if (cBackSensorPath) {
+    try {
+      const cBackSensorData = loadCBackSensorDataFromPath(cBackSensorPath);
+      await saveSensorStatusToDB(cBackSensorData.sensors, cBackSensorData.parkingType);
+    } catch (error) {
+      console.warn(`警告: C奥側センサデータの読み込みに失敗しました: ${error.message}`);
+    }
+  } else {
+    console.warn('警告: parsed_data_c_back_sensor.jsonが見つかりませんでした。');
+  }
+
   // リフトパーク故障コードデータの読み込み（オプション）
   const liftCodePath = resolveDataPath('parsed_data_lift_code.json');
   if (liftCodePath) {
@@ -708,6 +847,71 @@ async function loadFromJson() {
     }
   } else {
     console.warn('警告: parsed_data_lift_code.jsonが見つかりませんでした。');
+  }
+
+  // スライドパーク円（SLMT、SLM）センサデータの読み込み（オプション）
+  const circleSlmtSensorPath = resolveDataPath('parsed_data_circle_slmt_sensor.json');
+  if (circleSlmtSensorPath) {
+    try {
+      const circleSlmtSensorData = loadCircleSlmtSensorDataFromPath(circleSlmtSensorPath);
+      await saveSensorStatusToDB(circleSlmtSensorData.sensors, circleSlmtSensorData.parkingType);
+    } catch (error) {
+      console.warn(`警告: スライドパーク円（SLMT、SLM）センサデータの読み込みに失敗しました: ${error.message}`);
+    }
+  } else {
+    console.warn('警告: parsed_data_circle_slmt_sensor.jsonが見つかりませんでした。');
+  }
+
+  // スライドパーク円故障コードデータの読み込み（オプション）
+  const circleCodePath = resolveDataPath('parsed_data_circle_code.json');
+  if (circleCodePath) {
+    try {
+      const circleCodeData = loadCircleCodeDataFromPath(circleCodePath);
+      await saveFaultMasterToDB(circleCodeData.faults, circleCodeData.parkingType);
+    } catch (error) {
+      console.warn(`警告: スライドパーク円故障コードデータの読み込みに失敗しました: ${error.message}`);
+    }
+  } else {
+    console.warn('警告: parsed_data_circle_code.jsonが見つかりませんでした。');
+  }
+
+  // スライドパーク円（SL-TL、SL-L）センサデータの読み込み（オプション）
+  const circleSlSensorPath = resolveDataPath('parsed_data_circle_sl_sensor.json');
+  if (circleSlSensorPath) {
+    try {
+      const circleSlSensorData = loadCircleSlSensorDataFromPath(circleSlSensorPath);
+      await saveSensorStatusToDB(circleSlSensorData.sensors, circleSlSensorData.parkingType);
+    } catch (error) {
+      console.warn(`警告: スライドパーク円（SL-TL、SL-L）センサデータの読み込みに失敗しました: ${error.message}`);
+    }
+  } else {
+    console.warn('警告: parsed_data_circle_sl_sensor.jsonが見つかりませんでした。');
+  }
+
+  // シフトパークセンサデータの読み込み（オプション）
+  const shiftSensorPath = resolveDataPath('parsed_data_shift_sensor.json');
+  if (shiftSensorPath) {
+    try {
+      const shiftSensorData = loadShiftSensorDataFromPath(shiftSensorPath);
+      await saveSensorStatusToDB(shiftSensorData.sensors, shiftSensorData.parkingType);
+    } catch (error) {
+      console.warn(`警告: シフトパークセンサデータの読み込みに失敗しました: ${error.message}`);
+    }
+  } else {
+    console.warn('警告: parsed_data_shift_sensor.jsonが見つかりませんでした。');
+  }
+
+  // シフトパーク故障コードデータの読み込み（オプション）
+  const shiftCodePath = resolveDataPath('parsed_data_shift_code.json');
+  if (shiftCodePath) {
+    try {
+      const shiftCodeData = loadShiftCodeDataFromPath(shiftCodePath);
+      await saveFaultMasterToDB(shiftCodeData.faults, shiftCodeData.parkingType);
+    } catch (error) {
+      console.warn(`警告: シフトパーク故障コードデータの読み込みに失敗しました: ${error.message}`);
+    }
+  } else {
+    console.warn('警告: parsed_data_shift_code.jsonが見つかりませんでした。');
   }
 
   console.log('\n=== データベース保存完了 ===');

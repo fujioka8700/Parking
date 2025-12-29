@@ -7,10 +7,10 @@ const parkingTypes = [
   { value: 'tower_mt', label: 'タワーパーク（MT）', enabled: true },
   { value: 'lift_c', label: 'リフトパーク（C）', enabled: true },
   { value: 'lift_vertical_front', label: 'リフトパーク（縦列・前側）', enabled: true },
-  { value: 'lift_vertical_back', label: 'リフトパーク（縦列・奥側）', enabled: false },
-  { value: 'slide_slmt_slm', label: 'スライドパーク円（SLMT、SLM）', enabled: false },
-  { value: 'slide_sl_tl_sl_l', label: 'スライドパーク円（SL-TL、SL-L）', enabled: false },
-  { value: 'shift', label: 'シフトパーク', enabled: false },
+  { value: 'lift_vertical_back', label: 'リフトパーク（縦列・奥側）', enabled: true },
+  { value: 'slide_slmt_slm', label: 'スライドパーク円（SLMT、SLM）', enabled: true },
+  { value: 'slide_sl_tl_sl_l', label: 'スライドパーク円（SL-TL、SL-L）', enabled: true },
+  { value: 'shift', label: 'シフトパーク', enabled: true },
 ];
 
 export default function ParkingTypeSelector() {
