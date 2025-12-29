@@ -385,6 +385,69 @@ function loadMSensorDataFromPath(mSensorPath) {
   return { sensors: data.sensors || [], parkingType: data.parkingType || 'タワーパーク（M）' };
 }
 
+// パスを指定してCセンサデータを読み込む（Vercel環境用）
+function loadCSensorDataFromPath(cSensorPath) {
+  console.log('=== Cセンサデータの読み込み ===\n');
+
+  if (!fs.existsSync(cSensorPath)) {
+    throw new Error(
+      `Cセンサデータファイルが見つかりません: ${cSensorPath}\n` +
+        'parsed_data_c_sensor.jsonが存在することを確認してください。',
+    );
+  }
+
+  const data = JSON.parse(fs.readFileSync(cSensorPath, 'utf8'));
+
+  console.log(`Cセンサデータファイルを読み込みました: ${cSensorPath}`);
+  console.log(`  生成日時: ${data.generatedAt || '不明'}`);
+  console.log(`  駐車場タイプ: ${data.parkingType || '不明'}`);
+  console.log(`  センサ状態: ${data.sensors?.length || 0}件`);
+
+  return { sensors: data.sensors || [], parkingType: data.parkingType || 'リフトパーク（C）' };
+}
+
+// パスを指定してC前側センサデータを読み込む（Vercel環境用）
+function loadCFrontSensorDataFromPath(cFrontSensorPath) {
+  console.log('=== C前側センサデータの読み込み ===\n');
+
+  if (!fs.existsSync(cFrontSensorPath)) {
+    throw new Error(
+      `C前側センサデータファイルが見つかりません: ${cFrontSensorPath}\n` +
+        'parsed_data_c_front_sensor.jsonが存在することを確認してください。',
+    );
+  }
+
+  const data = JSON.parse(fs.readFileSync(cFrontSensorPath, 'utf8'));
+
+  console.log(`C前側センサデータファイルを読み込みました: ${cFrontSensorPath}`);
+  console.log(`  生成日時: ${data.generatedAt || '不明'}`);
+  console.log(`  駐車場タイプ: ${data.parkingType || '不明'}`);
+  console.log(`  センサ状態: ${data.sensors?.length || 0}件`);
+
+  return { sensors: data.sensors || [], parkingType: data.parkingType || 'リフトパーク（縦列・前側）' };
+}
+
+// パスを指定してリフトパーク故障コードデータを読み込む（Vercel環境用）
+function loadLiftCodeDataFromPath(liftCodePath) {
+  console.log('=== リフトパーク故障コードデータの読み込み ===\n');
+
+  if (!fs.existsSync(liftCodePath)) {
+    throw new Error(
+      `リフトパーク故障コードデータファイルが見つかりません: ${liftCodePath}\n` +
+        'parsed_data_lift_code.jsonが存在することを確認してください。',
+    );
+  }
+
+  const data = JSON.parse(fs.readFileSync(liftCodePath, 'utf8'));
+
+  console.log(`リフトパーク故障コードデータファイルを読み込みました: ${liftCodePath}`);
+  console.log(`  生成日時: ${data.generatedAt || '不明'}`);
+  console.log(`  駐車場タイプ: ${data.parkingType || '不明'}`);
+  console.log(`  故障マスタ: ${data.faults?.length || 0}件`);
+
+  return { faults: data.faults || [], parkingType: data.parkingType || 'リフトパーク' };
+}
+
 // データベースに既存データがあるかチェック
 async function hasExistingData() {
   try {
@@ -415,16 +478,26 @@ async function saveFaultMasterToDB(faults, parkingType = 'タワーパーク') {
         console.log(`[デバッグ] faultCode: ${fault.faultCode}, solution存在: ${solutionValue !== null && solutionValue !== undefined}, solution長: ${solutionValue ? solutionValue.length : 0}`);
       }
       
-      // 既存レコードの確認
+      // 既存レコードの確認（faultCodeとparkingTypeの複合キーで検索）
       const existing = await prisma.faultMaster.findUnique({
-        where: { faultCode: fault.faultCode },
+        where: { 
+          faultCode_parkingType: {
+            faultCode: fault.faultCode,
+            parkingType: parkingType,
+          }
+        },
         select: { id: true, solution: true },
       });
       
       if (existing) {
         // 既存レコードがある場合、明示的にupdateを実行
         await prisma.faultMaster.update({
-          where: { faultCode: fault.faultCode },
+          where: { 
+            faultCode_parkingType: {
+              faultCode: fault.faultCode,
+              parkingType: parkingType,
+            }
+          },
           data: {
             displayCode: fault.displayCode,
             faultName: fault.faultName,
@@ -438,14 +511,24 @@ async function saveFaultMasterToDB(faults, parkingType = 'タワーパーク') {
         // 念のため、solutionが正しく保存されたか確認（faultCode 5-7のみ）
         if (['5', '6', '7'].includes(fault.faultCode)) {
           const saved = await prisma.faultMaster.findUnique({
-            where: { faultCode: fault.faultCode },
+            where: { 
+              faultCode_parkingType: {
+                faultCode: fault.faultCode,
+                parkingType: parkingType,
+              }
+            },
             select: { solution: true },
           });
           if (saved && saved.solution !== solutionValue) {
             console.warn(`[警告] faultCode ${fault.faultCode}のsolutionが正しく保存されていません。再度更新します。`);
             // 再度更新を試みる（solutionのみ）
             await prisma.faultMaster.update({
-              where: { faultCode: fault.faultCode },
+              where: { 
+                faultCode_parkingType: {
+                  faultCode: fault.faultCode,
+                  parkingType: parkingType,
+                }
+              },
               data: { solution: solutionValue },
             });
           } else if (saved && saved.solution === solutionValue) {
@@ -529,20 +612,9 @@ async function loadFromJson() {
   // 既存データのチェックをスキップしてデータを投入する
   const isVercel = process.env.VERCEL === '1' || process.env.VERCEL_ENV;
   
-  if (!isVercel) {
-    // 既存データのチェック（Vercel以外の環境のみ）
-    const hasData = await hasExistingData();
-    if (hasData) {
-      console.log('既存のデータが検出されました。データ投入をスキップします。');
-      const faultCount = await prisma.faultMaster.count();
-      const sensorCount = await prisma.sensorStatus.count();
-      console.log(`  故障マスタ: ${faultCount}件`);
-      console.log(`  センサ状態: ${sensorCount}件`);
-      return;
-    }
-  }
-
-  console.log('既存データが見つかりませんでした。データを投入します。\n');
+  // 既存データチェックを削除し、常にデータを投入する
+  // （各駐車場タイプごとに個別にチェックするため）
+  console.log('データを投入します。\n');
 
   // 故障マスタデータの読み込み
   const jsonPath = resolveDataPath('parsed_data_tower_code.json');
@@ -599,6 +671,45 @@ async function loadFromJson() {
     console.warn('警告: parsed_data_m_sensor.jsonが見つかりませんでした。');
   }
 
+  // Cセンサデータの読み込み（オプション）
+  const cSensorPath = resolveDataPath('parsed_data_c_sensor.json');
+  if (cSensorPath) {
+    try {
+      const cSensorData = loadCSensorDataFromPath(cSensorPath);
+      await saveSensorStatusToDB(cSensorData.sensors, cSensorData.parkingType);
+    } catch (error) {
+      console.warn(`警告: Cセンサデータの読み込みに失敗しました: ${error.message}`);
+    }
+  } else {
+    console.warn('警告: parsed_data_c_sensor.jsonが見つかりませんでした。');
+  }
+
+  // C前側センサデータの読み込み（オプション）
+  const cFrontSensorPath = resolveDataPath('parsed_data_c_front_sensor.json');
+  if (cFrontSensorPath) {
+    try {
+      const cFrontSensorData = loadCFrontSensorDataFromPath(cFrontSensorPath);
+      await saveSensorStatusToDB(cFrontSensorData.sensors, cFrontSensorData.parkingType);
+    } catch (error) {
+      console.warn(`警告: C前側センサデータの読み込みに失敗しました: ${error.message}`);
+    }
+  } else {
+    console.warn('警告: parsed_data_c_front_sensor.jsonが見つかりませんでした。');
+  }
+
+  // リフトパーク故障コードデータの読み込み（オプション）
+  const liftCodePath = resolveDataPath('parsed_data_lift_code.json');
+  if (liftCodePath) {
+    try {
+      const liftCodeData = loadLiftCodeDataFromPath(liftCodePath);
+      await saveFaultMasterToDB(liftCodeData.faults, liftCodeData.parkingType);
+    } catch (error) {
+      console.warn(`警告: リフトパーク故障コードデータの読み込みに失敗しました: ${error.message}`);
+    }
+  } else {
+    console.warn('警告: parsed_data_lift_code.jsonが見つかりませんでした。');
+  }
+
   console.log('\n=== データベース保存完了 ===');
 }
 
@@ -632,6 +743,8 @@ module.exports = {
   saveSensorStatusToDB,
   loadMtSensorData,
   loadMSensorData,
+  loadCSensorDataFromPath,
+  loadLiftCodeDataFromPath,
   hasExistingData,
   resolveDataPath,
 };

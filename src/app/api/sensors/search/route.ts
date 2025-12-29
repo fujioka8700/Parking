@@ -11,7 +11,18 @@ export async function GET(request: Request) {
     const searchCondition: any = {};
 
     if (parkingType) {
-      searchCondition.parkingType = parkingType;
+      // 駐車場タイプのマッピング
+      const parkingTypeMapping: Record<string, string> = {
+        tower_m: 'タワーパーク（M）',
+        tower_mt: 'タワーパーク（MT）',
+        lift_c: 'リフトパーク（C）',
+        lift_vertical_front: 'リフトパーク（縦列・前側）',
+        lift_vertical_back: 'リフトパーク（縦列・奥側）',
+        slide_slmt_slm: 'スライドパーク円（SLMT、SLM）',
+        slide_sl_tl_sl_l: 'スライドパーク円（SL-TL、SL-L）',
+        shift: 'シフトパーク',
+      };
+      searchCondition.parkingType = parkingTypeMapping[parkingType] || parkingType;
     }
 
     if (query.trim()) {

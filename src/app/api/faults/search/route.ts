@@ -25,9 +25,12 @@ export async function GET(request: Request) {
 
     // 駐車場タイプでフィルタリング
     // タワーパーク（M）とタワーパーク（MT）の両方で「タワーパーク」の故障コードを表示
+    // リフトパーク（C）とリフトパーク（縦列・前側）で「リフトパーク」の故障コードを表示
     if (parkingType) {
       if (parkingType === 'tower_m' || parkingType === 'tower_mt') {
         searchCondition.parkingType = 'タワーパーク';
+      } else if (parkingType === 'lift_c' || parkingType === 'lift_vertical_front') {
+        searchCondition.parkingType = 'リフトパーク';
       } else {
         // 他の駐車場タイプの場合は、そのまま使用（将来の拡張用）
         // 駐車場タイプのマッピングが必要な場合はここで実装

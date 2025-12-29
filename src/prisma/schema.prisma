@@ -10,7 +10,7 @@ generator client {
 // 故障マスタ
 model FaultMaster {
   id           Int      @id @default(autoincrement())
-  faultCode    String   @unique // Mコード（M32, M33など）
+  faultCode    String // Mコード（M32, M33など）
   displayCode  String? // 表示コード（1, 2, 3など）
   faultName    String // 故障名称
   faultContent String? // 故障内容（詳細）
@@ -20,6 +20,7 @@ model FaultMaster {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
+  @@unique([faultCode, parkingType])
   @@index([faultCode])
   @@index([displayCode])
   @@index([faultName])
