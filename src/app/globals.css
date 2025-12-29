@@ -12,6 +12,25 @@
   --font-mono: var(--font-geist-mono);
 }
 
+@layer utilities {
+  /* ヘッダーの高さ分のスペーサー（レスポンシブ対応） */
+  /* タイトル行（モバイル: 縦並び）: py-3 (12px) + タイトル高さ(約28px) + gap-3 (12px) + セレクター高さ(約44px) + py-3 (12px) + border-b (1px) ≈ 109px */
+  /* タイトル行（デスクトップ: 横並び）: py-4 (16px) + コンテンツ高さ(約32px) + py-4 (16px) + border-b (1px) ≈ 65px */
+  /* ナビゲーション行: py-3 (12px) + min-h-[44px] + py-3 (12px) = 68px (モバイル) / py-4 (16px) + min-h-[44px] + py-4 (16px) = 76px (デスクトップ) */
+  /* 合計: 177px (モバイル) / 141px (デスクトップ) */
+  /* モバイル: 160px */
+  .header-spacer {
+    height: 160px;
+  }
+  
+  /* デスクトップ: 150px（141px + 余白9px） */
+  @media (min-width: 640px) {
+    .header-spacer {
+      height: 150px;
+    }
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
