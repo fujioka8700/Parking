@@ -407,29 +407,72 @@ async function saveFaultMasterToDB(faults, parkingType = 'タワーパーク') {
 
   for (const fault of faults) {
     try {
-      await prisma.faultMaster.upsert({
+      // solutionがnullやundefinedの場合でも、明示的にnullを設定する
+      const solutionValue = fault.solution !== undefined ? fault.solution : null;
+      
+      // デバッグ: faultCode 5-7のsolutionを確認
+      if (['5', '6', '7'].includes(fault.faultCode)) {
+        console.log(`[デバッグ] faultCode: ${fault.faultCode}, solution存在: ${solutionValue !== null && solutionValue !== undefined}, solution長: ${solutionValue ? solutionValue.length : 0}`);
+      }
+      
+      // 既存レコードの確認
+      const existing = await prisma.faultMaster.findUnique({
         where: { faultCode: fault.faultCode },
-        update: {
-          displayCode: fault.displayCode,
-          faultName: fault.faultName,
-          faultContent: fault.faultContent,
-          solution: fault.solution,
-          isActive: fault.isActive,
-          parkingType: parkingType,
-        },
-        create: {
-          faultCode: fault.faultCode,
-          displayCode: fault.displayCode,
-          faultName: fault.faultName,
-          faultContent: fault.faultContent,
-          solution: fault.solution,
-          isActive: fault.isActive,
-          parkingType: parkingType,
-        },
+        select: { id: true, solution: true },
       });
+      
+      if (existing) {
+        // 既存レコードがある場合、明示的にupdateを実行
+        await prisma.faultMaster.update({
+          where: { faultCode: fault.faultCode },
+          data: {
+            displayCode: fault.displayCode,
+            faultName: fault.faultName,
+            faultContent: fault.faultContent,
+            solution: solutionValue, // solutionを明示的に更新
+            isActive: fault.isActive,
+            parkingType: parkingType,
+          },
+        });
+        
+        // 念のため、solutionが正しく保存されたか確認（faultCode 5-7のみ）
+        if (['5', '6', '7'].includes(fault.faultCode)) {
+          const saved = await prisma.faultMaster.findUnique({
+            where: { faultCode: fault.faultCode },
+            select: { solution: true },
+          });
+          if (saved && saved.solution !== solutionValue) {
+            console.warn(`[警告] faultCode ${fault.faultCode}のsolutionが正しく保存されていません。再度更新します。`);
+            // 再度更新を試みる（solutionのみ）
+            await prisma.faultMaster.update({
+              where: { faultCode: fault.faultCode },
+              data: { solution: solutionValue },
+            });
+          } else if (saved && saved.solution === solutionValue) {
+            console.log(`[確認] faultCode ${fault.faultCode}のsolutionが正しく保存されました。`);
+          }
+        }
+      } else {
+        // 新規レコードを作成
+        await prisma.faultMaster.create({
+          data: {
+            faultCode: fault.faultCode,
+            displayCode: fault.displayCode,
+            faultName: fault.faultName,
+            faultContent: fault.faultContent,
+            solution: solutionValue,
+            isActive: fault.isActive,
+            parkingType: parkingType,
+          },
+        });
+      }
+      
       successCount++;
     } catch (error) {
       console.error(`エラー: ${fault.faultCode} - ${error.message}`);
+      if (error.stack) {
+        console.error(`スタックトレース: ${error.stack}`);
+      }
       errorCount++;
     }
   }
@@ -478,7 +521,7 @@ async function saveSensorStatusToDB(sensors, parkingType) {
   console.log(`  エラー: ${errorCount}件`);
 }
 
-// JSONファイルからデータベースに読み込む（本番環境用）
+// JSONファイルからデータベースに読み込む
 async function loadFromJson() {
   console.log('=== JSONファイルからデータベースに読み込み ===\n');
 
@@ -514,7 +557,7 @@ async function loadFromJson() {
       `JSONファイルが見つかりません: parsed_data_tower_code.json\n` +
         `現在の作業ディレクトリ: ${process.cwd()}\n` +
         `スクリプトの場所: ${__dirname}\n` +
-        '開発環境で先にエクセルファイルを解析してJSONファイルを生成してください。',
+        'parsed_data_tower_code.jsonが存在することを確認してください。',
     );
   }
 
@@ -525,48 +568,35 @@ async function loadFromJson() {
   console.log(`  駐車場タイプ: ${data.parkingType || '不明'}`);
   console.log(`  故障マスタ: ${data.faults?.length || 0}件`);
 
-  // MTセンサデータの読み込み
-  const mtSensorPath = resolveDataPath('parsed_data_mt_sensor.json');
-  if (!mtSensorPath) {
-    // Vercel環境では、エラーが発生してもビルドを続行できるようにする
-    if (process.env.VERCEL === '1' || process.env.VERCEL_ENV) {
-      console.warn('警告: parsed_data_mt_sensor.jsonが見つかりませんでした。データ投入をスキップします。');
-      console.warn('データファイルがGitリポジトリに含まれていることを確認してください。');
-      return;
-    }
-    throw new Error(
-      `MTセンサデータファイルが見つかりません: parsed_data_mt_sensor.json\n` +
-        `現在の作業ディレクトリ: ${process.cwd()}\n` +
-        `スクリプトの場所: ${__dirname}\n` +
-        '先にconvertMtSensor.jsを実行してparsed_data_mt_sensor.jsonを生成してください。',
-    );
-  }
-
-  const mtSensorData = loadMtSensorDataFromPath(mtSensorPath);
-
-  // Mセンサデータの読み込み
-  const mSensorPath = resolveDataPath('parsed_data_m_sensor.json');
-  if (!mSensorPath) {
-    // Vercel環境では、エラーが発生してもビルドを続行できるようにする
-    if (process.env.VERCEL === '1' || process.env.VERCEL_ENV) {
-      console.warn('警告: parsed_data_m_sensor.jsonが見つかりませんでした。MTセンサデータのみ投入します。');
-    } else {
-      throw new Error(
-        `Mセンサデータファイルが見つかりません: parsed_data_m_sensor.json\n` +
-          `現在の作業ディレクトリ: ${process.cwd()}\n` +
-          `スクリプトの場所: ${__dirname}\n` +
-          'parsed_data_m_sensor.jsonが存在することを確認してください。',
-      );
-    }
-  }
-
   const parkingType = data.parkingType || 'タワーパーク';
   await saveFaultMasterToDB(data.faults || [], parkingType);
-  await saveSensorStatusToDB(mtSensorData.sensors, mtSensorData.parkingType);
 
+  // MTセンサデータの読み込み（オプション）
+  const mtSensorPath = resolveDataPath('parsed_data_mt_sensor.json');
+  if (mtSensorPath) {
+    try {
+      const mtSensorData = loadMtSensorDataFromPath(mtSensorPath);
+      await saveSensorStatusToDB(mtSensorData.sensors, mtSensorData.parkingType);
+    } catch (error) {
+      console.warn(`警告: MTセンサデータの読み込みに失敗しました: ${error.message}`);
+      console.warn('故障マスタデータのみ投入します。');
+    }
+  } else {
+    console.warn('警告: parsed_data_mt_sensor.jsonが見つかりませんでした。');
+    console.warn('故障マスタデータのみ投入します。');
+  }
+
+  // Mセンサデータの読み込み（オプション）
+  const mSensorPath = resolveDataPath('parsed_data_m_sensor.json');
   if (mSensorPath) {
-    const mSensorData = loadMSensorDataFromPath(mSensorPath);
-    await saveSensorStatusToDB(mSensorData.sensors, mSensorData.parkingType);
+    try {
+      const mSensorData = loadMSensorDataFromPath(mSensorPath);
+      await saveSensorStatusToDB(mSensorData.sensors, mSensorData.parkingType);
+    } catch (error) {
+      console.warn(`警告: Mセンサデータの読み込みに失敗しました: ${error.message}`);
+    }
+  } else {
+    console.warn('警告: parsed_data_m_sensor.jsonが見つかりませんでした。');
   }
 
   console.log('\n=== データベース保存完了 ===');
@@ -574,35 +604,9 @@ async function loadFromJson() {
 
 async function main() {
   try {
-    const isDevelopment = process.env.NODE_ENV !== 'production';
-    const isVercel = process.env.VERCEL === '1' || process.env.VERCEL_ENV;
-
-    if (isDevelopment && !isVercel) {
-      // 開発環境：エクセル解析（故障マスタ） → JSON生成 → MTセンサデータ読み込み → DB保存
-      console.log('【開発環境モード】\n');
-      
-      // 故障マスタ：エクセルから解析
-      const data = await parseExcelToJson();
-      const parkingType = data.parkingType || 'タワーパーク';
-      await saveFaultMasterToDB(data.faults, parkingType);
-      
-      // センサ状態：parsed_data_mt_sensor.jsonとparsed_data_m_sensor.jsonから読み込み
-      const mtSensorData = loadMtSensorData();
-      await saveSensorStatusToDB(mtSensorData.sensors, mtSensorData.parkingType);
-      
-      try {
-        const mSensorData = loadMSensorData();
-        await saveSensorStatusToDB(mSensorData.sensors, mSensorData.parkingType);
-      } catch (error) {
-        console.warn(`Mセンサデータの読み込みをスキップ: ${error.message}`);
-      }
-      
-      console.log('\n=== データ初期化完了 ===');
-    } else {
-      // 本番環境（Vercel含む）：JSONファイルからDB保存（既存データチェック付き）
-      console.log('【本番環境モード】\n');
-      await loadFromJson();
-    }
+    // 開発環境・本番環境共通：JSONファイルからDB保存（既存データチェック付き）
+    console.log('【データ初期化モード】\n');
+    await loadFromJson();
   } catch (error) {
     console.error('エラーが発生しました:', error);
     // Vercel環境では、エラーが発生してもビルドを続行できるようにexit(0)にする
@@ -623,7 +627,6 @@ if (require.main === module) {
 }
 
 module.exports = {
-  parseExcelToJson,
   loadFromJson,
   saveFaultMasterToDB,
   saveSensorStatusToDB,

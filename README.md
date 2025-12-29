@@ -75,11 +75,15 @@ PostgreSQL コンテナが自動的に起動し、データベースが初期化
 
 このコマンドは以下を実行します：
 
-1. エクセルファイル（`data/TP_manual.xls`）を解析して故障マスタデータを取得
-2. JSON ファイル（`data/parsed_data_tower_code.json`）を生成（故障マスタのみ、駐車場タイプ: "タワーパーク"）
-3. MT センサデータ（`data/parsed_data_mt_sensor.json`）を読み込み（駐車場タイプ: "タワーパーク（MT）"）
-4. M センサデータ（`data/parsed_data_m_sensor.json`）を読み込み（駐車場タイプ: "タワーパーク（M）"）
-5. データベースに保存（各データに駐車場タイプを付与）
+1. 故障マスタデータ（`data/parsed_data_tower_code.json`）を読み込み（駐車場タイプ: "タワーパーク"）
+2. MT センサデータ（`data/parsed_data_mt_sensor.json`）を読み込み（駐車場タイプ: "タワーパーク（MT）"）
+3. M センサデータ（`data/parsed_data_m_sensor.json`）を読み込み（駐車場タイプ: "タワーパーク（M）"）
+4. データベースに保存（各データに駐車場タイプを付与）
+
+**重要**: 以下の JSON ファイルが存在することを確認してください：
+- `data/parsed_data_tower_code.json`（故障マスタデータ、駐車場タイプ: "タワーパーク"）
+- `data/parsed_data_mt_sensor.json`（MT センサデータ、駐車場タイプ: "タワーパーク（MT）"）
+- `data/parsed_data_m_sensor.json`（M センサデータ、駐車場タイプ: "タワーパーク（M）"）
 
 #### 本番環境
 
@@ -111,14 +115,14 @@ docker compose exec app npm run dev
 
 ### 故障マスタデータを更新した場合
 
-1. エクセルファイル（`data/TP_manual.xls`）を更新
-2. 開発環境で以下のコマンドを実行して JSON ファイルを再生成：
+1. `data/parsed_data_tower_code.json` を直接編集
+2. データベースに反映：
 
 ```bash
 docker compose exec app npm run init:dev
 ```
 
-3. 生成された `data/parsed_data_tower_code.json` を Git にコミット
+3. 更新された `data/parsed_data_tower_code.json` を Git にコミット
 4. 本番環境にデプロイ後、本番環境で以下のコマンドを実行：
 
 ```bash
@@ -247,10 +251,12 @@ docker compose exec app npm run start
      1. `npm install`（依存関係のインストール）
      2. `prisma generate`（Prisma Client の生成、`postinstall` スクリプト）
      3. `next build`（Next.js のビルド）
-     4. `prisma db push`（データベーススキーマの適用、`postbuild` スクリプト）
-        - **注意**: 現在は `prisma db push` を使用していますが、マイグレーションファイルを使用する場合は `prisma migrate deploy` に変更してください
+     4. `prisma db push --force-reset`（データベーススキーマの適用、`postbuild` スクリプト）
+        - **注意**: `--force-reset`フラグにより、既存のデータベースがリセットされ、新しいスキーマが適用されます
+        - マイグレーションファイルを使用する場合は、`postbuild` スクリプトを `npx prisma migrate deploy` に変更してください
      5. `node scripts/initData.js`（データ初期化、`postbuild` スクリプト）
-   - 既存データが存在する場合は、データ投入をスキップします
+        - JSONファイルからデータベースにデータを投入します
+        - 既存データが存在する場合は、データ投入をスキップします（Vercel環境では`--force-reset`により常にデータ投入が実行されます）
 
 5. **デプロイ後の確認**
    - デプロイが成功したら、アプリケーションにアクセス
@@ -317,9 +323,8 @@ Parking/
 │   └── scripts/          # スクリプト
 │       └── initData.js   # データ初期化スクリプト
 ├── data/
-│   ├── TP_manual.xls           # エクセルファイル（Git管理外）
 │   ├── mt_sensor.json          # MTセンサ定義ファイル（Git管理）
-│   ├── parsed_data_tower_code.json  # 解析済みJSONファイル（故障マスタ、駐車場タイプ: "タワーパーク"、Git管理）
+│   ├── parsed_data_tower_code.json  # 故障マスタJSONファイル（駐車場タイプ: "タワーパーク"、Git管理）
 │   ├── parsed_data_mt_sensor.json  # MTセンサデータ（駐車場タイプ: "タワーパーク（MT）"、Git管理）
 │   └── parsed_data_m_sensor.json   # Mセンサデータ（駐車場タイプ: "タワーパーク（M）"、Git管理）
 ├── docs/                 # ドキュメント
@@ -329,11 +334,10 @@ Parking/
 
 ## 注意事項
 
-- エクセルファイル（`data/TP_manual.xls`）は Git 管理外です
 - JSON ファイル（`data/parsed_data_tower_code.json`、`data/parsed_data_mt_sensor.json`、`data/parsed_data_m_sensor.json`）は Git 管理に含まれます（本番環境で使用するため）
-- 本番環境では `xlsx` ライブラリは不要です（JSON ファイルのみ使用）
+- データ初期化スクリプト（`initData.js`）は JSON ファイルから直接データを読み込みます（エクセルファイルへの依存はありません）
 - PostgreSQL データベースは Docker ボリューム（`postgres_data`）に保存されます
-- センサ状態データは`parsed_data_mt_sensor.json`と`parsed_data_m_sensor.json`から読み込まれます（エクセルファイルからは読み込みません）
+- センサ状態データは`parsed_data_mt_sensor.json`と`parsed_data_m_sensor.json`から読み込まれます
 - データベーススキーマには`parkingType`フィールドが含まれており、各データは駐車場タイプで区別されます
 - 現在、プルダウンで選択可能な駐車場タイプは「タワーパーク（M）」と「タワーパーク（MT）」のみです
 
@@ -363,11 +367,12 @@ Parking/
 
 本番環境で `parsed_data_tower_code.json`、`parsed_data_mt_sensor.json`、または `parsed_data_m_sensor.json` が見つからない場合：
 
-1. 開発環境でエクセルファイルを解析して JSON ファイルを生成（`npm run init:dev`）
-2. MT センサデータを変換（`node scripts/convertMtSensor.js`）
-3. M センサデータ（`parsed_data_m_sensor.json`）が存在することを確認
-4. JSON ファイルを Git にコミット
-5. 本番環境にデプロイ
+1. 必要な JSON ファイルが存在することを確認：
+   - `data/parsed_data_tower_code.json`
+   - `data/parsed_data_mt_sensor.json`
+   - `data/parsed_data_m_sensor.json`
+2. JSON ファイルを Git にコミット
+3. 本番環境にデプロイ
 
 ### データベース接続エラー
 
