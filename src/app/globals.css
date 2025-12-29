@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
@@ -47,8 +47,18 @@ input:focus-visible {
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5) !important; /* blue-500 ring */
 }
 
-input[type="text"]:focus,
-input[type="text"]:focus-visible {
+input[type='text']:focus,
+input[type='text']:focus-visible {
   color: rgb(17, 24, 39) !important; /* gray-900 */
   border-color: rgb(59, 130, 246) !important; /* blue-500 */
+}
+
+/* select要素のフォーカススタイル */
+select:focus,
+select:focus-visible {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  border-color: rgb(59, 130, 246) !important; /* blue-500 */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5) !important; /* blue-500 ring */
+  color: rgb(17, 24, 39) !important; /* gray-900 */
 }

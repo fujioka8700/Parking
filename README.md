@@ -59,7 +59,7 @@ PostgreSQL コンテナが自動的に起動し、データベースが初期化
 このコマンドは以下を実行します：
 
 1. エクセルファイル（`data/TP_manual.xls`）を解析して故障マスタデータを取得
-2. JSON ファイル（`data/parsed_data.json`）を生成（故障マスタのみ）
+2. JSON ファイル（`data/parsed_data_tower_code.json`）を生成（故障マスタのみ）
 3. MT センサデータ（`data/parsed_data_mt_sensor.json`）を読み込み
 4. データベースに保存
 
@@ -73,7 +73,7 @@ docker compose exec app npm run init:prod
 
 **重要**: 本番環境で実行する前に、以下のファイルが存在することを確認してください：
 
-- `data/parsed_data.json`（故障マスタデータ）
+- `data/parsed_data_tower_code.json`（故障マスタデータ）
 - `data/parsed_data_mt_sensor.json`（MT センサデータ）
 
 ### 5. アプリケーションの起動
@@ -99,7 +99,7 @@ docker compose exec app npm run dev
 docker compose exec app npm run init:dev
 ```
 
-3. 生成された `data/parsed_data.json` を Git にコミット
+3. 生成された `data/parsed_data_tower_code.json` を Git にコミット
 4. 本番環境にデプロイ後、本番環境で以下のコマンドを実行：
 
 ```bash
@@ -132,7 +132,7 @@ docker compose exec app npm run init:prod
 
 ### 前提条件
 
-- `data/parsed_data.json` が存在すること（Git リポジトリに含まれている）
+- `data/parsed_data_tower_code.json` が存在すること（Git リポジトリに含まれている）
 - `data/parsed_data_mt_sensor.json` が存在すること（Git リポジトリに含まれている）
 
 ### Docker Compose でのデプロイ
@@ -188,7 +188,7 @@ docker compose exec app npm run start
 
 - Vercel はサーバーレス環境のため、PostgreSQL データベースは外部サービス（例: Vercel Postgres、Supabase、Neon など）を使用する必要があります
 - データ初期化スクリプトは既存データをチェックし、データが存在する場合は投入をスキップします
-- `data/parsed_data.json` と `data/parsed_data_mt_sensor.json` が Git リポジトリに含まれている必要があります
+- `data/parsed_data_tower_code.json` と `data/parsed_data_mt_sensor.json` が Git リポジトリに含まれている必要があります
 
 ## 開発コマンド
 
@@ -226,7 +226,7 @@ Parking/
 ├── data/
 │   ├── TP_manual.xls           # エクセルファイル（Git管理外）
 │   ├── mt_sensor.json          # MTセンサ定義ファイル（Git管理）
-│   ├── parsed_data.json        # 解析済みJSONファイル（故障マスタ、Git管理）
+│   ├── parsed_data_tower_code.json  # 解析済みJSONファイル（故障マスタ、Git管理）
 │   └── parsed_data_mt_sensor.json  # MTセンサデータ（Git管理）
 ├── docs/                 # ドキュメント
 ├── compose.yaml          # Docker Compose設定
@@ -236,7 +236,7 @@ Parking/
 ## 注意事項
 
 - エクセルファイル（`data/TP_manual.xls`）は Git 管理外です
-- JSON ファイル（`data/parsed_data.json`、`data/parsed_data_mt_sensor.json`）は Git 管理に含まれます（本番環境で使用するため）
+- JSON ファイル（`data/parsed_data_tower_code.json`、`data/parsed_data_mt_sensor.json`）は Git 管理に含まれます（本番環境で使用するため）
 - 本番環境では `xlsx` ライブラリは不要です（JSON ファイルのみ使用）
 - PostgreSQL データベースは Docker ボリューム（`postgres_data`）に保存されます
 - センサ状態データは`parsed_data_mt_sensor.json`から読み込まれます（エクセルファイルからは読み込みません）
@@ -255,7 +255,7 @@ Parking/
 
 ### JSON ファイルが見つからないエラー
 
-本番環境で `parsed_data.json` または `parsed_data_mt_sensor.json` が見つからない場合：
+本番環境で `parsed_data_tower_code.json` または `parsed_data_mt_sensor.json` が見つからない場合：
 
 1. 開発環境でエクセルファイルを解析して JSON ファイルを生成（`npm run init:dev`）
 2. MT センサデータを変換（`node scripts/convertMtSensor.js`）

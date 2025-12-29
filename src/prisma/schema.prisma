@@ -27,12 +27,15 @@ model FaultMaster {
 // センサ状態マスタ
 model SensorStatus {
   id          Int      @id @default(autoincrement())
-  sensorCode  String   @unique // センサコード（X000など）
+  sensorCode  String   // センサコード（X000など）
   sensorName  String   // センサ名称
   description String?  // センサの説明
+  parkingType String   // 駐車場の種類（タワーパーク（M）、タワーパーク（MT）など）
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  @@unique([sensorCode, parkingType])
   @@index([sensorCode])
   @@index([sensorName])
+  @@index([parkingType])
 }

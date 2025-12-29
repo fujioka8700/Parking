@@ -277,7 +277,7 @@ async function parseExcelToJson() {
 
   // JSONファイルに保存（故障マスタのみ）
   // まずパスを解決する
-  const outputPath = resolveDataPath('parsed_data.json') || '/data/parsed_data.json';
+  const outputPath = resolveDataPath('parsed_data_tower_code.json') || '/data/parsed_data_tower_code.json';
   // ディレクトリが存在しない場合は作成
   const outputDir = path.dirname(outputPath);
   if (!fs.existsSync(outputDir)) {
@@ -287,11 +287,13 @@ async function parseExcelToJson() {
   const data = {
     faults,
     generatedAt: new Date().toISOString(),
+    parkingType: "タワーパーク",
   };
 
   fs.writeFileSync(outputPath, JSON.stringify(data, null, 2), 'utf8');
 
   console.log(`\nJSONファイルを生成しました: ${outputPath}`);
+  console.log(`  駐車場タイプ: ${data.parkingType || '不明'}`);
   console.log(`  故障マスタ: ${faults.length}件`);
 
   return data;
@@ -301,7 +303,7 @@ async function parseExcelToJson() {
 function loadMtSensorData() {
   console.log('=== MTセンサデータの読み込み ===\n');
 
-  const mtSensorPath = '/data/parsed_data_mt_sensor.json';
+  const mtSensorPath = resolveDataPath('parsed_data_mt_sensor.json') || '/data/parsed_data_mt_sensor.json';
   if (!fs.existsSync(mtSensorPath)) {
     throw new Error(
       `MTセンサデータファイルが見つかりません: ${mtSensorPath}\n` +
@@ -313,9 +315,32 @@ function loadMtSensorData() {
 
   console.log(`MTセンサデータファイルを読み込みました: ${mtSensorPath}`);
   console.log(`  生成日時: ${data.generatedAt || '不明'}`);
+  console.log(`  駐車場タイプ: ${data.parkingType || '不明'}`);
   console.log(`  センサ状態: ${data.sensors?.length || 0}件`);
 
-  return data.sensors || [];
+  return { sensors: data.sensors || [], parkingType: data.parkingType || 'タワーパーク（MT）' };
+}
+
+// parsed_data_m_sensor.jsonからセンサ状態データを読み込む
+function loadMSensorData() {
+  console.log('=== Mセンサデータの読み込み ===\n');
+
+  const mSensorPath = resolveDataPath('parsed_data_m_sensor.json') || '/data/parsed_data_m_sensor.json';
+  if (!fs.existsSync(mSensorPath)) {
+    throw new Error(
+      `Mセンサデータファイルが見つかりません: ${mSensorPath}\n` +
+        'parsed_data_m_sensor.jsonが存在することを確認してください。',
+    );
+  }
+
+  const data = JSON.parse(fs.readFileSync(mSensorPath, 'utf8'));
+
+  console.log(`Mセンサデータファイルを読み込みました: ${mSensorPath}`);
+  console.log(`  生成日時: ${data.generatedAt || '不明'}`);
+  console.log(`  駐車場タイプ: ${data.parkingType || '不明'}`);
+  console.log(`  センサ状態: ${data.sensors?.length || 0}件`);
+
+  return { sensors: data.sensors || [], parkingType: data.parkingType || 'タワーパーク（M）' };
 }
 
 // パスを指定してMTセンサデータを読み込む（Vercel環境用）
@@ -333,9 +358,31 @@ function loadMtSensorDataFromPath(mtSensorPath) {
 
   console.log(`MTセンサデータファイルを読み込みました: ${mtSensorPath}`);
   console.log(`  生成日時: ${data.generatedAt || '不明'}`);
+  console.log(`  駐車場タイプ: ${data.parkingType || '不明'}`);
   console.log(`  センサ状態: ${data.sensors?.length || 0}件`);
 
-  return data.sensors || [];
+  return { sensors: data.sensors || [], parkingType: data.parkingType || 'タワーパーク（MT）' };
+}
+
+// パスを指定してMセンサデータを読み込む（Vercel環境用）
+function loadMSensorDataFromPath(mSensorPath) {
+  console.log('=== Mセンサデータの読み込み ===\n');
+
+  if (!fs.existsSync(mSensorPath)) {
+    throw new Error(
+      `Mセンサデータファイルが見つかりません: ${mSensorPath}\n` +
+        'parsed_data_m_sensor.jsonが存在することを確認してください。',
+    );
+  }
+
+  const data = JSON.parse(fs.readFileSync(mSensorPath, 'utf8'));
+
+  console.log(`Mセンサデータファイルを読み込みました: ${mSensorPath}`);
+  console.log(`  生成日時: ${data.generatedAt || '不明'}`);
+  console.log(`  駐車場タイプ: ${data.parkingType || '不明'}`);
+  console.log(`  センサ状態: ${data.sensors?.length || 0}件`);
+
+  return { sensors: data.sensors || [], parkingType: data.parkingType || 'タワーパーク（M）' };
 }
 
 // データベースに既存データがあるかチェック
@@ -391,8 +438,8 @@ async function saveFaultMasterToDB(faults) {
 }
 
 // JSONファイルからデータベースに保存
-async function saveSensorStatusToDB(sensors) {
-  console.log('\n=== センサ状態マスタデータのデータベース保存 ===\n');
+async function saveSensorStatusToDB(sensors, parkingType) {
+  console.log(`\n=== センサ状態マスタデータのデータベース保存（${parkingType}）===\n`);
 
   let successCount = 0;
   let errorCount = 0;
@@ -400,7 +447,12 @@ async function saveSensorStatusToDB(sensors) {
   for (const sensor of sensors) {
     try {
       await prisma.sensorStatus.upsert({
-        where: { sensorCode: sensor.sensorCode },
+        where: {
+          sensorCode_parkingType: {
+            sensorCode: sensor.sensorCode,
+            parkingType: parkingType,
+          },
+        },
         update: {
           sensorName: sensor.sensorName,
           description: sensor.description,
@@ -409,11 +461,12 @@ async function saveSensorStatusToDB(sensors) {
           sensorCode: sensor.sensorCode,
           sensorName: sensor.sensorName,
           description: sensor.description,
+          parkingType: parkingType,
         },
       });
       successCount++;
     } catch (error) {
-      console.error(`エラー: ${sensor.sensorCode} - ${error.message}`);
+      console.error(`エラー: ${sensor.sensorCode} (${parkingType}) - ${error.message}`);
       errorCount++;
     }
   }
@@ -441,16 +494,16 @@ async function loadFromJson() {
   console.log('既存データが見つかりませんでした。データを投入します。\n');
 
   // 故障マスタデータの読み込み
-  const jsonPath = resolveDataPath('parsed_data.json');
+  const jsonPath = resolveDataPath('parsed_data_tower_code.json');
   if (!jsonPath) {
     // Vercel環境では、エラーが発生してもビルドを続行できるようにする
     if (process.env.VERCEL === '1' || process.env.VERCEL_ENV) {
-      console.warn('警告: parsed_data.jsonが見つかりませんでした。データ投入をスキップします。');
+      console.warn('警告: parsed_data_tower_code.jsonが見つかりませんでした。データ投入をスキップします。');
       console.warn('データファイルがGitリポジトリに含まれていることを確認してください。');
       return;
     }
     throw new Error(
-      `JSONファイルが見つかりません: parsed_data.json\n` +
+      `JSONファイルが見つかりません: parsed_data_tower_code.json\n` +
         `現在の作業ディレクトリ: ${process.cwd()}\n` +
         `スクリプトの場所: ${__dirname}\n` +
         '開発環境で先にエクセルファイルを解析してJSONファイルを生成してください。',
@@ -461,6 +514,7 @@ async function loadFromJson() {
 
   console.log(`JSONファイルを読み込みました: ${jsonPath}`);
   console.log(`  生成日時: ${data.generatedAt || '不明'}`);
+  console.log(`  駐車場タイプ: ${data.parkingType || '不明'}`);
   console.log(`  故障マスタ: ${data.faults?.length || 0}件`);
 
   // MTセンサデータの読み込み
@@ -480,10 +534,31 @@ async function loadFromJson() {
     );
   }
 
-  const mtSensors = loadMtSensorDataFromPath(mtSensorPath);
+  const mtSensorData = loadMtSensorDataFromPath(mtSensorPath);
+
+  // Mセンサデータの読み込み
+  const mSensorPath = resolveDataPath('parsed_data_m_sensor.json');
+  if (!mSensorPath) {
+    // Vercel環境では、エラーが発生してもビルドを続行できるようにする
+    if (process.env.VERCEL === '1' || process.env.VERCEL_ENV) {
+      console.warn('警告: parsed_data_m_sensor.jsonが見つかりませんでした。MTセンサデータのみ投入します。');
+    } else {
+      throw new Error(
+        `Mセンサデータファイルが見つかりません: parsed_data_m_sensor.json\n` +
+          `現在の作業ディレクトリ: ${process.cwd()}\n` +
+          `スクリプトの場所: ${__dirname}\n` +
+          'parsed_data_m_sensor.jsonが存在することを確認してください。',
+      );
+    }
+  }
 
   await saveFaultMasterToDB(data.faults || []);
-  await saveSensorStatusToDB(mtSensors);
+  await saveSensorStatusToDB(mtSensorData.sensors, mtSensorData.parkingType);
+
+  if (mSensorPath) {
+    const mSensorData = loadMSensorDataFromPath(mSensorPath);
+    await saveSensorStatusToDB(mSensorData.sensors, mSensorData.parkingType);
+  }
 
   console.log('\n=== データベース保存完了 ===');
 }
@@ -501,9 +576,16 @@ async function main() {
       const data = await parseExcelToJson();
       await saveFaultMasterToDB(data.faults);
       
-      // センサ状態：parsed_data_mt_sensor.jsonから読み込み
-      const mtSensors = loadMtSensorData();
-      await saveSensorStatusToDB(mtSensors);
+      // センサ状態：parsed_data_mt_sensor.jsonとparsed_data_m_sensor.jsonから読み込み
+      const mtSensorData = loadMtSensorData();
+      await saveSensorStatusToDB(mtSensorData.sensors, mtSensorData.parkingType);
+      
+      try {
+        const mSensorData = loadMSensorData();
+        await saveSensorStatusToDB(mSensorData.sensors, mSensorData.parkingType);
+      } catch (error) {
+        console.warn(`Mセンサデータの読み込みをスキップ: ${error.message}`);
+      }
       
       console.log('\n=== データ初期化完了 ===');
     } else {
@@ -535,5 +617,8 @@ module.exports = {
   loadFromJson,
   saveFaultMasterToDB,
   saveSensorStatusToDB,
+  loadMtSensorData,
+  loadMSensorData,
   hasExistingData,
+  resolveDataPath,
 };

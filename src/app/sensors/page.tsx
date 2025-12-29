@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useParkingType } from '@/contexts/ParkingTypeContext';
 
 interface Sensor {
   id: number;
@@ -19,7 +20,24 @@ interface ActiveSensor {
   bit: number;
 }
 
+// 駐車場タイプの値とparkingTypeフィールドの値をマッピング
+function getParkingTypeValue(parkingType: string): string {
+  const mapping: Record<string, string> = {
+    tower_m: 'タワーパーク（M）',
+    tower_mt: 'タワーパーク（MT）',
+    lift_c: 'リフトパーク（C）',
+    lift_vertical_front: 'リフトパーク（縦列・前側）',
+    lift_vertical_back: 'リフトパーク（縦列・奥側）',
+    slide_common: 'スライドパーク円（共通）',
+    slide_slmt_slm: 'スライドパーク円（SLMT、SLM）',
+    slide_sl_tl_sl_l: 'スライドパーク円（SL-TL、SL-L）',
+    shift: 'シフトパーク',
+  };
+  return mapping[parkingType] || 'タワーパーク（MT）';
+}
+
 export default function SensorsPage() {
+  const { parkingType } = useParkingType();
   const [sensorDefinitions, setSensorDefinitions] = useState<SensorDefinitions>(
     {},
   );
@@ -44,10 +62,14 @@ export default function SensorsPage() {
   // データベースからセンサデータを読み込んでグループ化
   useEffect(() => {
     const loadSensorDefinitions = async () => {
+      setLoading(true);
       try {
-        const response = await fetch('/api/sensors');
+        const parkingTypeValue = getParkingTypeValue(parkingType);
+        console.log('駐車場タイプ:', parkingType, '→', parkingTypeValue);
+        const response = await fetch(`/api/sensors?parkingType=${encodeURIComponent(parkingTypeValue)}`);
         const data = await response.json();
         const sensors: Sensor[] = data.sensors || [];
+        console.log('読み込んだセンサ数:', sensors.length);
 
         // センサデータをグループ化（X000-X00F → グループ1, X010-X01F → グループ2, ...）
         const grouped: SensorDefinitions = {
@@ -112,6 +134,12 @@ export default function SensorsPage() {
         }
 
         setSensorDefinitions(grouped);
+        // データ読み込み完了後、既存のhexValuesでdecodeを実行
+        hexValues.forEach((val, index) => {
+          if (val.length === 4) {
+            decode(index + 1, val, grouped);
+          }
+        });
       } catch (error) {
         console.error('センサ定義データの読み込みエラー:', error);
         // エラーが発生した場合でも空のグループを設定してローディングを解除
@@ -129,35 +157,55 @@ export default function SensorsPage() {
     };
 
     loadSensorDefinitions();
-  }, []);
+  }, [parkingType]);
 
-  const decode = (num: number, valStr: string) => {
+  // 駐車場の種類が変更されたときにhexValuesとactiveSensorsをリセット
+  useEffect(() => {
+    // すべての状態をリセット
+    setHexValues(['', '', '', '', '', '']);
+    setActiveSensors([[], [], [], [], [], []]);
+    setLoading(true); // データ再読み込み中であることを示す
+    // sensorDefinitionsも一旦クリア（新しいデータが読み込まれるまで）
+    setSensorDefinitions({});
+  }, [parkingType]);
+
+  const decode = useCallback((num: number, valStr: string, currentDefinitions?: SensorDefinitions) => {
     if (valStr.length !== 4) {
-      const newActiveSensors = [...activeSensors];
-      newActiveSensors[num - 1] = [];
-      setActiveSensors(newActiveSensors);
+      setActiveSensors((prev) => {
+        const newActiveSensors = [...prev];
+        newActiveSensors[num - 1] = [];
+        return newActiveSensors;
+      });
       return;
     }
 
     const val = parseInt(valStr, 16);
     if (isNaN(val)) {
-      const newActiveSensors = [...activeSensors];
-      newActiveSensors[num - 1] = [];
-      setActiveSensors(newActiveSensors);
+      setActiveSensors((prev) => {
+        const newActiveSensors = [...prev];
+        newActiveSensors[num - 1] = [];
+        return newActiveSensors;
+      });
+      return;
+    }
+
+    // sensorDefinitionsを直接参照する（引数で渡された場合はそれを使用、そうでなければstateから取得）
+    const definitions = currentDefinitions || sensorDefinitions;
+    const names = definitions[String(num)];
+    if (!names || names.length === 0) {
+      setActiveSensors((prev) => {
+        const newActiveSensors = [...prev];
+        newActiveSensors[num - 1] = [];
+        return newActiveSensors;
+      });
       return;
     }
 
     const sensors: ActiveSensor[] = [];
-    const names = sensorDefinitions[String(num)];
-
-    if (!names || names.length === 0) {
-      return;
-    }
-
     for (let i = 0; i < 16; i++) {
       if ((val >> i) & 1) {
         const sensorStr = names[i];
-        if (sensorStr) {
+        if (sensorStr && sensorStr.trim() !== '') {
           const match = sensorStr.match(/^([^:]+):\s*(.+)$/);
           if (match) {
             sensors.push({
@@ -170,10 +218,43 @@ export default function SensorsPage() {
       }
     }
 
-    const newActiveSensors = [...activeSensors];
-    newActiveSensors[num - 1] = sensors;
-    setActiveSensors(newActiveSensors);
-  };
+    setActiveSensors((prev) => {
+      const newActiveSensors = [...prev];
+      newActiveSensors[num - 1] = sensors;
+      return newActiveSensors;
+    });
+  }, [sensorDefinitions]);
+
+  // sensorDefinitionsが読み込まれた後に、既存のhexValuesでdecodeを実行
+  // ただし、駐車場タイプが変更された直後は実行しない（activeSensorsをクリアしたままにする）
+  useEffect(() => {
+    // sensorDefinitionsが空の場合は何もしない
+    if (Object.keys(sensorDefinitions).length === 0 || loading) {
+      return;
+    }
+    
+    // hexValuesがすべて空の場合は、decodeを実行しない（リセット状態を維持）
+    const hasAnyValue = hexValues.some(val => val.length === 4);
+    if (!hasAnyValue) {
+      // hexValuesがすべて空の場合は、activeSensorsも空のままにする
+      setActiveSensors([[], [], [], [], [], []]);
+      return;
+    }
+    
+    // hexValuesに値がある場合のみ、decodeを実行
+    hexValues.forEach((val, index) => {
+      if (val.length === 4) {
+        decode(index + 1, val, sensorDefinitions);
+      } else {
+        // 値が空の場合は、そのグループのactiveSensorsをクリア
+        setActiveSensors((prev) => {
+          const newActiveSensors = [...prev];
+          newActiveSensors[index] = [];
+          return newActiveSensors;
+        });
+      }
+    });
+  }, [sensorDefinitions, loading, decode, hexValues]);
 
   if (loading) {
     return (
@@ -267,8 +348,8 @@ export default function SensorsPage() {
                     const newHexValues = [...hexValues];
                     newHexValues[num - 1] = filteredValue;
                     setHexValues(newHexValues);
-                    // 新しい値で直接デコード
-                    decode(num, filteredValue);
+                    // 新しい値で直接デコード（sensorDefinitionsを明示的に渡す）
+                    decode(num, filteredValue, sensorDefinitions);
                   }}
                   className="w-full px-4 py-2 sm:py-3 text-lg sm:text-xl font-mono text-center text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus-visible:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-blue-500 uppercase bg-gray-50"
                   style={{ WebkitTapHighlightColor: 'transparent' }}
