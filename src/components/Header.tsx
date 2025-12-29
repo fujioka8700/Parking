@@ -2,14 +2,23 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import ParkingTypeSelector from "@/components/ParkingTypeSelector";
 
-export default function Navigation() {
+export default function Header() {
   const pathname = usePathname();
 
   return (
-    <nav className="bg-white border-b border-gray-200 fixed top-[60px] sm:top-[72px] left-0 right-0 z-30 pointer-events-auto">
+    <header className="bg-white shadow-sm fixed top-0 left-0 right-0 z-50 pointer-events-auto">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
-        <div className="flex space-x-4 sm:space-x-8 overflow-x-auto">
+        {/* タイトルと駐車場タイプセレクター */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 py-3 sm:py-4 border-b border-gray-200">
+          <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">
+            立体駐車場故障対応検索システム
+          </h1>
+          <ParkingTypeSelector />
+        </div>
+        {/* ナビゲーションリンク */}
+        <nav className="flex space-x-4 sm:space-x-8 overflow-x-auto">
           <Link
             href="/"
             className={`border-b-2 py-3 sm:py-4 px-2 sm:px-1 text-sm sm:text-base font-medium whitespace-nowrap min-h-[44px] flex items-center cursor-pointer touch-manipulation transition-colors ${
@@ -30,13 +39,9 @@ export default function Navigation() {
           >
             センサ状態
           </Link>
-        </div>
+        </nav>
       </div>
-    </nav>
+    </header>
   );
 }
-
-
-
-
 
