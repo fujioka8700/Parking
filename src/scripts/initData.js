@@ -1,8 +1,49 @@
 const XLSX = require('xlsx');
 const fs = require('fs');
+const path = require('path');
 const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
+
+// ファイルパスを解決する（Vercel環境対応）
+function resolveDataPath(filename) {
+  const cwd = process.cwd();
+  const scriptDir = __dirname;
+  
+  // デバッグ情報を出力（Vercel環境でのトラブルシューティング用）
+  console.log(`[デバッグ] 現在の作業ディレクトリ: ${cwd}`);
+  console.log(`[デバッグ] スクリプトの場所: ${scriptDir}`);
+  
+  const possiblePaths = [
+    // Docker環境用
+    `/data/${filename}`,
+    // Vercel環境用（プロジェクトルートから）
+    path.join(cwd, 'data', filename),
+    path.join(cwd, 'src', 'data', filename),
+    // 相対パス（スクリプトの場所から）
+    path.join(scriptDir, '..', '..', 'data', filename),
+    path.join(scriptDir, '..', '..', '..', 'data', filename),
+    path.join(scriptDir, '..', 'data', filename),
+    // 現在のディレクトリから
+    path.join(cwd, filename),
+    `./data/${filename}`,
+    // Vercel環境でsrcディレクトリがルートの場合
+    path.join(cwd, '..', 'data', filename),
+    path.join(scriptDir, '..', '..', '..', '..', 'data', filename),
+  ];
+
+  console.log(`[デバッグ] 検索するパス:`);
+  for (const filePath of possiblePaths) {
+    console.log(`  - ${filePath}`);
+    if (fs.existsSync(filePath)) {
+      console.log(`✓ ファイルが見つかりました: ${filePath}`);
+      return filePath;
+    }
+  }
+
+  console.error(`✗ ファイルが見つかりませんでした: ${filename}`);
+  return null;
+}
 
 // エクセルファイルから故障マスタデータを解析
 function parseFaultMasterFromExcel(workbook) {
@@ -235,7 +276,14 @@ async function parseExcelToJson() {
   const faults = parseFaultMasterFromExcel(workbook);
 
   // JSONファイルに保存（故障マスタのみ）
-  const outputPath = '/data/parsed_data.json';
+  // まずパスを解決する
+  const outputPath = resolveDataPath('parsed_data.json') || '/data/parsed_data.json';
+  // ディレクトリが存在しない場合は作成
+  const outputDir = path.dirname(outputPath);
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
+  
   const data = {
     faults,
     generatedAt: new Date().toISOString(),
@@ -393,23 +441,20 @@ async function loadFromJson() {
   console.log('既存データが見つかりませんでした。データを投入します。\n');
 
   // 故障マスタデータの読み込み
-  const jsonPath = '/data/parsed_data.json';
-  if (!fs.existsSync(jsonPath)) {
-    // Vercel環境では/dataディレクトリが存在しない可能性があるため、
-    // プロジェクトルートからの相対パスも試す
-    const altPath = './data/parsed_data.json';
-    if (!fs.existsSync(altPath)) {
-      throw new Error(
-        `JSONファイルが見つかりません: ${jsonPath} または ${altPath}\n` +
-          '開発環境で先にエクセルファイルを解析してJSONファイルを生成してください。',
-      );
+  const jsonPath = resolveDataPath('parsed_data.json');
+  if (!jsonPath) {
+    // Vercel環境では、エラーが発生してもビルドを続行できるようにする
+    if (process.env.VERCEL === '1' || process.env.VERCEL_ENV) {
+      console.warn('警告: parsed_data.jsonが見つかりませんでした。データ投入をスキップします。');
+      console.warn('データファイルがGitリポジトリに含まれていることを確認してください。');
+      return;
     }
-    const data = JSON.parse(fs.readFileSync(altPath, 'utf8'));
-    const mtSensors = loadMtSensorDataFromPath('./data/parsed_data_mt_sensor.json');
-    await saveFaultMasterToDB(data.faults || []);
-    await saveSensorStatusToDB(mtSensors);
-    console.log('\n=== データベース保存完了 ===');
-    return;
+    throw new Error(
+      `JSONファイルが見つかりません: parsed_data.json\n` +
+        `現在の作業ディレクトリ: ${process.cwd()}\n` +
+        `スクリプトの場所: ${__dirname}\n` +
+        '開発環境で先にエクセルファイルを解析してJSONファイルを生成してください。',
+    );
   }
 
   const data = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
@@ -419,7 +464,23 @@ async function loadFromJson() {
   console.log(`  故障マスタ: ${data.faults?.length || 0}件`);
 
   // MTセンサデータの読み込み
-  const mtSensors = loadMtSensorData();
+  const mtSensorPath = resolveDataPath('parsed_data_mt_sensor.json');
+  if (!mtSensorPath) {
+    // Vercel環境では、エラーが発生してもビルドを続行できるようにする
+    if (process.env.VERCEL === '1' || process.env.VERCEL_ENV) {
+      console.warn('警告: parsed_data_mt_sensor.jsonが見つかりませんでした。データ投入をスキップします。');
+      console.warn('データファイルがGitリポジトリに含まれていることを確認してください。');
+      return;
+    }
+    throw new Error(
+      `MTセンサデータファイルが見つかりません: parsed_data_mt_sensor.json\n` +
+        `現在の作業ディレクトリ: ${process.cwd()}\n` +
+        `スクリプトの場所: ${__dirname}\n` +
+        '先にconvertMtSensor.jsを実行してparsed_data_mt_sensor.jsonを生成してください。',
+    );
+  }
+
+  const mtSensors = loadMtSensorDataFromPath(mtSensorPath);
 
   await saveFaultMasterToDB(data.faults || []);
   await saveSensorStatusToDB(mtSensors);
