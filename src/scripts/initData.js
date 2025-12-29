@@ -482,15 +482,21 @@ async function saveSensorStatusToDB(sensors, parkingType) {
 async function loadFromJson() {
   console.log('=== JSONファイルからデータベースに読み込み ===\n');
 
-  // 既存データのチェック
-  const hasData = await hasExistingData();
-  if (hasData) {
-    console.log('既存のデータが検出されました。データ投入をスキップします。');
-    const faultCount = await prisma.faultMaster.count();
-    const sensorCount = await prisma.sensorStatus.count();
-    console.log(`  故障マスタ: ${faultCount}件`);
-    console.log(`  センサ状態: ${sensorCount}件`);
-    return;
+  // Vercel環境では、--force-resetでデータベースがリセットされているため、
+  // 既存データのチェックをスキップしてデータを投入する
+  const isVercel = process.env.VERCEL === '1' || process.env.VERCEL_ENV;
+  
+  if (!isVercel) {
+    // 既存データのチェック（Vercel以外の環境のみ）
+    const hasData = await hasExistingData();
+    if (hasData) {
+      console.log('既存のデータが検出されました。データ投入をスキップします。');
+      const faultCount = await prisma.faultMaster.count();
+      const sensorCount = await prisma.sensorStatus.count();
+      console.log(`  故障マスタ: ${faultCount}件`);
+      console.log(`  センサ状態: ${sensorCount}件`);
+      return;
+    }
   }
 
   console.log('既存データが見つかりませんでした。データを投入します。\n');

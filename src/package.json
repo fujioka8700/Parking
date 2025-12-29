@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
-    "postbuild": "npx prisma db push --skip-generate && node scripts/initData.js",
+    "postbuild": "npx prisma db push --skip-generate --force-reset && node scripts/initData.js || (npx prisma db push --skip-generate && node scripts/initData.js)",
     "start": "next start",
     "lint": "eslint",
     "postinstall": "prisma generate",
