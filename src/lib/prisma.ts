@@ -15,6 +15,7 @@ declare global {
 // ただし、スキーマが変更された場合は新しいインスタンスを作成
 const prisma = globalThis.prisma ?? prismaClientSingleton();
 
+export { prisma };
 export default prisma;
 
 if (process.env.NODE_ENV !== "production") {

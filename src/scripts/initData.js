@@ -917,11 +917,57 @@ async function loadFromJson() {
   console.log('\n=== データベース保存完了 ===');
 }
 
+// ユーザーデータの初期化
+async function initUserData() {
+  console.log('\n=== ユーザーデータの初期化 ===\n');
+
+  try {
+    // 環境変数に基づいてユーザー情報を決定
+    const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL === '1' || process.env.VERCEL_ENV;
+    
+    const users = isProduction
+      ? [
+          { userId: 'osaka9999', password: '4567' },
+        ]
+      : [
+          { userId: 'user', password: 'password' },
+        ];
+
+    for (const userData of users) {
+      // 既存のユーザーをチェック
+      const existingUser = await prisma.user.findUnique({
+        where: { userId: userData.userId },
+      });
+
+      if (existingUser) {
+        console.log(`ユーザー "${userData.userId}" は既に存在します。スキップします。`);
+        continue;
+      }
+
+      // ユーザーを作成（パスワードは平文で保存、本番環境ではハッシュ化推奨）
+      await prisma.user.create({
+        data: {
+          userId: userData.userId,
+          password: userData.password,
+        },
+      });
+
+      console.log(`ユーザー "${userData.userId}" を作成しました。`);
+      console.log(`  ユーザーID: ${userData.userId}`);
+      console.log(`  パスワード: ${userData.password}`);
+    }
+  } catch (error) {
+    console.error('ユーザーデータの初期化エラー:', error);
+    throw error;
+  }
+}
+
 async function main() {
   try {
     // 開発環境・本番環境共通：JSONファイルからDB保存（既存データチェック付き）
     console.log('【データ初期化モード】\n');
     await loadFromJson();
+    await initUserData();
   } catch (error) {
     console.error('エラーが発生しました:', error);
     // Vercel環境では、エラーが発生してもビルドを続行できるようにexit(0)にする
