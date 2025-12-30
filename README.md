@@ -46,19 +46,36 @@ docker compose up -d
 
 ### 3. データベースのマイグレーション
 
-開発環境では、マイグレーションファイルを使用してデータベーススキーマを適用します：
+データベーススキーマを適用する方法は 2 つあります：
+
+#### 方法 1: マイグレーションファイルを使用（推奨）
+
+マイグレーションファイルを使用してデータベーススキーマを適用します：
 
 ```bash
 docker compose exec app npx prisma migrate dev
 ```
 
-または、マイグレーションファイルを適用せずに直接スキーマをプッシュする場合：
+この方法では、以下のマイグレーションファイルが順番に適用されます：
+
+- `20251229012056_init`: 初期テーブル作成（FaultMaster、SensorStatus）
+- `20251229070403_add_parking_type`: 駐車場タイプフィールドの追加
+- `20251229120000_add_user_table`: User テーブルの作成
+
+**注意**:
+
+- 初回実行時、既存のテーブルがある場合はエラーになる可能性があります。その場合は、方法 2 を使用するか、データベースをリセットしてください。
+- 既存のデータベースがある場合、`prisma migrate resolve --applied <migration_name>` を使用して、既に適用済みのマイグレーションをマークできます。
+
+#### 方法 2: スキーマを直接適用
+
+マイグレーションファイルを適用せずに直接スキーマをプッシュする場合：
 
 ```bash
 docker compose exec app npx prisma db push
 ```
 
-**注意**: `prisma migrate dev` は開発環境で使用し、マイグレーションファイルを管理します。`prisma db push` はスキーマを直接データベースに適用しますが、マイグレーションファイルは作成されません。
+**注意**: `prisma db push` はスキーマを直接データベースに適用しますが、マイグレーションファイルの履歴は記録されません。開発環境でスキーマを試行錯誤する場合に便利です。
 
 PostgreSQL コンテナが自動的に起動し、データベースが初期化されます。
 
@@ -225,17 +242,25 @@ docker compose exec app npm run init:prod
 1. コードをデプロイ
 2. データベースのマイグレーションを実行：
 
-**本番環境の場合**（マイグレーションファイルを使用）：
+**本番環境の場合**（マイグレーションファイルを使用、推奨）：
 
 ```bash
 docker compose exec app npx prisma migrate deploy
 ```
+
+このコマンドは、`src/prisma/migrations/` ディレクトリ内のすべてのマイグレーションファイルを順番に適用します：
+
+- `20251229012056_init`: 初期テーブル作成
+- `20251229070403_add_parking_type`: 駐車場タイプフィールドの追加
+- `20251229120000_add_user_table`: User テーブルの作成
 
 **開発環境の場合**（スキーマを直接適用）：
 
 ```bash
 docker compose exec app npx prisma db push
 ```
+
+**注意**: 既存のデータベースがある場合、`prisma migrate deploy` は既に適用済みのマイグレーションをスキップします。初回セットアップの場合は、すべてのマイグレーションが適用されます。
 
 3. データを初期化：
 
@@ -295,8 +320,12 @@ docker compose exec app npm run start
 
    - `package.json` の `build` スクリプトで `prisma generate` が実行されることを確認
    - `postbuild` スクリプトで `prisma db push` とデータ初期化が実行されることを確認
-     - **注意**: Vercel では `prisma db push` を使用しています（マイグレーションファイルではなくスキーマを直接適用）
-     - 本番環境でマイグレーションファイルを使用する場合は、`postbuild` スクリプトを `npx prisma migrate deploy` に変更してください
+     - **注意**: 現在の `postbuild` スクリプトは `prisma db push` を使用しています（マイグレーションファイルではなくスキーマを直接適用）
+     - 本番環境でマイグレーションファイルを使用する場合は、`postbuild` スクリプトを以下のように変更してください：
+       ```json
+       "postbuild": "npx prisma migrate deploy && node scripts/initData.js"
+       ```
+     - マイグレーションファイルを使用する場合、`--force-reset` フラグは使用しないでください（既存データが削除されます）
    - Vercel は Next.js プロジェクトを自動検出するため、特別な設定ファイル（`vercel.json`）は不要です
 
 4. **デプロイの実行**
@@ -308,7 +337,8 @@ docker compose exec app npm run start
      3. `next build`（Next.js のビルド）
      4. `prisma db push --force-reset`（データベーススキーマの適用、`postbuild` スクリプト）
         - **注意**: `--force-reset`フラグにより、既存のデータベースがリセットされ、新しいスキーマが適用されます
-        - マイグレーションファイルを使用する場合は、`postbuild` スクリプトを `npx prisma migrate deploy` に変更してください
+        - マイグレーションファイルを使用する場合は、`postbuild` スクリプトを `npx prisma migrate deploy && node scripts/initData.js` に変更してください
+        - マイグレーションファイルを使用する場合、`--force-reset` フラグは使用しないでください（既存データが削除されます）
      5. `node scripts/initData.js`（データ初期化、`postbuild` スクリプト）
         - JSON ファイルからデータベースにデータを投入します
         - 既存データが存在する場合は、データ投入をスキップします（Vercel 環境では`--force-reset`により常にデータ投入が実行されます）
@@ -500,10 +530,10 @@ docker compose down -v
 # コンテナを再起動
 docker compose up -d
 
-# データベースを再作成（マイグレーションファイルを使用する場合）
+# データベースを再作成（マイグレーションファイルを使用する場合、推奨）
 docker compose exec app npx prisma migrate deploy
 
-# または、スキーマを直接適用する場合
+# または、スキーマを直接適用する場合（開発環境のみ）
 docker compose exec app npx prisma db push
 
 # データを再インポート
@@ -521,3 +551,17 @@ docker compose ps db
 # アプリケーションを再起動
 docker compose restart app
 ```
+
+## 認証情報
+
+### 開発環境
+
+- **ユーザー ID**: `user`
+- **パスワード**: `password`
+
+### 本番環境
+
+- **ユーザー ID**: `osaka9999`
+- **パスワード**: `4567`
+
+**注意**: これらの認証情報は初期化スクリプト（`initData.js`）によって自動的に作成されます。環境変数（`NODE_ENV`、`VERCEL`、`VERCEL_ENV`）に基づいて、開発環境と本番環境で異なるユーザーが作成されます。

@@ -1,13 +1,13 @@
 import { redirect } from 'next/navigation';
 import { requireAuth } from '@/lib/auth';
-import SensorsPageContent from '@/components/SensorsPageContent';
+import DashboardContent from '@/components/DashboardContent';
 
-export default async function SensorsPage() {
+export default async function DashboardPage() {
   try {
     await requireAuth();
   } catch {
     redirect('/');
   }
 
-  return <SensorsPageContent />;
+  return <DashboardContent />;
 }

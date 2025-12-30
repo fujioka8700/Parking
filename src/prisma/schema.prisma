@@ -42,3 +42,14 @@ model SensorStatus {
   @@index([sensorName])
   @@index([parkingType])
 }
+
+// ユーザーマスタ
+model User {
+  id        Int      @id @default(autoincrement())
+  userId    String   @unique // ユーザーID
+  password  String   // パスワード（ハッシュ化推奨）
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
